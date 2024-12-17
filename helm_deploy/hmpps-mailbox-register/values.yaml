@@ -1,11 +1,17 @@
+---
+# Default values.
+# Declare variables to be passed into your templates.
+#
+# Variables in `helm_deploy/values-[env].yaml` will take precedence.
+
 generic-service:
   nameOverride: hmpps-mailbox-register
-  productId: 'DPS030' # productId for the product that this belongs too, i.e. DPS001, see README.md for details
+  # productId: DPS087 # TODO: Update with correct product ID
 
   # the IRSA service account name for accessing AWS resources
   # serviceAccountName: "hmpps-mailbox-register"
 
-  replicaCount: 4
+  replicaCount: 2
 
   image:
     repository: ghcr.io/ministryofjustice/hmpps-mailbox-register
@@ -14,8 +20,19 @@ generic-service:
 
   ingress:
     enabled: true
-    host: app-hostname.local # override per environment
     tlsSecretName: hmpps-mailbox-register-cert
+
+  # https://github.com/ministryofjustice/hmpps-ip-allowlists/blob/main/ip-allowlist-groups.yaml
+  allowlist:
+    groups:
+      - digital_staff_and_mojo
+      - moj_cloud_platform
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
 
   livenessProbe:
     httpGet:
@@ -32,15 +49,14 @@ generic-service:
     REDIS_TLS_ENABLED: 'true'
     TOKEN_VERIFICATION_ENABLED: 'true'
     AUDIT_SQS_REGION: 'eu-west-2'
-    AUDIT_SERVICE_NAME: 'DPS030' # Your audit service name
+    # AUDIT_SERVICE_NAME: 'DPS030' # Your audit service name
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
   #   [name of kubernetes secret]:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
-
   namespace_secrets:
-    hmpps-mailbox-register:
+    hmpps-mailbox-register-ui:
       AUTH_CODE_CLIENT_ID: 'AUTH_CODE_CLIENT_ID'
       AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'
       CLIENT_CREDS_CLIENT_ID: 'CLIENT_CREDS_CLIENT_ID'
@@ -56,9 +72,6 @@ generic-service:
     # sqs-hmpps-audit-secret:
     #   AUDIT_SQS_QUEUE_URL: 'sqs_queue_url'
 
-  allowlist:
-    groups:
-      - internal
-
 generic-prometheus-alerts:
   targetApplication: hmpps-mailbox-register
+  alertSeverity: moic
