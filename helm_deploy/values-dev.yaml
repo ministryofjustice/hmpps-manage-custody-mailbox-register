@@ -2,8 +2,6 @@
 # Per environment values which override defaults in hmpps-mailbox-register/values.yaml
 
 generic-service:
-  replicaCount: 2
-
   ingress:
     host: mailbox-register-dev.hmpps.service.justice.gov.uk
 
@@ -15,4 +13,7 @@ generic-service:
     AUDIT_ENABLED: "false"
 
 generic-prometheus-alerts:
-  alertSeverity: moic
+  businessHoursOnly: true
+  elastiCacheAlertsClusterIds:
+    cp-fca2365a3ac6ac86-001: dev cluster node 1
+    cp-fca2365a3ac6ac86-002: dev cluster node 2
