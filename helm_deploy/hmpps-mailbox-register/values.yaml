@@ -6,7 +6,7 @@
 
 generic-service:
   nameOverride: hmpps-mailbox-register
-  # productId: DPS087 # TODO: Update with correct product ID
+  productId: DPS030 # TODO: Update with correct product ID
 
   # the IRSA service account name for accessing AWS resources
   # serviceAccountName: "hmpps-mailbox-register"
