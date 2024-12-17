@@ -45,14 +45,14 @@ echo "Performing search and replace"
 EXCLUDES="( -path ./dist -o -path ./node_modules -o -path ./assets -o -path ./.git -o -path ./rename-project.bash )"
 # shellcheck disable=SC2086
 find . $EXCLUDES -prune -o -type f -exec sed -i \
-  -e "s/hmpps-template-typescript/$PROJECT_NAME/g" \
-  -e "s/template-typescript/$PROJECT_NAME_WITHOUT_HMPPS/g" \
-  -e "s/HMPPS Typescript Template/$PROJECT_DESCRIPTION/g" {} \;
+  -e "s/hmpps-mailbox-register/$PROJECT_NAME/g" \
+  -e "s/mailbox-register/$PROJECT_NAME_WITHOUT_HMPPS/g" \
+  -e "s/HMPPS Mailbox Register/$PROJECT_DESCRIPTION/g" {} \;
 
 echo "Performing directory renames"
 
 # move helm stuff to new name
-mv "helm_deploy/hmpps-template-typescript" "helm_deploy/$PROJECT_NAME"
+mv "helm_deploy/hmpps-mailbox-register" "helm_deploy/$PROJECT_NAME"
 
 # Update helm values.yaml with product ID.
 sed -i -z -E \
