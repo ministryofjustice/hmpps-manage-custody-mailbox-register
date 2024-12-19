@@ -11,10 +11,10 @@
         HMPPS
       </a>
 
-      <a class="hmpps-header__link hmpps-header__title__service-name" href="/">{{ applicationName }}</a>
+      <a class="hmpps-header__link hmpps-header__title__service-name" href="/">{{ applicationName | replace(r/HMPPS\ /, "") }}</a>
 
       {% if environmentName %}
-        <div class="govuk-phase-banner">
+        <div class="govuk-phase-banner govuk-!-padding-left-2">
           {{ govukTag({
             text: environmentName,
             classes: environmentNameColour,
