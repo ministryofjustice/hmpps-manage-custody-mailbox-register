@@ -24,7 +24,7 @@ passport.use(
       tokenURL: `${config.apis.hmppsAuth.url}/oauth/token`,
       clientID: config.apis.hmppsAuth.authClientId,
       clientSecret: config.apis.hmppsAuth.authClientSecret,
-      callbackURL: `${config.ingressUrl}/sign-in/callback`,
+      callbackURL: `${config.ingressUrl}/auth/oauth/callback`,
       state: true,
       customHeaders: { Authorization: generateOauthClientToken() },
     },
