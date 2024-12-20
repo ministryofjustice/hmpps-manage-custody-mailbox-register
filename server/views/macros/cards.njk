@@ -1,0 +1,27 @@
+{% macro inThrees(heading, cards=[]) %}
+  <h2 class="govuk-heading-m no-bottom-margin govuk-!-margin-top-3">{{ heading }}</h2>
+  <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-5">
+
+  {%- for row in cards | batch(3) %}
+    <div class="govuk-grid-row card-group">
+      {%- for cardDef in row %}
+        <div class="govuk-grid-column-one-third card-group__item">
+          {{ card(cardDef) }}
+        </div>
+      {%- endfor %}
+    </div>
+  {%- endfor %}
+{% endmacro %}
+
+{% macro card(params) %}
+  <div class="card card--clickable">
+    <h3 class="govuk-heading-m card__heading">
+      <a class="govuk-link govuk-link--no-visited-state card__link" href="{{ params.href }}">
+        {{ params.heading }}
+      </a>
+    </h3>
+    <p class="govuk-body card__description">
+      {{ params.description }}
+    </p>
+  </div>
+{% endmacro %}
