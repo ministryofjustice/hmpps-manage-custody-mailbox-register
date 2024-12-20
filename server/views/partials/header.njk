@@ -11,7 +11,7 @@
         HMPPS
       </a>
 
-      <a class="hmpps-header__link hmpps-header__title__service-name" href="/">{{ applicationName | replace(r/HMPPS\ /, "") }}</a>
+      <a class="hmpps-header__link hmpps-header__title__service-name" href="/">{{ applicationName | replace("HMPPS ", "") }}</a>
 
       {% if environmentName %}
         <div class="govuk-phase-banner govuk-!-padding-left-2">
