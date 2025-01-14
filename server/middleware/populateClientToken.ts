@@ -8,7 +8,7 @@ export default function populateClientToken(hmppsAuthClient: HmppsAuthClient): R
       if (res.locals.user) {
         const clientToken = await hmppsAuthClient.getSystemClientToken(res.locals.user.username)
         if (clientToken) {
-          // @ts-ignore
+          // @ts-expect-error
           req.middleware = { ...req.middleware, clientToken }
         } else {
           logger.info('No client token available')

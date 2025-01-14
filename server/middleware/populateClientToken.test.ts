@@ -28,7 +28,7 @@ describe('authorisationMiddleware', () => {
 
   it('should return next and set token', async () => {
     await populateClientToken(hmppsAuthClient)(req, res, next)
-    // @ts-ignore
+    // @ts-expect-error
     expect(req.middleware.clientToken).toEqual(token)
     expect(next).toHaveBeenCalled()
   })

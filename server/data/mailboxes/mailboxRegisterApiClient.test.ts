@@ -13,7 +13,7 @@ describe('feComponentsClient', () => {
 
   beforeEach(() => {
     fakeComponentsApi = nock(config.apis.mailboxRegisterApiClient.url)
-    // @ts-ignore
+    // @ts-expect-error
     mailboxRegisterApiClient = new MailboxRegisterApiClient(req.middleware.clientToken)
   })
 
@@ -30,7 +30,7 @@ describe('feComponentsClient', () => {
 
       fakeComponentsApi
         .post(`/local-delivery-unit-mailboxes`)
-        // @ts-ignore
+        // @ts-expect-error
         .matchHeader('authorization', `Bearer ${req.middleware.clientToken}`)
         .reply(201, response)
 
