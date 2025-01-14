@@ -1,4 +1,4 @@
-import AuditService, { Page } from './auditService'
+import AuditService from './auditService'
 import HmppsAuditClient from '../data/hmppsAuditClient'
 
 jest.mock('../data/hmppsAuditClient')
@@ -36,7 +36,7 @@ describe('Audit service', () => {
 
   describe('logPageView', () => {
     it('sends page view event audit message using audit client', async () => {
-      await auditService.logPageView(Page.EXAMPLE_PAGE, {
+      await auditService.logPageView('EXAMPLE_PAGE', {
         who: 'user1',
         subjectId: 'subject123',
         subjectType: 'exampleType',
