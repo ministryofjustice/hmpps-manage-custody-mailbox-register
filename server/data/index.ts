@@ -5,6 +5,7 @@
  */
 import { initialiseAppInsights, buildAppInsightsClient } from '../utils/azureAppInsights'
 import applicationInfoSupplier from '../applicationInfo'
+import MailboxRegisterApiClient from './mailboxes/mailboxRegisterApiClient'
 
 const applicationInfo = applicationInfoSupplier()
 initialiseAppInsights()
@@ -29,4 +30,9 @@ export const dataAccess = () => ({
 
 export type DataAccess = ReturnType<typeof dataAccess>
 
-export { HmppsAuthClient, RestClientBuilder, HmppsAuditClient }
+export {
+  HmppsAuthClient,
+  RestClientBuilder,
+  HmppsAuditClient,
+  MailboxRegisterApiClient,
+}

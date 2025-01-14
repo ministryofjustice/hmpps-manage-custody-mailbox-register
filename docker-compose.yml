@@ -41,6 +41,7 @@ services:
       - TOKEN_VERIFICATION_ENABLED=false
       - INGRESS_URL=http://localhost:3000
       - NO_HTTPS=true
+      - MAILBOX_REGISTER_API_URL=http://localhost:8080
 
 networks:
   hmpps:
