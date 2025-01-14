@@ -92,6 +92,15 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    mailboxRegisterApiClient: {
+      url: get('MAILBOX_REGISTER_API_URL', 'http://localhost:8080', requiredInProduction),
+      healthPath: '/health/ping',
+      timeout: {
+        response: Number(get('MAILBOX_REGISTER_API_TIMEOUT_RESPONSE', 30000)),
+        deadline: Number(get('MAILBOX_REGISTER_API_TIMEOUT_DEADLINE', 30000)),
+      },
+      agent: new AgentConfig(Number(get('MAILBOX_REGISTER_API_TIMEOUT_RESPONSE', 30000))),
+    },
   },
   sqs: {
     audit: auditConfig(),
