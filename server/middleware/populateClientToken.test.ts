@@ -28,7 +28,7 @@ describe('authorisationMiddleware', () => {
 
   it('should return next and set token', async () => {
     await populateClientToken(hmppsAuthClient)(req, res, next)
-    // @ts-expect-error
+    // @ts-expect-error - temporary linting bypass
     expect(req.middleware.clientToken).toEqual(token)
     expect(next).toHaveBeenCalled()
   })

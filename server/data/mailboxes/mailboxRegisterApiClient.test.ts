@@ -1,8 +1,8 @@
 import nock from 'nock'
 import config from '../../config'
-import { MailboxRegisterApiClient } from '../'
+import { MailboxRegisterApiClient } from '..'
 import { LocalDeliveryUnitMailbox } from '../../@types/mailboxRegisterApiClientTypes'
-import { createLduMailbox } from '../testutils/testObjects'
+import { createLduMailbox } from '../testutils/mockLduMailboxes'
 import { mockRequest } from '../../routes/testutils/requestTestUtils'
 
 describe('feComponentsClient', () => {
@@ -13,7 +13,7 @@ describe('feComponentsClient', () => {
 
   beforeEach(() => {
     fakeComponentsApi = nock(config.apis.mailboxRegisterApiClient.url)
-    // @ts-expect-error
+    // @ts-expect-error - temporary linting bypass
     mailboxRegisterApiClient = new MailboxRegisterApiClient(req.middleware.clientToken)
   })
 
@@ -30,7 +30,7 @@ describe('feComponentsClient', () => {
 
       fakeComponentsApi
         .post(`/local-delivery-unit-mailboxes`)
-        // @ts-expect-error
+        // @ts-expect-error - temporary linting bypass
         .matchHeader('authorization', `Bearer ${req.middleware.clientToken}`)
         .reply(201, response)
 
