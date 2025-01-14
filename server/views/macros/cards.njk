@@ -1,7 +1,9 @@
-{% macro inThrees(heading, cards=[]) %}
+{% macro heading(heading) %}
   <h2 class="govuk-heading-m no-bottom-margin govuk-!-margin-top-3">{{ heading }}</h2>
   <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-5">
+{% endmacro %}
 
+{% macro inThrees(cards=[]) %}
   {%- for row in cards | batch(3) %}
     <div class="govuk-grid-row card-group">
       {%- for cardDef in row %}

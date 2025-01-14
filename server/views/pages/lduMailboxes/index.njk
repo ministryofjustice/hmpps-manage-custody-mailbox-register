@@ -1,0 +1,29 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - LDU Mailboxes" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  {{
+    govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/"
+        },
+        {
+          text: "Local Delivery Unit Mailboxes",
+          href: "/local-delivery-unit-mailboxes"
+        }
+      ]
+    }) 
+  }}
+
+  <h1 class="govuk-heading-l">Local Delivery Unit Mailboxes</h1>
+  
+  <p class="govuk-body">
+    <a href="/local-delivery-unit-mailboxes/new" class="govuk-link govuk-link--no-visited-state">Create new Local Delivery Unit Mailbox</a>
+  </p>
+  
+{% endblock %}

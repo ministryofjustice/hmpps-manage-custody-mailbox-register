@@ -1,0 +1,100 @@
+{% extends "../../partials/layout.njk" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+
+{% set pageTitle = applicationName + " - New LDU Mailbox" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  <form method="post" action="/local-delivery-unit-mailboxes">
+
+  {{
+    govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/"
+        },
+        {
+          text: "Local Delivery Unit Mailboxes",
+          href: "/local-delivery-unit-mailboxes"
+        },
+        {
+          text: "New",
+          href: "/local-delivery-unit-mailboxes/new"
+        }
+      ]
+    }) 
+  }}
+  
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+  
+      {% call govukFieldset({
+        legend: {
+          text: "New Local Delivery Unit Mailbox",
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) %}
+      
+        {{ govukInput({
+          label: {
+            text: "Name"
+          },
+          id: "name",
+          name: "name"
+        }) }}
+      
+        {{ govukInput({
+          label: {
+            text: "Email Address"
+          },
+          id: "email-address",
+          name: "emailAddress"
+        }) }}
+        
+        {{ govukInput({
+          label: {
+            text: "Country"
+          },
+          id: "country",
+          name: "country",
+          classes: "govuk-!-width-two-thirds"
+        }) }}
+      
+        {{ govukInput({
+          label: {
+            text: "Unit Code"
+          },
+          id: "unit-code",
+          name: "unitCode",
+          classes: "govuk-!-width-one-quarter"
+        }) }}
+      
+        {{ govukInput({
+          label: {
+            text: "Area Code"
+          },
+          id: "area-code",
+          name: "areaCode",
+          classes: "govuk-!-width-one-quarter"
+        }) }}
+        
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        
+        {{ govukButton({
+          text: "Save and continue"
+        }) }}
+      
+      {% endcall %}
+      
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
