@@ -20,12 +20,13 @@ context('Creating an LDU mailbox', () => {
     lduMailboxesPage.createNewLduMailbox().click()
 
     const newLduMailboxPage = new NewLduMailboxPage()
-    newLduMailboxPage.nameTextInput().type('Test LDU')
-    newLduMailboxPage.emailAddressTextInput().type('ldu@example.com')
-    newLduMailboxPage.countryTextInput().type('England')
-    newLduMailboxPage.unitCodeTextInput().type('OTHERLDU')
-    newLduMailboxPage.areaCodeTextInput().type('OTHERAREA')
-    newLduMailboxPage.submitButton().click()
+    newLduMailboxPage.submitNewMailbox({
+      name: 'Test LDU',
+      emailAddress: 'ldu@example.com',
+      country: 'England',
+      unitCode: 'OTHERLDU',
+      areaCode: 'OTHERAREA',
+    })
 
     // lduMailboxesPage.emailAddresses().should('contain', 'ldu@example.com')
   })
