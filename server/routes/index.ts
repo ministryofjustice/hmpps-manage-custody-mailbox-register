@@ -1,18 +1,15 @@
-import { type RequestHandler, Router } from 'express'
+import { Router } from 'express'
 
-import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import type { CreateLocalDeliveryUnitMailboxRequest } from '../@types/mailboxRegisterApiClientTypes'
 
 export default function routes({ mailboxRegisterService }: Services): Router {
   const router = Router()
-  const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
-  const post = (path: string | string[], handler: RequestHandler) => router.post(path, asyncMiddleware(handler))
 
-  get('/', async (req, res, next) => res.render('pages/index'))
+  router.get('/', async (req, res, next) => res.render('pages/index'))
 
-  get('/local-delivery-unit-mailboxes', async (req, res, next) => res.render('pages/lduMailboxes/index'))
-  post('/local-delivery-unit-mailboxes', async (req, res, next) => {
+  router.get('/local-delivery-unit-mailboxes', async (req, res, next) => res.render('pages/lduMailboxes/index'))
+  router.post('/local-delivery-unit-mailboxes', async (req, res, next) => {
     const { name, emailAddress, country, unitCode, areaCode } = req.body
 
     const mailbox: CreateLocalDeliveryUnitMailboxRequest = {
@@ -29,7 +26,7 @@ export default function routes({ mailboxRegisterService }: Services): Router {
     res.redirect('/local-delivery-unit-mailboxes')
   })
 
-  get('/local-delivery-unit-mailboxes/new', async (req, res, next) => res.render('pages/lduMailboxes/new'))
+  router.get('/local-delivery-unit-mailboxes/new', async (req, res, next) => res.render('pages/lduMailboxes/new'))
 
   return router
 }
