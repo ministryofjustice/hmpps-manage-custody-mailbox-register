@@ -1,11 +1,15 @@
 {% extends "../partials/layout.njk" %}
+{% import "../macros/cards.njk" as cards %}
 
 {% set pageTitle = applicationName + " - Home" %}
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
 
-  <h1>This site is under construction...</h1>
-  <p>Please check back later when there is content to view.</p>
+  {{
+    cards.inThrees([
+      { href: "/local-delivery-unit-mailboxes", heading: "Local Delivery Units", description: "View, modify and delete mailboxes for Local Delivery Units" }
+    ])
+  }}
 
 {% endblock %}

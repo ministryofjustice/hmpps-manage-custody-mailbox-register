@@ -1,6 +1,23 @@
-import { LocalDeliveryUnitMailbox } from '../../@types/mailboxRegisterApiClientTypes'
+import {
+  CreateLocalDeliveryUnitMailboxRequest,
+  LocalDeliveryUnitMailbox,
+} from '../../@types/mailboxRegisterApiClientTypes'
 
 const createLduMailbox = ({
+  unitCode = 'OTHERLDU',
+  areaCode = 'OTHERAREA',
+  emailAddress = 'ldu@example.com',
+  country = 'England',
+  name = 'English LDU',
+} = {}): CreateLocalDeliveryUnitMailboxRequest => ({
+  unitCode,
+  areaCode,
+  emailAddress,
+  country,
+  name,
+})
+
+const returnLduMailbox = ({
   id = 'uuid',
   unitCode = 'OTHERLDU',
   areaCode = 'OTHERAREA',
@@ -20,4 +37,4 @@ const createLduMailbox = ({
   updatedAt,
 })
 
-export { createLduMailbox }
+export { createLduMailbox, returnLduMailbox }

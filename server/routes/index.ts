@@ -1,18 +1,32 @@
-import { type RequestHandler, Router } from 'express'
+import { Router } from 'express'
 
-import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
-import { Page } from '../services/auditService'
+import type { CreateLocalDeliveryUnitMailboxRequest } from '../@types/mailboxRegisterApiClientTypes'
 
-export default function routes({ auditService }: Services): Router {
+export default function routes({ mailboxRegisterService }: Services): Router {
   const router = Router()
-  const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
-  get('/', async (req, res, next) => {
-    await auditService.logPageView(Page.EXAMPLE_PAGE, { who: res.locals.user.username, correlationId: req.id })
+  router.get('/', async (req, res, next) => res.render('pages/index'))
 
-    res.render('pages/index')
+  router.get('/local-delivery-unit-mailboxes', async (req, res, next) => res.render('pages/lduMailboxes/index'))
+  router.post('/local-delivery-unit-mailboxes', async (req, res, next) => {
+    const { name, emailAddress, country, unitCode, areaCode } = req.body
+
+    const mailbox: CreateLocalDeliveryUnitMailboxRequest = {
+      name,
+      emailAddress,
+      country,
+      unitCode,
+      areaCode,
+    }
+
+    // @ts-expect-error - temporary linting bypass
+    await mailboxRegisterService.createLocalDeliveryUnitMailbox(req?.middleware?.clientToken, mailbox)
+
+    res.redirect('/local-delivery-unit-mailboxes')
   })
+
+  router.get('/local-delivery-unit-mailboxes/new', async (req, res, next) => res.render('pages/lduMailboxes/new'))
 
   return router
 }

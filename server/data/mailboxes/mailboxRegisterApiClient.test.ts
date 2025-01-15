@@ -2,17 +2,18 @@ import nock from 'nock'
 import config from '../../config'
 import { MailboxRegisterApiClient } from '..'
 import { LocalDeliveryUnitMailbox } from '../../@types/mailboxRegisterApiClientTypes'
-import { createLduMailbox } from '../testutils/mockLduMailboxes'
+import { createLduMailbox, returnLduMailbox } from '../testutils/mockLduMailboxes'
 import { mockRequest } from '../../routes/testutils/requestTestUtils'
 
 describe('feComponentsClient', () => {
   let fakeComponentsApi: nock.Scope
   let mailboxRegisterApiClient: MailboxRegisterApiClient
-  const mailbox = createLduMailbox({})
+  const mailboxRequest = createLduMailbox({})
+  const createdMailbox = returnLduMailbox({})
   const req = mockRequest({})
 
   beforeEach(() => {
-    fakeComponentsApi = nock(config.apis.mailboxRegisterApiClient.url)
+    fakeComponentsApi = nock(config.apis.mailboxRegisterApi.url)
     // @ts-expect-error - temporary linting bypass
     mailboxRegisterApiClient = new MailboxRegisterApiClient(req.middleware.clientToken)
   })
@@ -25,7 +26,7 @@ describe('feComponentsClient', () => {
   describe('create mailboxes', () => {
     it('should create an LDU mailbox', async () => {
       const response: { data: LocalDeliveryUnitMailbox } = {
-        data: mailbox,
+        data: createdMailbox,
       }
 
       fakeComponentsApi
@@ -34,7 +35,7 @@ describe('feComponentsClient', () => {
         .matchHeader('authorization', `Bearer ${req.middleware.clientToken}`)
         .reply(201, response)
 
-      const output = await mailboxRegisterApiClient.createLocalDeliveryUnitMailbox(mailbox)
+      const output = await mailboxRegisterApiClient.createLocalDeliveryUnitMailbox(mailboxRequest)
       expect(output).toEqual(response)
     })
   })
