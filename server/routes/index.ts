@@ -26,7 +26,7 @@ export default function routes({ mailboxRegisterService }: Services): Router {
     // @ts-expect-error - temporary linting bypass
     await mailboxRegisterService.createLocalDeliveryUnitMailbox(req?.middleware?.clientToken, mailbox)
 
-    res.render('pages/index')
+    res.redirect('/local-delivery-unit-mailboxes')
   })
 
   get('/local-delivery-unit-mailboxes/new', async (req, res, next) => res.render('pages/lduMailboxes/new'))

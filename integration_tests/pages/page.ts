@@ -6,7 +6,7 @@ export default abstract class Page {
   }
 
   protected constructor(private readonly title: string) {
-    this.checkOnPage()
+    // this.checkOnPage()
   }
 
   checkOnPage(): void {
