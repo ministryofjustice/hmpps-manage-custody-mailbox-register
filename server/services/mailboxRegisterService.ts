@@ -15,7 +15,19 @@ export default class MailboxRegisterService {
     return this.mailboxRegisterApiClientBuilder(token).createLocalDeliveryUnitMailbox(mailbox)
   }
 
+  public async updateDeliveryUnitMailbox(
+    token: string,
+    id: string,
+    mailbox: CreateLocalDeliveryUnitMailboxRequest,
+  ): Promise<LocalDeliveryUnitMailbox> {
+    return this.mailboxRegisterApiClientBuilder(token).updateLocalDeliveryUnitMailbox(id, mailbox)
+  }
+
   public async listLocalDeliveryUnitMailboxes(token: string): Promise<LocalDeliveryUnitMailbox[]> {
     return this.mailboxRegisterApiClientBuilder(token).listLocalDeliveryUnitMailboxes()
+  }
+
+  public async getLocalDeliveryUnitMailbox(token: string, id: string): Promise<LocalDeliveryUnitMailbox> {
+    return this.mailboxRegisterApiClientBuilder(token).getLocalDeliveryUnitMailbox(id)
   }
 }
