@@ -21,7 +21,21 @@ export default class MailboxRegisterApiClient {
     })
   }
 
+  async updateLocalDeliveryUnitMailbox(
+    id: string,
+    mailbox: CreateLocalDeliveryUnitMailboxRequest,
+  ): Promise<LocalDeliveryUnitMailbox> {
+    return this.restClient.put<LocalDeliveryUnitMailbox>({
+      path: `/local-delivery-unit-mailboxes/${id}`,
+      data: mailbox,
+    })
+  }
+
   async listLocalDeliveryUnitMailboxes(): Promise<LocalDeliveryUnitMailbox[]> {
     return this.restClient.get<LocalDeliveryUnitMailbox[]>({ path: '/local-delivery-unit-mailboxes' })
+  }
+
+  async getLocalDeliveryUnitMailbox(id: string): Promise<LocalDeliveryUnitMailbox> {
+    return this.restClient.get<LocalDeliveryUnitMailbox>({ path: `/local-delivery-unit-mailboxes/${id}` })
   }
 }

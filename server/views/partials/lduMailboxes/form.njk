@@ -1,0 +1,51 @@
+{{ govukInput({
+  label: {
+    text: "Name"
+  },
+  id: "name",
+  name: "name",
+  value: mailbox.name
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Email Address"
+  },
+  id: "email-address",
+  name: "emailAddress",
+  value: mailbox.emailAddress
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Country"
+  },
+  id: "country",
+  name: "country",
+  value: mailbox.country,
+  classes: "govuk-!-width-two-thirds"
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Unit Code"
+  },
+  id: "unit-code",
+  name: "unitCode",
+  value: mailbox.unitCode,
+  classes: "govuk-!-width-one-quarter"
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Area Code"
+  },
+  id: "area-code",
+  name: "areaCode",
+  value: mailbox.areaCode,
+  classes: "govuk-!-width-one-quarter"
+}) }}
+
+{{ govukButton({
+  text: submitLabel
+}) }}

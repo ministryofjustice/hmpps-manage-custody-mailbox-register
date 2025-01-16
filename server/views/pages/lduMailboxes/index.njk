@@ -14,8 +14,7 @@
           href: "/"
         },
         {
-          text: "Local Delivery Unit Mailboxes",
-          href: "/local-delivery-unit-mailboxes"
+          text: "Local Delivery Unit Mailboxes"
         }
       ]
     }) 
@@ -31,7 +30,7 @@
   {% for mailbox in mailboxes %}
     {% set tableRows = (tableRows.push([
       {
-        html: '<a href="/local-delivery-unit-mailboxes/' + mailbox.id + '" class="govuk-link">' + mailbox.name + '</a>',
+        html: '<a href="/local-delivery-unit-mailboxes/' + mailbox.id + '/edit" class="govuk-link">' + mailbox.name + '</a>',
         attributes: {
           "data-qa": "name-column",
           "data-sort-value": mailbox.name

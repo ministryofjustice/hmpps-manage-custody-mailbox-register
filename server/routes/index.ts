@@ -8,3 +8,5 @@ export default (services: Services): Router =>
     .get('/local-delivery-unit-mailboxes', localDeliveryUnitMailboxes.index(services))
     .get('/local-delivery-unit-mailboxes/new', localDeliveryUnitMailboxes.newMailbox)
     .post('/local-delivery-unit-mailboxes', localDeliveryUnitMailboxes.create(services))
+    .get('/local-delivery-unit-mailboxes/:id/edit', localDeliveryUnitMailboxes.edit(services))
+    .post('/local-delivery-unit-mailboxes/:id', localDeliveryUnitMailboxes.update(services))
