@@ -7,5 +7,6 @@ export default class LduMailboxesPage extends Page {
 
   createNewLduMailbox = (): PageElement => cy.get('a').contains('Create new Local Delivery Unit Mailbox')
 
-  emailAddresses = () => cy.get('.email-column').then(cells => cells.map((index, cell) => cell.innerText).get())
+  emailAddresses = () =>
+    cy.get('[data-qa=email-column]').then(cells => cells.map((index, cell) => cell.innerText).get())
 }

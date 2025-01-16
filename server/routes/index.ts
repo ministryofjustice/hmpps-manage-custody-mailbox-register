@@ -8,7 +8,13 @@ export default function routes({ mailboxRegisterService }: Services): Router {
 
   router.get('/', async (req, res, next) => res.render('pages/index'))
 
-  router.get('/local-delivery-unit-mailboxes', async (req, res, next) => res.render('pages/lduMailboxes/index'))
+  router.get('/local-delivery-unit-mailboxes', async (req, res, next) => {
+    // @ts-expect-error - temporary linting bypass
+    const mailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(req?.middleware?.clientToken)
+
+    res.render('pages/lduMailboxes/index', { mailboxes })
+  })
+
   router.post('/local-delivery-unit-mailboxes', async (req, res, next) => {
     const { name, emailAddress, country, unitCode, areaCode } = req.body
 
