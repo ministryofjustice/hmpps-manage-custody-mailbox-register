@@ -1,10 +1,13 @@
+{% set mailbox = submittedForm if submittedForm else mailbox %}
+
 {{ govukInput({
   label: {
     text: "Name"
   },
   id: "name",
   name: "name",
-  value: mailbox.name
+  value: mailbox.name,
+  errorMessage: errors | errorFor("name")
 }) }}
 
 {{ govukInput({
@@ -13,7 +16,8 @@
   },
   id: "email-address",
   name: "emailAddress",
-  value: mailbox.emailAddress
+  value: mailbox.emailAddress,
+  errorMessage: errors | errorFor("emailAddress")
 }) }}
 
 {{ govukInput({
@@ -23,6 +27,7 @@
   id: "country",
   name: "country",
   value: mailbox.country,
+  errorMessage: errors | errorFor("country"),
   classes: "govuk-!-width-two-thirds"
 }) }}
 
@@ -33,6 +38,7 @@
   id: "unit-code",
   name: "unitCode",
   value: mailbox.unitCode,
+  errorMessage: errors | errorFor("unitCode"),
   classes: "govuk-!-width-one-quarter"
 }) }}
 
@@ -43,6 +49,7 @@
   id: "area-code",
   name: "areaCode",
   value: mailbox.areaCode,
+  errorMessage: errors | errorFor("areaCode"),
   classes: "govuk-!-width-one-quarter"
 }) }}
 

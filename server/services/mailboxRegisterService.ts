@@ -3,7 +3,7 @@ import type {
   CreateLocalDeliveryUnitMailboxRequest,
 } from '../@types/mailboxRegisterApiClientTypes'
 import { RestClientBuilder } from '../data'
-import MailboxRegisterApiClient from '../data/mailboxes/mailboxRegisterApiClient'
+import MailboxRegisterApiClient, { MailboxRegisterResponse } from '../data/mailboxes/mailboxRegisterApiClient'
 
 export default class MailboxRegisterService {
   constructor(private readonly mailboxRegisterApiClientBuilder: RestClientBuilder<MailboxRegisterApiClient>) {}
@@ -11,7 +11,7 @@ export default class MailboxRegisterService {
   public async createLocalDeliveryUnitMailbox(
     token: string,
     mailbox: CreateLocalDeliveryUnitMailboxRequest,
-  ): Promise<CreateLocalDeliveryUnitMailboxRequest> {
+  ): Promise<MailboxRegisterResponse> {
     return this.mailboxRegisterApiClientBuilder(token).createLocalDeliveryUnitMailbox(mailbox)
   }
 
@@ -19,7 +19,7 @@ export default class MailboxRegisterService {
     token: string,
     id: string,
     mailbox: CreateLocalDeliveryUnitMailboxRequest,
-  ): Promise<LocalDeliveryUnitMailbox> {
+  ): Promise<MailboxRegisterResponse> {
     return this.mailboxRegisterApiClientBuilder(token).updateLocalDeliveryUnitMailbox(id, mailbox)
   }
 

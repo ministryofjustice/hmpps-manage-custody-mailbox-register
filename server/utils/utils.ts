@@ -28,4 +28,8 @@ const formatDate = (date: Date, pattern: string, defaultValue: string = null) =>
   return date ? format(date, pattern) : defaultValue
 }
 
-export { properCase, convertToTitleCase, initialiseName, formatDate }
+const errorForField = (errors: { [field: string]: string }, fieldName: string) => {
+  return errors == null || errors[fieldName] == null ? null : { text: errors[fieldName] }
+}
+
+export { properCase, convertToTitleCase, initialiseName, formatDate, errorForField }
