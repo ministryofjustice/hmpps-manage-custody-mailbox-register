@@ -19,7 +19,7 @@ export default class MailboxRegisterService {
     token: string,
     id: string,
     mailbox: CreateLocalDeliveryUnitMailboxRequest,
-  ): Promise<LocalDeliveryUnitMailbox> {
+  ): Promise<MailboxRegisterResponse> {
     return this.mailboxRegisterApiClientBuilder(token).updateLocalDeliveryUnitMailbox(id, mailbox)
   }
 

@@ -30,8 +30,8 @@ export default class MailboxRegisterApiClient {
   async updateLocalDeliveryUnitMailbox(
     id: string,
     mailbox: CreateLocalDeliveryUnitMailboxRequest,
-  ): Promise<LocalDeliveryUnitMailbox> {
-    return this.restClient.put<LocalDeliveryUnitMailbox>({
+  ): Promise<MailboxRegisterResponse> {
+    return this.restClient.put<MailboxRegisterResponse>({
       path: `/local-delivery-unit-mailboxes/${id}`,
       data: mailbox,
     })
