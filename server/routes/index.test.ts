@@ -24,7 +24,7 @@ afterEach(() => {
 
 describe('GET /', () => {
   it('should render index page', () => {
-    auditService.logPageView.mockResolvedValue(null)
+    // auditService.logPageView.mockResolvedValue(null)
 
     return request(app)
       .get('/')
