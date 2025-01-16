@@ -30,8 +30,69 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
       <form method="post" action="/local-delivery-unit-mailboxes">
+  
+      {% call govukFieldset({
+        legend: {
+          text: "New Local Delivery Unit Mailbox",
+          classes: "govuk-fieldset__legend--l",
+          isPageHeading: true
+        }
+      }) %}
+      
+        {{ govukInput({
+          label: {
+            text: "Name"
+          },
+          id: "name",
+          name: "name",
+          value: submittedForm.name,
+          errorMessage: errors | errorFor("name")
+        }) }}
+      
+        {{ govukInput({
+          label: {
+            text: "Email Address"
+          },
+          id: "email-address",
+          name: "emailAddress",
+          value: submittedForm.emailAddress,
+          errorMessage: errors | errorFor("emailAddress")
+        }) }}
+        
+        {{ govukInput({
+          label: {
+            text: "Country"
+          },
+          id: "country",
+          name: "country",
+          classes: "govuk-!-width-two-thirds",
+          value: submittedForm.country,
+          errorMessage: errors | errorFor("country")
+        }) }}
+      
+        {{ govukInput({
+          label: {
+            text: "Unit Code"
+          },
+          id: "unit-code",
+          name: "unitCode",
+          classes: "govuk-!-width-one-quarter",
+          value: submittedForm.unitCode,
+          errorMessage: errors | errorFor("unitCode")
+        }) }}
+      
+        {{ govukInput({
+          label: {
+            text: "Area Code"
+          },
+          id: "area-code",
+          name: "areaCode",
+          classes: "govuk-!-width-one-quarter",
+          value: submittedForm.areaCode,
+          errorMessage: errors | errorFor("areaCode")
+        }) }}
+        
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
         {% call govukFieldset({
@@ -45,7 +106,7 @@
         {% set submitLabel = "Create mailbox" %}
         {% include "partials/lduMailboxes/form.njk" %}
 
-        {% endcall %}
+      {% endcall %}
 
       </form>
     </div>
