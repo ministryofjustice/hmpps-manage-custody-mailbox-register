@@ -1,3 +1,4 @@
+import { RequestHandler } from 'express'
 import { dataAccess } from '../data'
 import AuditService from './auditService'
 import MailboxRegisterService from './mailboxRegisterService'
@@ -17,5 +18,7 @@ export const services = () => {
 }
 
 export type Services = ReturnType<typeof services>
-
-export { MailboxRegisterService }
+export type RequestHandlerWithServices =
+  | ((services: Services) => RequestHandler | RequestHandler[])
+  | (() => RequestHandler | RequestHandler[])
+export { RequestHandler }
