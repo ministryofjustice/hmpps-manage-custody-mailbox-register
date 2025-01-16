@@ -7,6 +7,7 @@ context('Creating an LDU mailbox', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubCreateLduMailbox')
+    cy.task('stubListLduMailboxes')
     cy.signIn()
   })
 
@@ -28,6 +29,6 @@ context('Creating an LDU mailbox', () => {
       areaCode: 'OTHERAREA',
     })
 
-    // lduMailboxesPage.emailAddresses().should('contain', 'ldu@example.com')
+    lduMailboxesPage.emailAddresses().should('contain', 'ldu@example.com')
   })
 })

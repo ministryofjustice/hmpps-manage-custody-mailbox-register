@@ -1,4 +1,7 @@
-import type { CreateLocalDeliveryUnitMailboxRequest } from '../@types/mailboxRegisterApiClientTypes'
+import type {
+  LocalDeliveryUnitMailbox,
+  CreateLocalDeliveryUnitMailboxRequest,
+} from '../@types/mailboxRegisterApiClientTypes'
 import { RestClientBuilder } from '../data'
 import MailboxRegisterApiClient from '../data/mailboxes/mailboxRegisterApiClient'
 
@@ -10,5 +13,9 @@ export default class MailboxRegisterService {
     mailbox: CreateLocalDeliveryUnitMailboxRequest,
   ): Promise<CreateLocalDeliveryUnitMailboxRequest> {
     return this.mailboxRegisterApiClientBuilder(token).createLocalDeliveryUnitMailbox(mailbox)
+  }
+
+  public async listLocalDeliveryUnitMailboxes(token: string): Promise<LocalDeliveryUnitMailbox[]> {
+    return this.mailboxRegisterApiClientBuilder(token).listLocalDeliveryUnitMailboxes()
   }
 }
