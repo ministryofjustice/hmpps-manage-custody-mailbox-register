@@ -54,13 +54,13 @@
       {
         text: mailbox.createdAt | formatDate('dd MMM yyyy HH:mm:ss'),
         attributes: {
-          "data-sort-value": mailbox.createdAt
+          "data-sort-value": mailbox.createdAt | formatDate('T')
         }
       },
       {
         text: mailbox.updatedAt | formatDate('dd MMM yyyy HH:mm:ss'),
         attributes: {
-          "data-sort-value": mailbox.updatedAt
+          "data-sort-value": mailbox.updatedAt | formatDate('T')
         }
       }
     ]), tableRows) %}
