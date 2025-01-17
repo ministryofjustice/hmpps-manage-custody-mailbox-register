@@ -15,7 +15,7 @@ export default class MailboxRegisterService {
     return this.mailboxRegisterApiClientBuilder(token).createLocalDeliveryUnitMailbox(mailbox)
   }
 
-  public async updateDeliveryUnitMailbox(
+  public async updateLocalDeliveryUnitMailbox(
     token: string,
     id: string,
     mailbox: CreateLocalDeliveryUnitMailboxRequest,

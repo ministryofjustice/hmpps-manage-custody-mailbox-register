@@ -56,7 +56,7 @@ export const update: RequestHandlerWithServices =
     }
 
     // @ts-expect-error - temporary linting bypass
-    await mailboxRegisterService.updateDeliveryUnitMailbox(req?.middleware?.clientToken, id, mailbox)
+    await mailboxRegisterService.updateLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id, mailbox)
 
     res.redirect('/local-delivery-unit-mailboxes')
   }

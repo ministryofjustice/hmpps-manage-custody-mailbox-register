@@ -1,8 +1,12 @@
 import type { SuperAgentRequest } from 'superagent'
 import { stubFor } from './wiremock'
 
+const apiPrefix = '/mailbox-register-api'
+const baseUri = 'local-delivery-unit-mailboxes'
+const headers = { 'Content-Type': 'application/json;charset=UTF-8' }
+
 const lduMailbox = {
-  id: '1',
+  id: '123',
   name: 'Test LDU',
   emailAddress: 'ldu@example.com',
   country: 'England',
@@ -17,11 +21,11 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        urlPattern: '/mailbox-register-api/health/ping',
+        urlPattern: `${apiPrefix}/health/ping`,
       },
       response: {
         status: httpStatus,
-        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        headers,
         jsonBody: { status: httpStatus === 200 ? 'UP' : 'DOWN' },
       },
     }),
@@ -30,11 +34,11 @@ export default {
     stubFor({
       request: {
         method: 'POST',
-        urlPattern: '/mailbox-register-api/local-delivery-unit-mailboxes',
+        urlPattern: `${apiPrefix}/${baseUri}`,
       },
       response: {
         status: httpStatus,
-        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        headers,
         jsonBody: lduMailbox,
       },
     }),
@@ -43,12 +47,38 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        urlPattern: '/mailbox-register-api/local-delivery-unit-mailboxes',
+        urlPattern: `${apiPrefix}/${baseUri}`,
       },
       response: {
         status: httpStatus,
-        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        headers,
         jsonBody: [lduMailbox],
+      },
+    }),
+
+  stubGetLduMailbox: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        urlPattern: `${apiPrefix}/${baseUri}/${lduMailbox.id}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: lduMailbox,
+      },
+    }),
+
+  stubUpdateLduMailbox: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'PUT',
+        urlPattern: `${apiPrefix}/${baseUri}/${lduMailbox.id}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: lduMailbox,
       },
     }),
 }
