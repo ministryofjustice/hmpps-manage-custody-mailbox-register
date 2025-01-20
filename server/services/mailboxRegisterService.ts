@@ -30,4 +30,8 @@ export default class MailboxRegisterService {
   public async getLocalDeliveryUnitMailbox(token: string, id: string): Promise<LocalDeliveryUnitMailbox> {
     return this.mailboxRegisterApiClientBuilder(token).getLocalDeliveryUnitMailbox(id)
   }
+
+  public async deleteLocalDeliveryUnitMailbox(token: string, id: string): Promise<void> {
+    return this.mailboxRegisterApiClientBuilder(token).deleteLocalDeliveryUnitMailbox(id)
+  }
 }

@@ -1,4 +1,5 @@
 import express from 'express'
+import methodOverride from 'method-override'
 
 import createError from 'http-errors'
 
@@ -28,6 +29,7 @@ export default function createApp(services: Services): express.Application {
   app.set('trust proxy', true)
   app.set('port', process.env.PORT || 3000)
 
+  app.use(methodOverride('_method'))
   app.use(appInsightsMiddleware())
   app.use(setUpHealthChecks(services.applicationInfo))
   app.use(setUpWebSecurity())

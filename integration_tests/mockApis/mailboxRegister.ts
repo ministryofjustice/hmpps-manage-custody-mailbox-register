@@ -81,4 +81,17 @@ export default {
         jsonBody: lduMailbox,
       },
     }),
+
+  stubDeleteLduMailbox: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'DELETE',
+        urlPattern: `${apiPrefix}/${baseUri}/${lduMailbox.id}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: {},
+      },
+    }),
 }
