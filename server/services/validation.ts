@@ -18,10 +18,8 @@ export const renderPageOnValidationError =
 
     // Handle client side validation
     const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return handleValidationWithPageRender(req, res, nicerErrorsFromValidate(errors))
-    }
-    return next()
+    if (errors.isEmpty()) return next()
+    else return handleValidationWithPageRender(req, res, nicerErrorsFromValidate(errors))
   }
 
 type FieldName = string

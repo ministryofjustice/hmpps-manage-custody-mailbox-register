@@ -5,6 +5,7 @@ export default [
   {
     rules: {
       'import/prefer-default-export': 'off',
+      'no-else-return': 'off',
     },
   },
 ]
