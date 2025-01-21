@@ -50,8 +50,8 @@ export const edit: RequestHandlerWithServices =
     res.render('pages/lduMailboxes/edit', { mailbox })
   }
 
-export const update: RequestHandlerWithServices =
-  ({ mailboxRegisterService }) =>
+export const update: ValidatedRequestHandlerWithServices = ({ mailboxRegisterService }) => [
+  renderPageOnValidationError('pages/lduMailboxes/edit'),
   async (req, res, next) => {
     const { name, emailAddress, country, unitCode, areaCode } = req.body
     const { id } = req.params
@@ -68,7 +68,8 @@ export const update: RequestHandlerWithServices =
     await mailboxRegisterService.updateLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id, mailbox)
 
     res.redirect('/local-delivery-unit-mailboxes')
-  }
+  },
+]
 
 export const confirmDelete: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
