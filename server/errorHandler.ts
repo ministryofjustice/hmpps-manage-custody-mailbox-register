@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
 import type { HTTPError } from 'superagent'
 import logger from '../logger'
-import { handleValidationWithPageRender } from './services/validation'
+import { handleValidationWithPageRender, pageToRenderDefined } from './services/validation'
 
 export default function createErrorHandler(production: boolean) {
   return (error: HTTPError, req: Request, res: Response, next: NextFunction): void => {
@@ -12,7 +12,7 @@ export default function createErrorHandler(production: boolean) {
       return res.redirect('/sign-out')
     }
 
-    if (error.status === 400) {
+    if (error.status === 400 && pageToRenderDefined(req)) {
       // @ts-expect-error - the type is correct!
       return handleValidationWithPageRender(req, res, error.data.errors)
     }

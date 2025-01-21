@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { matchedData, Result, ValidationError, validationResult } from 'express-validator'
 
+export const pageToRenderDefined = (req: Request) => req.get('renderPage') != null
+
 export const handleValidationWithPageRender = (req: Request, res: Response, errors: ValidationErrors) => {
   res.locals.submittedForm = matchedData(req)
   res.locals.validationErrors = errors
