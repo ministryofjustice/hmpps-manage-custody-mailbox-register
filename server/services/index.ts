@@ -20,4 +20,5 @@ export const services = () => {
 export type Services = ReturnType<typeof services>
 export type RequestHandlerWithServices = (services?: Services) => RequestHandler
 export type MultipleRequestHandlerWithServices = (services?: Services) => RequestHandler[]
+export type ValidatedRequestHandlerWithServices = MultipleRequestHandlerWithServices
 export { RequestHandler }

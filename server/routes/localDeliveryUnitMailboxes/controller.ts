@@ -1,4 +1,6 @@
-import { RequestHandler, RequestHandlerWithServices } from '../../services'
+import { body, matchedData } from 'express-validator'
+import { RequestHandler, RequestHandlerWithServices, ValidatedRequestHandlerWithServices } from '../../services'
+import { renderPageOnValidationError } from '../../services/validation'
 
 export const index: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
@@ -9,10 +11,16 @@ export const index: RequestHandlerWithServices =
     res.render('pages/lduMailboxes/index', { mailboxes })
   }
 
-export const create: RequestHandlerWithServices =
-  ({ mailboxRegisterService }) =>
+export const create: ValidatedRequestHandlerWithServices = ({ mailboxRegisterService }) => [
+  body('name'),
+  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
+  body('country'),
+  body('unitCode').notEmpty().withMessage('Please enter the unit code'),
+  body('areaCode').notEmpty().withMessage('Please enter the area code'),
+  renderPageOnValidationError('pages/lduMailboxes/new'),
+
   async (req, res, next) => {
-    const { name, emailAddress, country, unitCode, areaCode } = req.body
+    const { name, emailAddress, country, unitCode, areaCode } = matchedData(req)
 
     const mailbox = {
       name,
@@ -25,8 +33,9 @@ export const create: RequestHandlerWithServices =
     // @ts-expect-error - temporary linting bypass
     await mailboxRegisterService.createLocalDeliveryUnitMailbox(req?.middleware?.clientToken, mailbox)
 
-    res.redirect('/local-delivery-unit-mailboxes')
-  }
+    return res.redirect('/local-delivery-unit-mailboxes')
+  },
+]
 
 export const newMailbox: RequestHandler = async (req, res, next) => res.render('pages/lduMailboxes/new')
 

@@ -7,7 +7,7 @@
   id: "name",
   name: "name",
   value: mailbox.name,
-  errorMessage: errors | errorFor("name")
+  errorMessage: validationErrors | errorFor("name")
 }) }}
 
 {{ govukInput({
@@ -17,7 +17,7 @@
   id: "email-address",
   name: "emailAddress",
   value: mailbox.emailAddress,
-  errorMessage: errors | errorFor("emailAddress")
+  errorMessage: validationErrors | errorFor("emailAddress")
 }) }}
 
 {{ govukInput({
@@ -27,7 +27,7 @@
   id: "country",
   name: "country",
   value: mailbox.country,
-  errorMessage: errors | errorFor("country"),
+  errorMessage: validationErrors | errorFor("country"),
   classes: "govuk-!-width-two-thirds"
 }) }}
 
@@ -38,7 +38,7 @@
   id: "unit-code",
   name: "unitCode",
   value: mailbox.unitCode,
-  errorMessage: errors | errorFor("unitCode"),
+  errorMessage: validationErrors | errorFor("unitCode"),
   classes: "govuk-!-width-one-quarter"
 }) }}
 
@@ -49,7 +49,7 @@
   id: "area-code",
   name: "areaCode",
   value: mailbox.areaCode,
-  errorMessage: errors | errorFor("areaCode"),
+  errorMessage: validationErrors | errorFor("areaCode"),
   classes: "govuk-!-width-one-quarter"
 }) }}
 
