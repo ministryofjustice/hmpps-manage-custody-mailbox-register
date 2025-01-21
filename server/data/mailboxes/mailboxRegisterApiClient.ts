@@ -44,4 +44,8 @@ export default class MailboxRegisterApiClient {
   async getLocalDeliveryUnitMailbox(id: string): Promise<LocalDeliveryUnitMailbox> {
     return this.restClient.get<LocalDeliveryUnitMailbox>({ path: `/local-delivery-unit-mailboxes/${id}` })
   }
+
+  async deleteLocalDeliveryUnitMailbox(id: string): Promise<void> {
+    return this.restClient.delete<void>({ path: `/local-delivery-unit-mailboxes/${id}` })
+  }
 }

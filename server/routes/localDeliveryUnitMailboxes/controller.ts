@@ -60,3 +60,25 @@ export const update: RequestHandlerWithServices =
 
     res.redirect('/local-delivery-unit-mailboxes')
   }
+
+export const confirmDelete: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res, next) => {
+    const { id } = req.params
+
+    // @ts-expect-error - temporary linting bypass
+    const mailbox = await mailboxRegisterService.getLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id)
+
+    res.render('pages/lduMailboxes/delete', { mailbox })
+  }
+
+export const deleteMailbox: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res, next) => {
+    const { id } = req.params
+
+    // @ts-expect-error - temporary linting bypass
+    await mailboxRegisterService.deleteLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id)
+
+    res.redirect('/local-delivery-unit-mailboxes')
+  }

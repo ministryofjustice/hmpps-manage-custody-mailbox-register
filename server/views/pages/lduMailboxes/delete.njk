@@ -1,10 +1,9 @@
 {% extends "../../partials/layout.njk" %}
 
 {% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set pageTitle = applicationName + " - Edit LDU Mailbox" %}
+{% set pageTitle = applicationName + " - Delete LDU Mailbox" %}
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
@@ -20,7 +19,7 @@
         href: "/local-delivery-unit-mailboxes"
       },
       {
-        text: "Edit"
+        text: "Delete"
       }
     ]
   }) }}
@@ -28,22 +27,21 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form method="post" action="/local-delivery-unit-mailboxes/{{ mailbox.id }}">
+      <form method="post" action="/local-delivery-unit-mailboxes/{{ mailbox.id }}?_method=DELETE">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
-        {% call govukFieldset({
-          legend: {
-            text: "Edit Local Delivery Unit Mailbox",
-            classes: "govuk-fieldset__legend--l",
-            isPageHeading: true
-          }
-        }) %}
+        <h1 class="govuk-heading-l">Are you sure you want to delete the Local Delivery Mailbox "{{ mailbox.name }}"</h1>
 
-        {% set isEdit = true %}
-        {% include "pages/lduMailboxes/_form.njk" %}
+        <p class="govuk-body">This action cannot be undone.</p>
 
-        {% endcall %}
+        <div class="govuk-button-group govuk-!-padding-top-5">
+          {{ govukButton({
+            text: "Delete mailbox",
+            classes: "govuk-button--warning"
+          }) }}
 
+          <a class="govuk-link govuk-link--no-visited-state" href="/local-delivery-unit-mailboxes">Cancel</a>
+        </div>
       </form>
     </div>
   </div>

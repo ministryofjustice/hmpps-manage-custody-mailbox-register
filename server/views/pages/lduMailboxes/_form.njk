@@ -53,6 +53,20 @@
   classes: "govuk-!-width-one-quarter"
 }) }}
 
-{{ govukButton({
-  text: submitLabel
-}) }}
+{% if isEdit %}
+  {% set submitLabel = "Update mailbox" %}
+{% else %}
+  {% set submitLabel = "Create mailbox" %}
+{% endif %}
+
+<div class="govuk-button-group govuk-!-padding-top-5">
+  {{ govukButton({
+    text: submitLabel
+  }) }}
+
+  {% if isEdit %}
+    <a class="govuk-link govuk-link--no-visited-state" href="/local-delivery-unit-mailboxes/{{ mailbox.id }}/delete">Delete</a>
+  {% endif %}
+
+  <a class="govuk-link govuk-link--no-visited-state" href="/local-delivery-unit-mailboxes">Cancel</a>
+</div>
