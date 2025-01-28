@@ -31,6 +31,9 @@ export const validatedRequest = (
 }
 
 export const retrieveValidationErrorsPostRedirect: RequestHandler = (req, res, next) => {
+  res.locals.validationErrors = {}
+  res.locals.submittedForm = {}
+
   if (req.method === 'GET') {
     const validationErrors = (req.flash('validationErrors') || [])[0]
     const submittedForm = (req.flash('submittedForm') || [])[0]
