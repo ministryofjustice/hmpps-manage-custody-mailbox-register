@@ -6,7 +6,7 @@ export const validatedRequest = (
   action: RequestHandler,
 ): RequestHandler => {
   return async (req, res, next) => {
-    config.validations.forEach(validation => validation.run(req))
+    await Promise.all(config.validations.map(validation => validation.run(req)))
     const errors = validationResult(req)
 
     // Redirect simple front end validation failures
