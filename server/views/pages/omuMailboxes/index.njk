@@ -1,0 +1,28 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - OMU Mailboxes" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  {{
+    govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/"
+        },
+        {
+          text: "Offender Management Unit Mailboxes"
+        }
+      ]
+    }) 
+  }}
+
+  <h1 class="govuk-heading-l">Offender Management Unit Mailboxes</h1>
+  
+  <p class="govuk-body">
+    <a href="/offender-management-unit-mailboxes/new" class="govuk-link govuk-link--no-visited-state">Create new Offender Management Unit Mailbox</a>
+  </p>
+
+{% endblock %}
