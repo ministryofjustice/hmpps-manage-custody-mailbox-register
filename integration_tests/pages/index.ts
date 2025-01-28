@@ -10,4 +10,6 @@ export default class IndexPage extends Page {
   headerPhaseBanner = (): PageElement => cy.get('[data-qa=header-phase-banner]')
 
   lduMailboxes = (): PageElement => cy.get('a').contains('Local Delivery Units')
+
+  omuMailboxes = (): PageElement => cy.get('a').contains('Offender Management Units')
 }
