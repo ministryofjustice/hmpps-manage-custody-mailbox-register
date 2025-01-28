@@ -28,12 +28,14 @@
   label: {
     text: "Prison"
   },
-  items: prisonOptions
+  items: prisonOptions,
+  errorMessage: validationErrors | errorFor("prisonCode")
 }) }}
 
 {{ govukRadios({
   classes: "govuk-radios--inline",
-  name: "changedName",
+  id: "role",
+  name: "role",
   fieldset: {
     legend: {
       text: "Role / Activity",
@@ -41,16 +43,8 @@
       classes: "govuk-fieldset__legend--s"
     }
   },
-  items: [
-    {
-      value: "CVL",
-      text: "CVL"
-    },
-    {
-      value: "HDC",
-      text: "HDC"
-    }
-  ]
+  items: roleOptions,
+  errorMessage: validationErrors | errorFor("role")
 }) }}
 
 {% if isEdit %}
