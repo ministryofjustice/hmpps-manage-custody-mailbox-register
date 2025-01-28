@@ -1,6 +1,7 @@
 import type {
   CreateLocalDeliveryUnitMailboxRequest,
   LocalDeliveryUnitMailbox,
+  PrisonCodesResult,
 } from '../../@types/mailboxRegisterApiClientTypes'
 import config, { ApiConfig } from '../../config'
 import RestClient from '../restClient'
@@ -47,5 +48,9 @@ export default class MailboxRegisterApiClient {
 
   async deleteLocalDeliveryUnitMailbox(id: string): Promise<void> {
     return this.restClient.delete<void>({ path: `/local-delivery-unit-mailboxes/${id}` })
+  }
+
+  async listPrisonCodes(): Promise<PrisonCodesResult> {
+    return this.restClient.get<PrisonCodesResult>({ path: `/prison-codes` })
   }
 }
