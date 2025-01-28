@@ -1,6 +1,7 @@
 import { RequestHandler, Router } from 'express'
 import { Services } from '../services'
 import * as localDeliveryUnitMailboxes from './localDeliveryUnitMailboxes/controller'
+import * as offenderManagementUnitMailboxes from './offenderManagementUnitMailboxes/controller'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 
 export default (services: Services): Router => {
@@ -18,6 +19,9 @@ export default (services: Services): Router => {
   post('/local-delivery-unit-mailboxes/:id', ...localDeliveryUnitMailboxes.update(services))
   get('/local-delivery-unit-mailboxes/:id/delete', localDeliveryUnitMailboxes.confirmDelete(services))
   destroy('/local-delivery-unit-mailboxes/:id', localDeliveryUnitMailboxes.deleteMailbox(services))
+
+  get('/offender-management-unit-mailboxes', offenderManagementUnitMailboxes.index)
+  get('/offender-management-unit-mailboxes/new', offenderManagementUnitMailboxes.newMailbox(services))
 
   return router
 }

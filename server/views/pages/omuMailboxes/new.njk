@@ -1,0 +1,51 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - New OMU Mailbox" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{% block content %}
+
+  {{
+    govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/"
+        },
+        {
+          text: "Offender Management Unit Mailboxes",
+          href: "/offender-management-unit-mailboxes"
+        },
+        {
+          text: "New"
+        }
+      ]
+    }) 
+  }}
+
+  <form method="post" action="/offender-management-unit-mailboxes">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
+    {% call govukFieldset({
+      legend: {
+        text: "New Offender Management Unit Mailbox",
+        classes: "govuk-fieldset__legend--l",
+        isPageHeading: true
+      }
+    }) %}
+
+    {% set isEdit = false %}
+    {% set isWIP = true %}
+    {% include "pages/omuMailboxes/_form.njk" %}
+
+    {% endcall %}
+
+  </form>
+
+{% endblock %}

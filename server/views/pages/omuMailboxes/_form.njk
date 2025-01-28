@@ -1,0 +1,73 @@
+{% set mailbox = submittedForm if submittedForm else mailbox %}
+
+{{ govukInput({
+  label: {
+    text: "Name"
+  },
+  id: "name",
+  name: "name",
+  value: mailbox.name,
+  errorMessage: validationErrors | errorFor("name"),
+  classes: "govuk-!-width-two-thirds"
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Email Address"
+  },
+  id: "email-address",
+  name: "emailAddress",
+  value: mailbox.emailAddress,
+  errorMessage: validationErrors | errorFor("emailAddress"),
+  classes: "govuk-!-width-two-thirds"
+}) }}
+
+{{ govukSelect({
+  id: "prisonCode",
+  name: "prisonCode",
+  label: {
+    text: "Prison"
+  },
+  items: prisonOptions
+}) }}
+
+{{ govukRadios({
+  classes: "govuk-radios--inline",
+  name: "changedName",
+  fieldset: {
+    legend: {
+      text: "Role / Activity",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend--s"
+    }
+  },
+  items: [
+    {
+      value: "CVL",
+      text: "CVL"
+    },
+    {
+      value: "HDC",
+      text: "HDC"
+    }
+  ]
+}) }}
+
+{% if isEdit %}
+  {% set submitLabel = "Update mailbox" %}
+{% else %}
+  {% set submitLabel = "Create mailbox" %}
+{% endif %}
+
+<div class="govuk-button-group govuk-!-padding-top-5">
+  {{ govukButton({
+    text: submitLabel,
+    disabled: isWIP === true
+  }) }}
+
+  {% if isEdit %}
+    <a class="govuk-link govuk-link--no-visited-state" href="/offender-management-unit-mailboxes/{{ mailbox.id }}/delete">Delete</a>
+  {% endif %}
+
+  <a class="govuk-link govuk-link--no-visited-state" href="/offender-management-unit-mailboxes">Cancel</a>
+</div>
