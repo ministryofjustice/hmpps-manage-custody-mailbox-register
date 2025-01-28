@@ -12,11 +12,11 @@ export const newMailbox: RequestHandlerWithServices =
     res.locals.prisonOptions = prisonCodeOptions(
       // @ts-expect-error - temporary linting bypass
       await mailboxRegisterService.listPrisonCodes(req?.middleware?.clientToken),
-      res.locals.submittedForm.prisonCode,
+      res.locals.submittedForm?.prisonCode,
     )
     res.locals.roleOptions = [
-      { value: 'CVL', text: 'CVL', checked: res.locals.submittedForm.role === 'CVL' },
-      { value: 'HDC', text: 'HDC', checked: res.locals.submittedForm.role === 'HDC' },
+      { value: 'CVL', text: 'CVL', checked: res.locals.submittedForm?.role === 'CVL' },
+      { value: 'HDC', text: 'HDC', checked: res.locals.submittedForm?.role === 'HDC' },
     ]
 
     res.render('pages/omuMailboxes/new')
