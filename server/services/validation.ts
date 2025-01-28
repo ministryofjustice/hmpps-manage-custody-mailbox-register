@@ -1,29 +1,58 @@
-import { Request, Response, NextFunction } from 'express'
-import { matchedData, Result, ValidationError, validationResult } from 'express-validator'
+import { Request, RequestHandler } from 'express'
+import { Result, ValidationChain, ValidationError, validationResult } from 'express-validator'
 
-export const pageToRenderDefined = (req: Request) => req.get('renderPage') != null
+export const validatedRequest = (
+  config: { validations: ValidationChain[]; onValidationErrorRedirectTo: string },
+  action: RequestHandler,
+): RequestHandler => {
+  return async (req, res, next) => {
+    config.validations.forEach(validation => validation.run(req))
+    const errors = validationResult(req)
 
-export const handleValidationWithPageRender = (req: Request, res: Response, errors: ValidationErrors) => {
-  res.locals.submittedForm = matchedData(req)
-  res.locals.validationErrors = errors
-  res.render(res.get('renderPage'))
+    // Redirect simple front end validation failures
+    if (!errors.isEmpty()) {
+      req.flash('validationErrors', JSON.stringify(formatExpressValidations(errors)))
+      req.flash('submittedForm', JSON.stringify(req.body))
+      return res.redirect(redirectPath(config.onValidationErrorRedirectTo, req))
+    }
+
+    // Handle potential back end validataions
+    try {
+      return await action(req, res, next)
+    } catch (error) {
+      if (error.status === 400) {
+        req.flash('validationErrors', JSON.stringify(error.data.errors))
+        req.flash('submittedForm', JSON.stringify(req.body))
+        return res.redirect(redirectPath(config.onValidationErrorRedirectTo, req))
+      }
+    }
+
+    return next()
+  }
 }
 
-const nicerErrorsFromValidate = (errors: Result<ValidationError>): ValidationErrors =>
+export const retrieveValidationErrorsPostRedirect: RequestHandler = (req, res, next) => {
+  if (req.method === 'GET') {
+    const validationErrors = (req.flash('validationErrors') || [])[0]
+    const submittedForm = (req.flash('submittedForm') || [])[0]
+    if (validationErrors && submittedForm) {
+      res.locals.validationErrors = JSON.parse(validationErrors)
+      res.locals.submittedForm = JSON.parse(submittedForm)
+    }
+  }
+  next()
+}
+
+// This can only populate params present in the current request
+export const redirectPath = (pathTemplate: string, req: Request): string => {
+  let redirectTo = pathTemplate
+  Object.entries(req.params).forEach(([key, value]) => {
+    redirectTo = redirectTo.replace(`:${key}`, value)
+  })
+  return redirectTo
+}
+
+const formatExpressValidations = (errors: Result<ValidationError>): Record<string, string> =>
   Object.entries(errors.mapped()).reduce((ne, [key, data]) => {
     return { ...ne, [key]: data.msg }
   }, {})
-
-export const renderPageOnValidationError =
-  (renderPage: string) => async (req: Request, res: Response, next: NextFunction) => {
-    res.set('renderPage', renderPage)
-
-    // Handle client side validation
-    const errors = validationResult(req)
-    if (errors.isEmpty()) return next()
-    else return handleValidationWithPageRender(req, res, nicerErrorsFromValidate(errors))
-  }
-
-type FieldName = string
-type ValidationMessage = string
-export type ValidationErrors = Record<FieldName, ValidationMessage>

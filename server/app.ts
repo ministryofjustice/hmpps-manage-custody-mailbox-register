@@ -21,6 +21,7 @@ import routes from './routes'
 import type { Services } from './services'
 
 import populateClientToken from './middleware/populateClientToken'
+import { retrieveValidationErrorsPostRedirect } from './services/validation'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -42,6 +43,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser())
   app.use(populateClientToken(services.hmppsAuthClient))
+  app.use(retrieveValidationErrorsPostRedirect)
 
   app.use(routes(services))
 
