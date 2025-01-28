@@ -1,5 +1,5 @@
 import { body, matchedData } from 'express-validator'
-import { RequestHandler, RequestHandlerWithServices, ValidatedRequestHandlerWithServices } from '../../services'
+import { RequestHandler, RequestHandlerWithServices } from '../../services'
 import { validatedRequest } from '../../services/validation'
 
 export const index: RequestHandlerWithServices =
