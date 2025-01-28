@@ -1,5 +1,6 @@
 import type {
   CreateLocalDeliveryUnitMailboxRequest,
+  CreateOffenderManagementUnitMailboxRequest,
   LocalDeliveryUnitMailbox,
   PrisonCodesResult,
 } from '../../@types/mailboxRegisterApiClientTypes'
@@ -52,5 +53,14 @@ export default class MailboxRegisterApiClient {
 
   async listPrisonCodes(): Promise<PrisonCodesResult> {
     return this.restClient.get<PrisonCodesResult>({ path: `/prison-codes` })
+  }
+
+  async createOffenderManagementUnitMailbox(
+    mailbox: CreateOffenderManagementUnitMailboxRequest,
+  ): Promise<MailboxRegisterResponse> {
+    return this.restClient.post<MailboxRegisterResponse>({
+      path: '/offender-management-unit-mailboxes',
+      data: mailbox,
+    })
   }
 }

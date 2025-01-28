@@ -3,7 +3,7 @@ import { Services } from '../../services'
 import { create } from './controller'
 
 describe('create', () => {
-  const mailboxRegisterService = { createLocalDeliveryUnitMailbox: jest.fn() }
+  const mailboxRegisterService = { createOffenderManagementUnitMailbox: jest.fn() }
   const services = { mailboxRegisterService } as unknown as Services
   const flash: Record<string, string> = {}
   const flasher = (name: string, message: string) => {
@@ -11,17 +11,17 @@ describe('create', () => {
   }
 
   it.each([
-    ['emailAddress', 'notValid', 'Please enter a valid email address'],
+    ['name', null, 'Please enter a name'],
     ['emailAddress', null, 'Please enter a valid email address'],
-    ['unitCode', null, 'Please enter the unit code'],
-    ['areaCode', null, 'Please enter the area code'],
+    ['emailAddress', 'notValid', 'Please enter a valid email address'],
+    ['prisonCode', null, 'Please select a prison'],
+    ['role', null, 'Please select a role / activity'],
   ])('redirects without a valid value for %s', async (field, value, expectedMessage) => {
     const body = {
       name: 'A Name',
       emailAddress: 'valid@email.com',
-      country: 'A Country',
-      unitCode: '123',
-      areaCode: 'ABC',
+      prisonCode: 'LEI',
+      role: 'CVL',
       [field]: value,
     }
 
@@ -30,7 +30,7 @@ describe('create', () => {
     const next = jest.fn()
     await create(services)(req, res, next)
 
-    expect(res.redirect).toHaveBeenCalledWith('/local-delivery-unit-mailboxes/new')
+    expect(res.redirect).toHaveBeenCalledWith('/offender-management-unit-mailboxes/new')
     expect(flash.validationErrors).toEqual(JSON.stringify({ [field]: expectedMessage }))
   })
 
@@ -38,9 +38,8 @@ describe('create', () => {
     const body = {
       name: 'A Name',
       emailAddress: 'valid@email.com',
-      country: 'A Country',
-      unitCode: '123',
-      areaCode: 'ABC',
+      prisonCode: 'LEI',
+      role: 'CVL',
     }
 
     const req = { body, middleware: { clientToken: 'CL13NT_T0K3N' } } as unknown as Request
@@ -49,7 +48,7 @@ describe('create', () => {
 
     await create(services)(req, res, next)
 
-    expect(mailboxRegisterService.createLocalDeliveryUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', body)
-    expect(res.redirect).toHaveBeenCalledWith('/local-delivery-unit-mailboxes')
+    expect(mailboxRegisterService.createOffenderManagementUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', body)
+    expect(res.redirect).toHaveBeenCalledWith('/offender-management-unit-mailboxes')
   })
 })

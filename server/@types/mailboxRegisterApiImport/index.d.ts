@@ -18,5 +18,12 @@ export interface components {
       country?: string
       name?: string
     }
+
+    CreateOffenderManagementUnitMailboxRequest: {
+      name: string
+      emailAddress: string
+      prisonCode: string
+      role: string
+    }
   }
 }
