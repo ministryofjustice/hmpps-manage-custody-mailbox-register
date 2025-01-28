@@ -25,9 +25,8 @@ export const validatedRequest = (
         req.flash('submittedForm', JSON.stringify(req.body))
         return res.redirect(redirectPath(config.onValidationErrorRedirectTo, req))
       }
+      throw error
     }
-
-    return next()
   }
 }
 
