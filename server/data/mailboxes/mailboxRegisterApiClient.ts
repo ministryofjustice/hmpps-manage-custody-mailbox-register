@@ -2,6 +2,7 @@ import type {
   CreateLocalDeliveryUnitMailboxRequest,
   CreateOffenderManagementUnitMailboxRequest,
   LocalDeliveryUnitMailbox,
+  OffenderManagementUnitMailbox,
   PrisonCodesResult,
 } from '../../@types/mailboxRegisterApiClientTypes'
 import config, { ApiConfig } from '../../config'
@@ -62,5 +63,9 @@ export default class MailboxRegisterApiClient {
       path: '/offender-management-unit-mailboxes',
       data: mailbox,
     })
+  }
+
+  async getOffenderManagementUnitMailbox(id: string): Promise<OffenderManagementUnitMailbox> {
+    return this.restClient.get<OffenderManagementUnitMailbox>({ path: `/offender-management-unit-mailboxes/${id}` })
   }
 }

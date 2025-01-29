@@ -9,17 +9,12 @@ export const index: RequestHandler = async (req, res, next) => res.render('pages
 export const newMailbox: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
-    res.locals.prisonOptions = prisonCodeOptions(
+    const prisonOptions = prisonCodeOptions(
       // @ts-expect-error - temporary linting bypass
       await mailboxRegisterService.listPrisonCodes(req?.middleware?.clientToken),
       res.locals.submittedForm?.prisonCode,
     )
-    res.locals.roleOptions = [
-      { value: 'CVL', text: 'CVL', checked: res.locals.submittedForm?.role === 'CVL' },
-      { value: 'HDC', text: 'HDC', checked: res.locals.submittedForm?.role === 'HDC' },
-    ]
-
-    res.render('pages/omuMailboxes/new')
+    res.render('pages/omuMailboxes/new', { prisonOptions })
   }
 
 export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
@@ -43,3 +38,14 @@ export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =
       return res.redirect('/offender-management-unit-mailboxes')
     },
   )
+
+export const edit: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res, next) => {
+    // @ts-expect-error - temporary linting bypass
+    const clientToken = req?.middleware?.clientToken
+    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(clientToken, req.params.id)
+    const prisonCodes = await mailboxRegisterService.listPrisonCodes(clientToken)
+    const prisonOptions = prisonCodeOptions(prisonCodes, mailbox.prisonCode)
+    res.render('pages/omuMailboxes/edit', { mailbox, prisonOptions })
+  }

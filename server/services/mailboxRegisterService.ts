@@ -3,6 +3,7 @@ import type {
   CreateLocalDeliveryUnitMailboxRequest,
   PrisonCodesResult,
   CreateOffenderManagementUnitMailboxRequest,
+  OffenderManagementUnitMailbox,
 } from '../@types/mailboxRegisterApiClientTypes'
 import { RestClientBuilder } from '../data'
 import MailboxRegisterApiClient, { MailboxRegisterResponse } from '../data/mailboxes/mailboxRegisterApiClient'
@@ -46,5 +47,9 @@ export default class MailboxRegisterService {
     mailbox: CreateOffenderManagementUnitMailboxRequest,
   ): Promise<MailboxRegisterResponse> {
     return this.mailboxRegisterApiClientBuilder(token).createOffenderManagementUnitMailbox(mailbox)
+  }
+
+  public async getOffenderManagementUnitMailbox(token: string, id: string): Promise<OffenderManagementUnitMailbox> {
+    return this.mailboxRegisterApiClientBuilder(token).getOffenderManagementUnitMailbox(id)
   }
 }
