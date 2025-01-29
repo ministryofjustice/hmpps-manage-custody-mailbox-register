@@ -8,7 +8,8 @@ export const index: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
     const mailboxes = await mailboxRegisterService.listOffenderManagementUnitMailboxes(clientToken(req))
-    res.render('pages/omuMailboxes/index', { mailboxes })
+    const { prisons } = await mailboxRegisterService.listPrisonCodes(clientToken(req))
+    res.render('pages/omuMailboxes/index', { mailboxes, prisons })
   }
 
 export const newMailbox: RequestHandlerWithServices =

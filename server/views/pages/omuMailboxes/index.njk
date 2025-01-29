@@ -42,7 +42,10 @@
       }
       },
       {
-        text: mailbox.prisonCode
+        text: prisons[mailbox.prisonCode],
+        attributes: {
+        "data-qa": "prison-column"
+      }
       },
       {
         text: mailbox.role

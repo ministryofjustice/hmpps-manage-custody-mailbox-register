@@ -11,4 +11,6 @@ export default class OmuMailboxesPage extends Page {
 
   emailAddresses = () =>
     cy.get('[data-qa=email-column]').then(cells => cells.map((index, cell) => cell.innerText).get())
+
+  prisons = () => cy.get('[data-qa=prison-column]').then(cells => cells.map((index, cell) => cell.innerText).get())
 }

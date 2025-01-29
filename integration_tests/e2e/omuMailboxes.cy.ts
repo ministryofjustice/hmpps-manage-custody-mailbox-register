@@ -30,5 +30,6 @@ context('Creating an OMU mailbox', () => {
     })
 
     omuMailboxesPage.emailAddresses().should('contain', 'omu@example.com')
+    omuMailboxesPage.prisons().should('contain', 'Leeds')
   })
 })
