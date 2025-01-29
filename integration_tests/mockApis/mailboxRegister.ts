@@ -3,7 +3,7 @@ import { stubFor } from './wiremock'
 
 const apiPrefix = '/mailbox-register-api'
 const lduBaseUri = 'local-delivery-unit-mailboxes'
-const omuBaseUri = 'offender-managment-unit-mailboxes'
+const omuBaseUri = 'offender-management-unit-mailboxes'
 const headers = { 'Content-Type': 'application/json;charset=UTF-8' }
 
 const lduMailbox = {

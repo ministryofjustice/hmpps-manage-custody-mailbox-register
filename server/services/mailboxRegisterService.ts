@@ -42,6 +42,10 @@ export default class MailboxRegisterService {
     return this.mailboxRegisterApiClientBuilder(token).listPrisonCodes()
   }
 
+  public async listOffenderManagementUnitMailboxes(token: string): Promise<OffenderManagementUnitMailbox[]> {
+    return this.mailboxRegisterApiClientBuilder(token).listOffenderManagementUnitMailboxes()
+  }
+
   public async createOffenderManagementUnitMailbox(
     token: string,
     mailbox: CreateOffenderManagementUnitMailboxRequest,

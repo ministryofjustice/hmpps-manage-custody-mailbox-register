@@ -23,12 +23,12 @@ context('Creating an OMU mailbox', () => {
 
     const newOmuMailboxPage = new OmuMailboxForm()
     newOmuMailboxPage.submitMailbox({
-      name: 'Test LDU',
-      emailAddress: 'ldu@example.com',
+      name: 'Test OMU',
+      emailAddress: 'omu@example.com',
       prisonCode: 'LEI',
       role: 'CVL',
     })
 
-    // omuMailboxesPage.emailAddresses().should('contain', 'ldu@example.com')
+    omuMailboxesPage.emailAddresses().should('contain', 'omu@example.com')
   })
 })
