@@ -46,6 +46,21 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
     },
   )
 
+export const confirmDelete: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res) => {
+    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(clientToken(req), req.params.id)
+    res.render('pages/omuMailboxes/delete', { mailbox })
+  }
+
+export const deleteMailbox: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res) => {
+    const { id } = req.params
+    await mailboxRegisterService.deleteOffenderManagementUnitMailbox(clientToken(req), id)
+    res.redirect('/offender-management-unit-mailboxes')
+  }
+
 const validations = [
   body('name').notEmpty().withMessage('Please enter a name'),
   body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
