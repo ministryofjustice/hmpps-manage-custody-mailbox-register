@@ -1,14 +1,10 @@
-import { Request, Response } from 'express'
 import { Services } from '../../services'
+import { testRequestHandler } from '../testutils/requestHandler'
 import { create } from './controller'
 
 describe('create', () => {
   const mailboxRegisterService = { createLocalDeliveryUnitMailbox: jest.fn() }
   const services = { mailboxRegisterService } as unknown as Services
-  const flash: Record<string, string> = {}
-  const flasher = (name: string, message: string) => {
-    flash[name] = message
-  }
 
   it.each([
     ['emailAddress', 'notValid', 'Please enter a valid email address'],
@@ -16,18 +12,16 @@ describe('create', () => {
     ['unitCode', null, 'Please enter the unit code'],
     ['areaCode', null, 'Please enter the area code'],
   ])('redirects without a valid value for %s', async (field, value, expectedMessage) => {
-    const body = {
-      name: 'A Name',
-      emailAddress: 'valid@email.com',
-      country: 'A Country',
-      unitCode: '123',
-      areaCode: 'ABC',
-      [field]: value,
-    }
-
-    const req = { params: {}, body, flash: flasher } as unknown as Request
-    const res = { redirect: jest.fn(), render: jest.fn() } as unknown as Response
-    const next = jest.fn()
+    const [req, res, next, flash] = testRequestHandler({
+      requestBody: {
+        name: 'A Name',
+        emailAddress: 'valid@email.com',
+        country: 'A Country',
+        unitCode: '123',
+        areaCode: 'ABC',
+        [field]: value,
+      },
+    })
     await create(services)(req, res, next)
 
     expect(res.redirect).toHaveBeenCalledWith('/local-delivery-unit-mailboxes/new')
@@ -43,10 +37,7 @@ describe('create', () => {
       areaCode: 'ABC',
     }
 
-    const req = { body, middleware: { clientToken: 'CL13NT_T0K3N' } } as unknown as Request
-    const res = { redirect: jest.fn() } as unknown as Response
-    const next = jest.fn()
-
+    const [req, res, next] = testRequestHandler({ requestBody: body })
     await create(services)(req, res, next)
 
     expect(mailboxRegisterService.createLocalDeliveryUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', body)

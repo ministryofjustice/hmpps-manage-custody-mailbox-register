@@ -1,14 +1,10 @@
-import { Request, Response } from 'express'
 import { Services } from '../../services'
 import { create } from './controller'
+import { testRequestHandler } from '../testutils/requestHandler'
 
 describe('create', () => {
   const mailboxRegisterService = { createOffenderManagementUnitMailbox: jest.fn() }
   const services = { mailboxRegisterService } as unknown as Services
-  const flash: Record<string, string> = {}
-  const flasher = (name: string, message: string) => {
-    flash[name] = message
-  }
 
   it.each([
     ['name', null, 'Please enter a name'],
@@ -25,9 +21,7 @@ describe('create', () => {
       [field]: value,
     }
 
-    const req = { params: {}, body, flash: flasher } as unknown as Request
-    const res = { redirect: jest.fn(), render: jest.fn() } as unknown as Response
-    const next = jest.fn()
+    const [req, res, next, flash] = testRequestHandler({ requestBody: body })
     await create(services)(req, res, next)
 
     expect(res.redirect).toHaveBeenCalledWith('/offender-management-unit-mailboxes/new')
@@ -42,10 +36,7 @@ describe('create', () => {
       role: 'CVL',
     }
 
-    const req = { body, middleware: { clientToken: 'CL13NT_T0K3N' } } as unknown as Request
-    const res = { redirect: jest.fn() } as unknown as Response
-    const next = jest.fn()
-
+    const [req, res, next] = testRequestHandler({ requestBody: body })
     await create(services)(req, res, next)
 
     expect(mailboxRegisterService.createOffenderManagementUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', body)

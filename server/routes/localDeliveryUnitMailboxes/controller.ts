@@ -13,16 +13,7 @@ export const index: RequestHandlerWithServices =
 
 export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
   validatedRequest(
-    {
-      validations: [
-        body('name'),
-        body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
-        body('country'),
-        body('unitCode').notEmpty().withMessage('Please enter the unit code'),
-        body('areaCode').notEmpty().withMessage('Please enter the area code'),
-      ],
-      onValidationErrorRedirectTo: '/local-delivery-unit-mailboxes/new',
-    },
+    { validations, onValidationErrorRedirectTo: '/local-delivery-unit-mailboxes/new' },
     async (req, res, next) => {
       const { name, emailAddress, country, unitCode, areaCode } = matchedData(req)
 
@@ -56,10 +47,7 @@ export const edit: RequestHandlerWithServices =
 
 export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
   validatedRequest(
-    {
-      validations: [],
-      onValidationErrorRedirectTo: '/local-delivery-unit-mailboxes/:id/edit',
-    },
+    { validations, onValidationErrorRedirectTo: '/local-delivery-unit-mailboxes/:id/edit' },
     async (req, res, next) => {
       const { name, emailAddress, country, unitCode, areaCode } = req.body
       const { id } = req.params
@@ -100,3 +88,11 @@ export const deleteMailbox: RequestHandlerWithServices =
 
     res.redirect('/local-delivery-unit-mailboxes')
   }
+
+export const validations = [
+  body('name'),
+  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
+  body('country'),
+  body('unitCode').notEmpty().withMessage('Please enter the unit code'),
+  body('areaCode').notEmpty().withMessage('Please enter the area code'),
+]
