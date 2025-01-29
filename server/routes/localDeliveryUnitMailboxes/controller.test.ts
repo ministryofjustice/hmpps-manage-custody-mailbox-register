@@ -1,17 +1,19 @@
 import { Services } from '../../services'
 import { testRequestHandler } from '../testutils/requestHandler'
-import { create, update } from './controller'
+import { create, deleteMailbox, update } from './controller'
 import { ResponseErrorWithData } from '../../services/validation'
 
 const mailboxRegisterService = {
   createLocalDeliveryUnitMailbox: jest.fn(),
   updateLocalDeliveryUnitMailbox: jest.fn(),
+  deleteLocalDeliveryUnitMailbox: jest.fn(),
 }
 const services = { mailboxRegisterService } as unknown as Services
 
 beforeEach(() => {
   mailboxRegisterService.createLocalDeliveryUnitMailbox.mockReset()
   mailboxRegisterService.updateLocalDeliveryUnitMailbox.mockReset()
+  mailboxRegisterService.deleteLocalDeliveryUnitMailbox.mockReset()
 })
 
 const sharedValidationRules = [
@@ -92,6 +94,15 @@ describe('update', () => {
     await update(services)(req, res, next)
 
     expect(mailboxRegisterService.updateLocalDeliveryUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', 123, body)
+    expect(res.redirect).toHaveBeenCalledWith('/local-delivery-unit-mailboxes')
+  })
+})
+
+describe('deleteMailbox', () => {
+  it('sends this deletion to the back end', async () => {
+    const [req, res, next] = testRequestHandler({ requestParams: { id: 123 } })
+    await deleteMailbox(services)(req, res, next)
+    expect(mailboxRegisterService.deleteLocalDeliveryUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', 123)
     expect(res.redirect).toHaveBeenCalledWith('/local-delivery-unit-mailboxes')
   })
 })
