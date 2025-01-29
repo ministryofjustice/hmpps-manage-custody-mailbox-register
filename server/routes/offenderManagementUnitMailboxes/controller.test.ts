@@ -1,5 +1,5 @@
 import { Services } from '../../services'
-import { create, update } from './controller'
+import { create, deleteMailbox, update } from './controller'
 import { testRequestHandler } from '../testutils/requestHandler'
 import { ResponseErrorWithData } from '../../services/validation'
 
@@ -13,12 +13,14 @@ const body = {
 const mailboxRegisterService = {
   createOffenderManagementUnitMailbox: jest.fn(),
   updateOffenderManagementUnitMailbox: jest.fn(),
+  deleteOffenderManagementUnitMailbox: jest.fn(),
 }
 const services = { mailboxRegisterService } as unknown as Services
 
 beforeEach(() => {
   mailboxRegisterService.createOffenderManagementUnitMailbox.mockReset()
   mailboxRegisterService.updateOffenderManagementUnitMailbox.mockReset()
+  mailboxRegisterService.deleteOffenderManagementUnitMailbox.mockReset()
 })
 
 const sharedValidationRules = [
@@ -90,6 +92,15 @@ describe('update', () => {
     const [req, res, next] = testRequestHandler({ requestBody: body, requestParams: { id: 123 } })
     await update(services)(req, res, next)
     expect(mailboxRegisterService.updateOffenderManagementUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', 123, body)
+    expect(res.redirect).toHaveBeenCalledWith('/offender-management-unit-mailboxes')
+  })
+})
+
+describe('deleteMailbox', () => {
+  it('sends this deletion to the back end', async () => {
+    const [req, res, next] = testRequestHandler({ requestParams: { id: 123 } })
+    await deleteMailbox(services)(req, res, next)
+    expect(mailboxRegisterService.deleteOffenderManagementUnitMailbox).toHaveBeenCalledWith('CL13NT_T0K3N', 123)
     expect(res.redirect).toHaveBeenCalledWith('/offender-management-unit-mailboxes')
   })
 })

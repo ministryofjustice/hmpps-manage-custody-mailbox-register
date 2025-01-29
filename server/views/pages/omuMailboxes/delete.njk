@@ -3,7 +3,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set pageTitle = applicationName + " - Delete LDU Mailbox" %}
+{% set pageTitle = applicationName + " - Delete OMU Mailbox" %}
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
@@ -15,8 +15,8 @@
         href: "/"
       },
       {
-        text: "Local Delivery Unit Mailboxes",
-        href: "/local-delivery-unit-mailboxes"
+        text: "Offender Management Unit Mailboxes",
+        href: "/offender-management-unit-mailboxes"
       },
       {
         text: "Delete"
@@ -27,10 +27,10 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form method="post" action="/local-delivery-unit-mailboxes/{{ mailbox.id }}?_method=DELETE">
+      <form method="post" action="/offender-management-unit-mailboxes/{{ mailbox.id }}?_method=DELETE">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
-        <h1 class="govuk-heading-l">Are you sure you want to delete the Local Delivery Unit Mailbox "{{ mailbox.name }}"</h1>
+        <h1 class="govuk-heading-l">Are you sure you want to delete the Offender Management Unit Mailbox "{{ mailbox.name }}"</h1>
 
         <p class="govuk-body">This action cannot be undone.</p>
 
@@ -40,7 +40,7 @@
             classes: "govuk-button--warning"
           }) }}
 
-          <a class="govuk-link govuk-link--no-visited-state" href="/local-delivery-unit-mailboxes">Cancel</a>
+          <a class="govuk-link govuk-link--no-visited-state" href="/offender-management-unit-mailboxes">Cancel</a>
         </div>
       </form>
     </div>
