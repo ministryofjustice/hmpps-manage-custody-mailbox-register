@@ -1,8 +1,9 @@
-import { Request, RequestHandler } from 'express'
+import { RequestHandler } from 'express'
 import { body, matchedData } from 'express-validator'
 import { RequestHandlerWithServices } from '../../services'
 import { prisonCodeOptions } from './prisons'
 import { validatedRequest } from '../../services/validation'
+import { clientToken } from '../clientToken'
 
 export const index: RequestHandler = async (req, res, next) => res.render('pages/omuMailboxes/index')
 
@@ -51,6 +52,3 @@ const validations = [
   body('prisonCode').notEmpty().withMessage('Please select a prison'),
   body('role').notEmpty().withMessage('Please select a role / activity'),
 ]
-
-// @ts-expect-error - temporary linting bypass
-const clientToken = (req: Request) => req?.middleware?.clientToken
