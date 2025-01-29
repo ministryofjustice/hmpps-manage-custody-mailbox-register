@@ -43,7 +43,10 @@
       classes: "govuk-fieldset__legend--s"
     }
   },
-  items: roleOptions,
+  items: [
+    { value: 'CVL', text: 'CVL', checked: mailbox.role === 'CVL' },
+    { value: 'HDC', text: 'HDC', checked: mailbox.role === 'HDC' }
+  ],
   errorMessage: validationErrors | errorFor("role")
 }) }}
 
