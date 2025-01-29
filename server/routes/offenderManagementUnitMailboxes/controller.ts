@@ -1,11 +1,15 @@
-import { RequestHandler } from 'express'
 import { body, matchedData } from 'express-validator'
 import { RequestHandlerWithServices } from '../../services'
 import { prisonCodeOptions } from './prisons'
 import { validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
 
-export const index: RequestHandler = async (req, res, next) => res.render('pages/omuMailboxes/index')
+export const index: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res, next) => {
+    const mailboxes = await mailboxRegisterService.listOffenderManagementUnitMailboxes(clientToken(req))
+    res.render('pages/omuMailboxes/index', { mailboxes })
+  }
 
 export const newMailbox: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>

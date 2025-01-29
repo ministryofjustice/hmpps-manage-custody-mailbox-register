@@ -20,7 +20,7 @@ export default (services: Services): Router => {
   get('/local-delivery-unit-mailboxes/:id/delete', localDeliveryUnitMailboxes.confirmDelete(services))
   destroy('/local-delivery-unit-mailboxes/:id', localDeliveryUnitMailboxes.deleteMailbox(services))
 
-  get('/offender-management-unit-mailboxes', offenderManagementUnitMailboxes.index)
+  get('/offender-management-unit-mailboxes', offenderManagementUnitMailboxes.index(services))
   get('/offender-management-unit-mailboxes/new', offenderManagementUnitMailboxes.newMailbox(services))
   post('/offender-management-unit-mailboxes', offenderManagementUnitMailboxes.create(services))
   get('/offender-management-unit-mailboxes/:id/edit', offenderManagementUnitMailboxes.edit(services))

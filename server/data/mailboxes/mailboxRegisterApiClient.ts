@@ -75,6 +75,10 @@ export default class MailboxRegisterApiClient {
     })
   }
 
+  async listOffenderManagementUnitMailboxes(): Promise<OffenderManagementUnitMailbox[]> {
+    return this.restClient.get<OffenderManagementUnitMailbox[]>({ path: '/offender-management-unit-mailboxes' })
+  }
+
   async getOffenderManagementUnitMailbox(id: string): Promise<OffenderManagementUnitMailbox> {
     return this.restClient.get<OffenderManagementUnitMailbox>({ path: `/offender-management-unit-mailboxes/${id}` })
   }

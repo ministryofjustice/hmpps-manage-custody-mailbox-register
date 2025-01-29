@@ -1,28 +1,110 @@
 {% extends "../../partials/layout.njk" %}
+{%- from "govuk/components/table/macro.njk" import govukTable -%}
 
 {% set pageTitle = applicationName + " - OMU Mailboxes" %}
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
 
-  {{
-    govukBreadcrumbs({
-      items: [
-        {
-          text: "Home",
-          href: "/"
-        },
-        {
-          text: "Offender Management Unit Mailboxes"
-        }
-      ]
-    }) 
-  }}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "Offender Management Unit Mailboxes"
+      }
+    ]
+  }) }}
 
   <h1 class="govuk-heading-l">Offender Management Unit Mailboxes</h1>
-  
+
   <p class="govuk-body">
-    <a href="/offender-management-unit-mailboxes/new" class="govuk-link govuk-link--no-visited-state">Create new Offender Management Unit Mailbox</a>
+    <a href="/offender-management-unit-mailboxes/new" class="govuk-link govuk-link--no-visited-state">Create new
+      Offender Management Unit Mailbox</a>
   </p>
+
+  {% set tableRows = [] %}
+  {% for mailbox in mailboxes %}
+    {% set tableRows = (tableRows.push([
+      {
+        html: '<a href="/offender-management-unit-mailboxes/' + mailbox.id + '/edit" class="govuk-link">' + mailbox.name + '</a>',
+        attributes: {
+        "data-qa": "name-column",
+        "data-sort-value": mailbox.name
+      }
+      },
+      {
+        text: mailbox.emailAddress,
+        attributes: {
+        "data-qa": "email-column"
+      }
+      },
+      {
+        text: mailbox.prisonCode
+      },
+      {
+        text: mailbox.role
+      },
+      {
+        text: mailbox.createdAt | formatDate('dd MMM yyyy HH:mm:ss'),
+        attributes: {
+        "data-sort-value": mailbox.createdAt | formatDate('T')
+      }
+      },
+      {
+        text: mailbox.updatedAt | formatDate('dd MMM yyyy HH:mm:ss'),
+        attributes: {
+        "data-sort-value": mailbox.updatedAt | formatDate('T')
+      }
+      }
+    ]), tableRows) %}
+  {% endfor %}
+
+  {{ govukTable({
+    attributes: {
+      'data-module': 'moj-sortable-table'
+    },
+    head: [
+      {
+        text: "Name",
+        attributes: {
+        "aria-sort": "none"
+      }
+      },
+      {
+        text: "Email address",
+        attributes: {
+        "aria-sort": "none"
+      }
+      },
+      {
+        text: "Prison",
+        attributes: {
+        "aria-sort": "none"
+      }
+      },
+      {
+        text: "Role",
+        attributes: {
+        "aria-sort": "none"
+      }
+      },
+      {
+        text: "Created at",
+        attributes: {
+        "aria-sort": "ascending"
+      }
+      },
+      {
+        text: "Updated at",
+        attributes: {
+        "aria-sort": "none"
+      }
+      }
+    ],
+    rows: tableRows
+  }) }}
 
 {% endblock %}
