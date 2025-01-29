@@ -1,5 +1,6 @@
 import { Request, RequestHandler } from 'express'
 import { Result, ValidationChain, ValidationError, validationResult } from 'express-validator'
+import { ResponseError } from 'superagent'
 
 export const validatedRequest = (
   config: { validations: ValidationChain[]; onValidationErrorRedirectTo: string },
@@ -55,3 +56,5 @@ const formatExpressValidations = (errors: Result<ValidationError>): Record<strin
   Object.entries(errors.mapped()).reduce((ne, [key, data]) => {
     return { ...ne, [key]: data.msg }
   }, {})
+
+export type ResponseErrorWithData = ResponseError & { data: unknown }
