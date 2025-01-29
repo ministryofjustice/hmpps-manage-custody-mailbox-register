@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
-import { ResponseError } from 'superagent'
 import { body } from 'express-validator'
-import { redirectPath, validatedRequest } from './validation'
+import { redirectPath, ResponseErrorWithData, validatedRequest } from './validation'
 
 describe('validatedRequest', () => {
   it('a request with no validations is never redirected', async () => {
@@ -49,9 +48,8 @@ describe('validatedRequest', () => {
         onValidationErrorRedirectTo: '/resources/:id/edit',
       },
       async (req, res, next) => {
-        const error = new Error('Bad Request') as ResponseError
+        const error = new Error('Bad Request') as ResponseErrorWithData
         error.status = 400
-        // @ts-expect-error - It does exist!
         error.data = { errors: { name: 'Is already taken' } }
         throw error
         res.render('its ok!')
@@ -76,9 +74,8 @@ describe('validatedRequest', () => {
         onValidationErrorRedirectTo: '/safety',
       },
       async (req, res, next) => {
-        const error = new Error('Bad Request') as ResponseError
+        const error = new Error('Bad Request') as ResponseErrorWithData
         error.status = 400
-        // @ts-expect-error - It does exist!
         error.data = { errors: { name: 'Is already taken' } }
         throw error
         res.render('its ok!')
