@@ -1,12 +1,12 @@
 import { body, matchedData } from 'express-validator'
 import { RequestHandler, RequestHandlerWithServices } from '../../services'
 import { validatedRequest } from '../../services/validation'
+import { clientToken } from '../clientToken'
 
 export const index: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
-    // @ts-expect-error - temporary linting bypass
-    const mailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(req?.middleware?.clientToken)
+    const mailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(clientToken(req))
 
     res.render('pages/lduMailboxes/index', { mailboxes })
   }
@@ -25,8 +25,7 @@ export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =
         areaCode,
       }
 
-      // @ts-expect-error - temporary linting bypass
-      await mailboxRegisterService.createLocalDeliveryUnitMailbox(req?.middleware?.clientToken, mailbox)
+      await mailboxRegisterService.createLocalDeliveryUnitMailbox(clientToken(req), mailbox)
 
       return res.redirect('/local-delivery-unit-mailboxes')
     },
@@ -38,9 +37,7 @@ export const edit: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
     const { id } = req.params
-
-    // @ts-expect-error - temporary linting bypass
-    const mailbox = await mailboxRegisterService.getLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id)
+    const mailbox = await mailboxRegisterService.getLocalDeliveryUnitMailbox(clientToken(req), id)
 
     res.render('pages/lduMailboxes/edit', { mailbox })
   }
@@ -60,8 +57,7 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
         areaCode,
       }
 
-      // @ts-expect-error - temporary linting bypass
-      await mailboxRegisterService.updateLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id, mailbox)
+      await mailboxRegisterService.updateLocalDeliveryUnitMailbox(clientToken(req), id, mailbox)
 
       res.redirect('/local-delivery-unit-mailboxes')
     },
@@ -71,10 +67,7 @@ export const confirmDelete: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
     const { id } = req.params
-
-    // @ts-expect-error - temporary linting bypass
-    const mailbox = await mailboxRegisterService.getLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id)
-
+    const mailbox = await mailboxRegisterService.getLocalDeliveryUnitMailbox(clientToken(req), id)
     res.render('pages/lduMailboxes/delete', { mailbox })
   }
 
@@ -82,10 +75,7 @@ export const deleteMailbox: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
     const { id } = req.params
-
-    // @ts-expect-error - temporary linting bypass
-    await mailboxRegisterService.deleteLocalDeliveryUnitMailbox(req?.middleware?.clientToken, id)
-
+    await mailboxRegisterService.deleteLocalDeliveryUnitMailbox(clientToken(req), id)
     res.redirect('/local-delivery-unit-mailboxes')
   }
 
