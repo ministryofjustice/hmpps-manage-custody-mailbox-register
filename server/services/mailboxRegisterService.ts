@@ -49,6 +49,14 @@ export default class MailboxRegisterService {
     return this.mailboxRegisterApiClientBuilder(token).createOffenderManagementUnitMailbox(mailbox)
   }
 
+  public async updateOffenderManagementUnitMailbox(
+    token: string,
+    id: string,
+    mailbox: CreateOffenderManagementUnitMailboxRequest,
+  ): Promise<MailboxRegisterResponse> {
+    return this.mailboxRegisterApiClientBuilder(token).updateOffenderManagementUnitMailbox(id, mailbox)
+  }
+
   public async getOffenderManagementUnitMailbox(token: string, id: string): Promise<OffenderManagementUnitMailbox> {
     return this.mailboxRegisterApiClientBuilder(token).getOffenderManagementUnitMailbox(id)
   }

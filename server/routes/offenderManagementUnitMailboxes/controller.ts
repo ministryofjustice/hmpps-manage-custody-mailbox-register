@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express'
+import { Request, RequestHandler } from 'express'
 import { body, matchedData } from 'express-validator'
 import { RequestHandlerWithServices } from '../../services'
 import { prisonCodeOptions } from './prisons'
@@ -8,44 +8,49 @@ export const index: RequestHandler = async (req, res, next) => res.render('pages
 
 export const newMailbox: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
-  async (req, res, next) => {
-    const prisonOptions = prisonCodeOptions(
-      // @ts-expect-error - temporary linting bypass
-      await mailboxRegisterService.listPrisonCodes(req?.middleware?.clientToken),
-      res.locals.submittedForm?.prisonCode,
-    )
+  async (req, res) => {
+    const prisonCodes = await mailboxRegisterService.listPrisonCodes(clientToken(req))
+    const prisonOptions = prisonCodeOptions(prisonCodes, res.locals.submittedForm?.prisonCode)
     res.render('pages/omuMailboxes/new', { prisonOptions })
   }
 
 export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
   validatedRequest(
-    {
-      validations: [
-        body('name').notEmpty().withMessage('Please enter a name'),
-        body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
-        body('prisonCode').notEmpty().withMessage('Please select a prison'),
-        body('role').notEmpty().withMessage('Please select a role / activity'),
-      ],
-      onValidationErrorRedirectTo: '/offender-management-unit-mailboxes/new',
-    },
-    async (req, res, next) => {
+    { validations, onValidationErrorRedirectTo: '/offender-management-unit-mailboxes/new' },
+    async (req, res) => {
       const { name, emailAddress, prisonCode, role } = matchedData(req)
       const mailbox = { name, emailAddress, prisonCode, role }
-
-      // @ts-expect-error - temporary linting bypass
-      await mailboxRegisterService.createOffenderManagementUnitMailbox(req?.middleware?.clientToken, mailbox)
-
+      await mailboxRegisterService.createOffenderManagementUnitMailbox(clientToken(req), mailbox)
       return res.redirect('/offender-management-unit-mailboxes')
     },
   )
 
 export const edit: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
-  async (req, res, next) => {
-    // @ts-expect-error - temporary linting bypass
-    const clientToken = req?.middleware?.clientToken
-    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(clientToken, req.params.id)
-    const prisonCodes = await mailboxRegisterService.listPrisonCodes(clientToken)
+  async (req, res) => {
+    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(clientToken(req), req.params.id)
+    const prisonCodes = await mailboxRegisterService.listPrisonCodes(clientToken(req))
     const prisonOptions = prisonCodeOptions(prisonCodes, mailbox.prisonCode)
     res.render('pages/omuMailboxes/edit', { mailbox, prisonOptions })
   }
+
+export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
+  validatedRequest(
+    { validations, onValidationErrorRedirectTo: '/offender-management-unit-mailboxes/:id/edit' },
+    async (req, res) => {
+      const { name, emailAddress, prisonCode, role } = matchedData(req)
+      const mailbox = { name, emailAddress, prisonCode, role }
+      await mailboxRegisterService.updateOffenderManagementUnitMailbox(clientToken(req), req.params.id, mailbox)
+      return res.redirect('/offender-management-unit-mailboxes')
+    },
+  )
+
+const validations = [
+  body('name').notEmpty().withMessage('Please enter a name'),
+  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
+  body('prisonCode').notEmpty().withMessage('Please select a prison'),
+  body('role').notEmpty().withMessage('Please select a role / activity'),
+]
+
+// @ts-expect-error - temporary linting bypass
+const clientToken = (req: Request) => req?.middleware?.clientToken

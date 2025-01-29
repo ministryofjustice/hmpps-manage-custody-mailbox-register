@@ -24,6 +24,7 @@ export default (services: Services): Router => {
   get('/offender-management-unit-mailboxes/new', offenderManagementUnitMailboxes.newMailbox(services))
   post('/offender-management-unit-mailboxes', offenderManagementUnitMailboxes.create(services))
   get('/offender-management-unit-mailboxes/:id/edit', offenderManagementUnitMailboxes.edit(services))
+  post('/offender-management-unit-mailboxes/:id', offenderManagementUnitMailboxes.update(services))
 
   return router
 }
