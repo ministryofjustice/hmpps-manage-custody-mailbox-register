@@ -1,9 +1,11 @@
 import { Services } from '../../services'
 import { testRequestHandler } from '../testutils/requestHandler'
-import { create, deleteMailbox, update } from './controller'
+import { index, create, deleteMailbox, update } from './controller'
 import { ResponseErrorWithData } from '../../services/validation'
+import { LocalDeliveryUnitMailbox } from '../../@types/mailboxRegisterApiClientTypes'
 
 const mailboxRegisterService = {
+  listLocalDeliveryUnitMailboxes: jest.fn(),
   createLocalDeliveryUnitMailbox: jest.fn(),
   updateLocalDeliveryUnitMailbox: jest.fn(),
   deleteLocalDeliveryUnitMailbox: jest.fn(),
@@ -11,6 +13,7 @@ const mailboxRegisterService = {
 const services = { mailboxRegisterService } as unknown as Services
 
 beforeEach(() => {
+  mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReset()
   mailboxRegisterService.createLocalDeliveryUnitMailbox.mockReset()
   mailboxRegisterService.updateLocalDeliveryUnitMailbox.mockReset()
   mailboxRegisterService.deleteLocalDeliveryUnitMailbox.mockReset()
@@ -30,6 +33,19 @@ const body = {
   unitCode: '123',
   areaCode: 'ABC',
 }
+
+describe('index', () => {
+  it('retrieves a list of mailboxes from the backend', async () => {
+    const [req, res, next] = testRequestHandler({})
+    const mailboxes: LocalDeliveryUnitMailbox[] = []
+
+    mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReturnValue(mailboxes)
+    await index(services)(req, res, next)
+
+    expect(mailboxRegisterService.listLocalDeliveryUnitMailboxes).toHaveBeenCalledWith('CL13NT_T0K3N')
+    expect(res.render).toHaveBeenCalledWith('pages/lduMailboxes/index', { mailboxes })
+  })
+})
 
 describe('create', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
