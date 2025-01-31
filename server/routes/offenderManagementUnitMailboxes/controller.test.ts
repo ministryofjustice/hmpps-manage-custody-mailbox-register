@@ -1,7 +1,8 @@
 import { Services } from '../../services'
-import { create, deleteMailbox, update } from './controller'
+import { index, create, deleteMailbox, update } from './controller'
 import { testRequestHandler } from '../testutils/requestHandler'
 import { ResponseErrorWithData } from '../../services/validation'
+import { OffenderManagementUnitMailbox } from '../../@types/mailboxRegisterApiClientTypes'
 
 const body = {
   name: 'A Name',
@@ -11,6 +12,8 @@ const body = {
 }
 
 const mailboxRegisterService = {
+  listPrisonCodes: jest.fn(),
+  listOffenderManagementUnitMailboxes: jest.fn(),
   createOffenderManagementUnitMailbox: jest.fn(),
   updateOffenderManagementUnitMailbox: jest.fn(),
   deleteOffenderManagementUnitMailbox: jest.fn(),
@@ -18,6 +21,8 @@ const mailboxRegisterService = {
 const services = { mailboxRegisterService } as unknown as Services
 
 beforeEach(() => {
+  mailboxRegisterService.listPrisonCodes.mockReset()
+  mailboxRegisterService.listOffenderManagementUnitMailboxes.mockReset()
   mailboxRegisterService.createOffenderManagementUnitMailbox.mockReset()
   mailboxRegisterService.updateOffenderManagementUnitMailbox.mockReset()
   mailboxRegisterService.deleteOffenderManagementUnitMailbox.mockReset()
@@ -30,6 +35,21 @@ const sharedValidationRules = [
   ['prisonCode', null, 'Please select a prison'],
   ['role', null, 'Please select a role / activity'],
 ]
+
+describe('index', () => {
+  it('retrieves a list of mailboxes from the backend', async () => {
+    const [req, res, next] = testRequestHandler({})
+    const mailboxes: OffenderManagementUnitMailbox[] = []
+    const prisons = [{ LEI: 'Leeds' }, { WHI: 'Woodhill' }]
+
+    mailboxRegisterService.listPrisonCodes.mockReturnValue({ prisons })
+    mailboxRegisterService.listOffenderManagementUnitMailboxes.mockReturnValue(mailboxes)
+    await index(services)(req, res, next)
+
+    expect(mailboxRegisterService.listOffenderManagementUnitMailboxes).toHaveBeenCalledWith('CL13NT_T0K3N')
+    expect(res.render).toHaveBeenCalledWith('pages/omuMailboxes/index', { mailboxes, prisons })
+  })
+})
 
 describe('create', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
