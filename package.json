@@ -1,8 +1,8 @@
 {
-  "name": "hmpps-mailbox-register",
+  "name": "hmpps-manage-custody-mailbox-register",
   "version": "0.0.1",
-  "description": "HMPPS Mailbox Register",
-  "repository": "git@github.com:ministryofjustice/hmpps-mailbox-register.git",
+  "description": "HMPPS Manage Custody Mailbox Register",
+  "repository": "git@github.com:ministryofjustice/hmpps-manage-custody-mailbox-register.git",
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
