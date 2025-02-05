@@ -30,7 +30,7 @@ describe('GET /', () => {
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('HMPPS Mailbox Register - Home')
+        expect(res.text).toContain('HMPPS Manage Custody Mailbox Register - Home')
         // expect(auditService.logPageView).toHaveBeenCalledWith('INDEX', {
         //   who: user.username,
         //   correlationId: expect.any(String),

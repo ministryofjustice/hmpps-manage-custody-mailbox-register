@@ -12,6 +12,6 @@ export type ApplicationInfo = {
 }
 
 export default (): ApplicationInfo => {
-  const applicationName: string = 'HMPPS Mailbox Register'
+  const applicationName: string = 'HMPPS Manage Custody Mailbox Register'
   return { applicationName, buildNumber, gitRef, gitShortHash: gitRef.substring(0, 7), productId, branchName }
 }

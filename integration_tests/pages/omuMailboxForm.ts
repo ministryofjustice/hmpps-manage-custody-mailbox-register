@@ -3,7 +3,7 @@ import { CreateOffenderManagementUnitMailboxRequest } from '../../server/@types/
 
 export default class OmuMailboxForm extends Page {
   public constructor() {
-    super('HMPPS Mailbox Register - New OMU Mailbox')
+    super('HMPPS Manage Custody Mailbox Register - New OMU Mailbox')
   }
 
   submitMailbox(mailbox: CreateOffenderManagementUnitMailboxRequest) {

@@ -2,7 +2,7 @@ import Page, { PageElement } from './page'
 
 export default class IndexPage extends Page {
   public constructor() {
-    super('HMPPS Mailbox Register - Home')
+    super('HMPPS Manage Custody Mailbox Register - Home')
   }
 
   headerUserName = (): PageElement => cy.get('[data-qa=header-user-name]')

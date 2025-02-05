@@ -5,22 +5,22 @@
 # Variables in `helm_deploy/values-[env].yaml` will take precedence.
 
 generic-service:
-  nameOverride: hmpps-mailbox-register
+  nameOverride: hmpps-manage-custody-mailbox-register
   productId: DPS030 # TODO: Update with correct product ID
 
   # the IRSA service account name for accessing AWS resources
-  # serviceAccountName: "hmpps-mailbox-register"
+  # serviceAccountName: "hmpps-manage-custody-mailbox-register"
 
   replicaCount: 2
 
   image:
-    repository: ghcr.io/ministryofjustice/hmpps-mailbox-register
+    repository: ghcr.io/ministryofjustice/hmpps-manage-custody-mailbox-register
     tag: app_version # override at deployment time
     port: 3000
 
   ingress:
     enabled: true
-    tlsSecretName: hmpps-mailbox-register-cert
+    tlsSecretName: hmpps-manage-custody-mailbox-register-cert
 
   # https://github.com/ministryofjustice/hmpps-ip-allowlists/blob/main/ip-allowlist-groups.yaml
   allowlist:
@@ -61,7 +61,7 @@ generic-service:
       AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'
       CLIENT_CREDS_CLIENT_ID: 'CLIENT_CREDS_CLIENT_ID'
       CLIENT_CREDS_CLIENT_SECRET: 'CLIENT_CREDS_CLIENT_SECRET'
-    hmpps-mailbox-register:
+    hmpps-manage-custody-mailbox-register:
       SESSION_SECRET: 'SESSION_SECRET'
     elasticache-redis:
       REDIS_HOST: 'primary_endpoint_address'
@@ -74,5 +74,5 @@ generic-service:
     #   AUDIT_SQS_QUEUE_URL: 'sqs_queue_url'
 
 generic-prometheus-alerts:
-  targetApplication: hmpps-mailbox-register
+  targetApplication: hmpps-manage-custody-mailbox-register
   alertSeverity: moic
