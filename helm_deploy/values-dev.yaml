@@ -9,12 +9,12 @@ generic-service:
     INGRESS_URL: "https://manage-custody-mailbox-register-dev.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
-    MAILBOX_REGISTER_API_URL: "https://mailbox-register-api-dev.hmpps.service.justice.gov.uk"
+    MAILBOX_REGISTER_API_URL: "https://manage-custody-mailbox-register-api-dev.hmpps.service.justice.gov.uk"
     ENVIRONMENT_NAME: DEV
     AUDIT_ENABLED: "false"
 
 generic-prometheus-alerts:
   businessHoursOnly: true
   elastiCacheAlertsClusterIds:
-    cp-fca2365a3ac6ac86-001: dev cluster node 1
-    cp-fca2365a3ac6ac86-002: dev cluster node 2
+    cp-3da88ed1bfde281f-001: dev cluster node 1
+    cp-3da88ed1bfde281f-002: dev cluster node 2
