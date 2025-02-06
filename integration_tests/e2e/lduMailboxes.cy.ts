@@ -3,11 +3,12 @@ import LduMailboxesPage from '../pages/lduMailboxes'
 import NewLduMailboxPage from '../pages/newLduMailbox'
 import EditLduMailboxPage from '../pages/editLduMailbox'
 import DeleteLduMailboxPage from '../pages/deleteLduMailbox'
+import AuthRole from '../../server/data/authRole'
 
 context('Creating an LDU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
     cy.task('stubCreateLduMailbox')
     cy.task('stubListLduMailboxes')
     cy.signIn()
@@ -38,7 +39,7 @@ context('Creating an LDU mailbox', () => {
 context('Updating an LDU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
     cy.task('stubListLduMailboxes')
     cy.task('stubGetLduMailbox')
     cy.task('stubUpdateLduMailbox')
@@ -71,7 +72,7 @@ context('Updating an LDU mailbox', () => {
 context('Deleting an LDU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
     cy.task('stubListLduMailboxes')
     cy.task('stubGetLduMailbox')
     cy.task('stubDeleteLduMailbox')

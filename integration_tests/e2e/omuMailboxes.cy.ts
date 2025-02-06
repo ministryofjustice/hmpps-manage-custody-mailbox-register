@@ -1,11 +1,12 @@
 import IndexPage from '../pages/index'
 import OmuMailboxesPage from '../pages/omuMailboxes'
 import OmuMailboxForm from '../pages/omuMailboxForm'
+import AuthRole from '../../server/data/authRole'
 
 context('Creating an OMU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn')
+    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
     cy.task('stubCreateOmuMailbox')
     cy.task('stubListOmuMailboxes')
     cy.task('stubListPrisonCodes')

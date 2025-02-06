@@ -29,7 +29,12 @@ passport.use(
       customHeaders: { Authorization: generateOauthClientToken() },
     },
     (token, refreshToken, params, profile, done) => {
-      return done(null, { token, username: params.user_name, authSource: params.auth_source })
+      return done(null, {
+        token,
+        username: params.user_name,
+        authSource: params.auth_source,
+        userRoles: params.authorities,
+      })
     },
   ),
 )
@@ -44,6 +49,11 @@ export default function setupAuthentication() {
   router.get('/autherror', (req, res) => {
     res.status(401)
     return res.render('autherror')
+  })
+
+  router.get('/access-denied', (req, res) => {
+    res.status(403)
+    return res.render('pages/accessDenied', { user: req.user })
   })
 
   router.get('/sign-in', passport.authenticate('oauth2'))

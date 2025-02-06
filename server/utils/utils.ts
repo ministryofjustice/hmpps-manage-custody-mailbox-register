@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import AuthRole from '../data/authRole'
 
 const properCase = (word: string): string =>
   word.length >= 1 ? word[0].toUpperCase() + word.toLowerCase().slice(1) : word
@@ -32,4 +33,8 @@ const errorForField = (errors: { [field: string]: string }, fieldName: string) =
   return errors == null || errors[fieldName] == null ? null : { text: errors[fieldName] }
 }
 
-export { properCase, convertToTitleCase, initialiseName, formatDate, errorForField }
+const hasRole = (user: Express.User, role: AuthRole): boolean => user?.userRoles.includes(role) || false
+const hasRoleOrAdmin = (user: Express.User, role: AuthRole): boolean =>
+  hasRole(user, role) || hasRole(user, AuthRole.ADMIN)
+
+export { hasRoleOrAdmin, properCase, convertToTitleCase, initialiseName, formatDate, errorForField }
