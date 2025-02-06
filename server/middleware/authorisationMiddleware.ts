@@ -10,13 +10,18 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
     // Convert roles that are passed into this function without the prefix so that we match correctly.
     const authorisedAuthorities = authorisedRoles.map(role => (role.startsWith('ROLE_') ? role : `ROLE_${role}`))
     if (res.locals?.user?.token) {
-      const { authorities: roles = [] } = jwtDecode(res.locals.user.token) as { authorities?: string[] }
+      let roles = res.locals.user?.userRoles
+      if (!roles) {
+        const { authorities: tokenRoles = [] } = jwtDecode(res.locals.user.token) as { authorities?: string[] }
+        roles = tokenRoles
+      }
 
       if (authorisedAuthorities.length && !roles.some(role => authorisedAuthorities.includes(role))) {
         logger.error('User is not authorised to access this')
         return res.redirect('/authError')
       }
 
+      res.locals.user.userRoles = roles
       return next()
     }
 
