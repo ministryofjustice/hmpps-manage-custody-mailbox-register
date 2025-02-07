@@ -5,6 +5,7 @@ import type {
   LocalDeliveryUnitMailbox,
   OffenderManagementUnitMailbox,
   PrisonCodesResult,
+  ProbationTeam,
 } from '../../@types/mailboxRegisterApiClientTypes'
 import config, { ApiConfig } from '../../config'
 import RestClient from '../restClient'
@@ -93,5 +94,9 @@ export default class MailboxRegisterApiClient {
       path: '/probation-teams',
       data: probationTeam,
     })
+  }
+
+  async listProbationTeams(): Promise<ProbationTeam[]> {
+    return this.restClient.get<ProbationTeam[]>({ path: `/probation-teams` })
   }
 }

@@ -1,11 +1,12 @@
 import { Services } from '../../services'
 import { ResponseErrorWithData } from '../../services/validation'
 import { testRequestHandler } from '../testutils/requestHandler'
-import { create, newProbationTeam } from './controller'
+import { create, index, newProbationTeam } from './controller'
 
 const mailboxRegisterService = {
   createProbationTeam: jest.fn(),
   listLocalDeliveryUnitMailboxes: jest.fn(),
+  listProbationTeams: jest.fn(),
 }
 beforeEach(() => Object.values(mailboxRegisterService).map(mock => mock.mockReset()))
 
@@ -41,6 +42,19 @@ describe('new', () => {
     await newProbationTeam(services)(req, res, next)
 
     expect(res.render).toHaveBeenCalledWith('pages/probationTeams/new', { localDeliveryUnitMailboxOptions })
+  })
+})
+
+describe('index', () => {
+  it('renders a list of every probation team', async () => {
+    const probationTeams = [
+      { id: 123, emailAddress: 'probation.team1@email.com' },
+      { id: 456, emailAddress: 'probation.team2@email.com' },
+    ]
+    mailboxRegisterService.listProbationTeams.mockReturnValue(probationTeams)
+    const [req, res, next] = testRequestHandler({})
+    await index(services)(req, res, next)
+    expect(res.render).toHaveBeenCalledWith('pages/probationTeams/index', { probationTeams })
   })
 })
 

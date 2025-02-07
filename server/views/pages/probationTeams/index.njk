@@ -1,0 +1,79 @@
+{% extends "../../partials/layout.njk" %}
+{%- from "govuk/components/table/macro.njk" import govukTable -%}
+{% import "../../macros/ldus.njk" as ldus %}
+
+{% set pageTitle = applicationName + " - Probation Teams" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "Probation Teams"
+      }
+    ]
+  }) }}
+
+  <h1 class="govuk-heading-l">Probation Teams</h1>
+
+  <p class="govuk-body">
+    <a href="/probation-teams/new" class="govuk-link govuk-link--no-visited-state">Create a new
+      Probation Team</a>
+  </p>
+
+  {% set tableRows = [] %}
+  {% for probationTeam in probationTeams %}
+    {% set tableRows = (tableRows.push([
+      {
+        text: probationTeam.emailAddress,
+        attributes: {
+          "data-qa": "email-column"
+        }
+      },
+      {
+        text: probationTeam.teamCode,
+        attributes: {
+          "data-qa": "team-code-column"
+        }
+      },
+      {
+        text: ldus.nameOrEmail(probationTeam.localDeliveryUnitMailbox)
+      }
+    ]), tableRows) %}
+  {% endfor %}
+
+  {{
+    govukTable({
+      attributes: {
+        'data-module': 'moj-sortable-table'
+      },
+      head: [
+        {
+          text: "Email address",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Team Code",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "LDU",
+          attributes: {
+            "aria-sort": "none"
+          }
+        }
+      ],
+      rows: tableRows
+    })
+  }}
+
+{% endblock %}

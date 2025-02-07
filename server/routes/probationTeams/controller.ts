@@ -14,6 +14,13 @@ export const newProbationTeam: RequestHandlerWithServices =
     res.render('pages/probationTeams/new', { localDeliveryUnitMailboxOptions })
   }
 
+export const index: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res) => {
+    const probationTeams = await mailboxRegisterService.listProbationTeams(clientToken(req))
+    res.render('pages/probationTeams/index', { probationTeams })
+  }
+
 export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
   validatedRequest({ validations, onValidationErrorRedirectTo: '/probation-teams/new' }, async (req, res) => {
     const { emailAddress, teamCode, localDeliveryUnitMailboxId } = matchedData(req)

@@ -1,15 +1,17 @@
+type LocalDeliveryUnitMailbox = {
+  id: string
+  unitCode: string
+  areaCode: string
+  emailAddress: string
+  country?: string
+  name?: string
+  createdAt: string
+  updatedAt: string
+}
+
 export interface components {
   schemas: {
-    LocalDeliveryUnitMailbox: {
-      id: string
-      unitCode: string
-      areaCode: string
-      emailAddress: string
-      country?: string
-      name?: string
-      createdAt: string
-      updatedAt: string
-    }
+    LocalDeliveryUnitMailbox: LocalDeliveryUnitMailbox
 
     CreateLocalDeliveryUnitMailboxRequest: {
       unitCode: string
@@ -40,6 +42,12 @@ export interface components {
       emailAddress: string
       teamCode: string
       localDeliveryUnitMailboxId: string
+    }
+
+    ProbationTeam: {
+      emailAddress: string
+      teamCode: string
+      localDeliveryUnitMailbox: LocalDeliveryUnitMailbox
     }
   }
 }

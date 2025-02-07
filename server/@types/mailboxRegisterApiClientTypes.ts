@@ -7,3 +7,4 @@ export type PrisonCodesResult = { prisons: Record<string, string> }
 export type CreateOffenderManagementUnitMailboxRequest =
   components['schemas']['CreateOffenderManagementUnitMailboxRequest']
 export type CreateProbationTeamRequest = components['schemas']['CreateProbationTeamRequest']
+export type ProbationTeam = components['schemas']['ProbationTeam']
