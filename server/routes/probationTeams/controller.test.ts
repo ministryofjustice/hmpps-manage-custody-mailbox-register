@@ -1,10 +1,11 @@
 import { Services } from '../../services'
 import { ResponseErrorWithData } from '../../services/validation'
 import { testRequestHandler } from '../testutils/requestHandler'
-import { create } from './controller'
+import { create, newProbationTeam } from './controller'
 
 const mailboxRegisterService = {
   createProbationTeam: jest.fn(),
+  listLocalDeliveryUnitMailboxes: jest.fn(),
 }
 beforeEach(() => Object.values(mailboxRegisterService).map(mock => mock.mockReset()))
 
@@ -22,6 +23,26 @@ const body = {
   teamCode: '123',
   localDeliveryUnitMailboxId: '56f6fcc6-5bd1-4a37-b0fd-9ece7bd9a8c4',
 }
+
+describe('new', () => {
+  it('provides LDUs as a list to select from', async () => {
+    const localDeliveryUnitMailboxes = [
+      { id: 123, emailAddress: 'ldu1@email.com' },
+      { id: 456, emailAddress: 'ldu2@email.com' },
+    ]
+    mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReturnValue(localDeliveryUnitMailboxes)
+    const localDeliveryUnitMailboxOptions = [
+      { text: 'Please Select', value: null },
+      { text: 'ldu1@email.com', value: 123 },
+      { text: 'ldu2@email.com', value: 456 },
+    ]
+
+    const [req, res, next] = testRequestHandler({})
+    await newProbationTeam(services)(req, res, next)
+
+    expect(res.render).toHaveBeenCalledWith('pages/probationTeams/new', { localDeliveryUnitMailboxOptions })
+  })
+})
 
 describe('create', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {

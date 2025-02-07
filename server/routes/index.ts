@@ -31,6 +31,7 @@ export default (services: Services): Router => {
   get('/offender-management-unit-mailboxes/:id/delete', offenderManagementUnitMailboxes.confirmDelete(services))
   destroy('/offender-management-unit-mailboxes/:id', offenderManagementUnitMailboxes.deleteMailbox(services))
 
+  get('/probation-teams/new', probationTeams.newProbationTeam(services))
   post('/probation-teams', probationTeams.create(services))
 
   return router

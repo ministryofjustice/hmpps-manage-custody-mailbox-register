@@ -1,0 +1,50 @@
+{% extends "../../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - New Probation Team" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+
+{% block content %}
+
+  {{
+    govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/"
+        },
+        {
+          text: "Probation Teams",
+          href: "/probation-teams"
+        },
+        {
+          text: "New"
+        }
+      ]
+    }) 
+  }}
+
+  <form method="post" action="/probation-teams">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
+    {% call govukFieldset({
+      legend: {
+        text: "New Probation Team",
+        classes: "govuk-fieldset__legend--l",
+        isPageHeading: true
+      }
+    }) %}
+
+    {% set isEdit = false %}
+    {% include "pages/probationTeams/_form.njk" %}
+
+    {% endcall %}
+
+  </form>
+
+{% endblock %}

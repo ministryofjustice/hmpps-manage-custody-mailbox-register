@@ -3,6 +3,17 @@ import { RequestHandlerWithServices } from '../../services'
 import { validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
 
+export const newProbationTeam: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res) => {
+    const localDeliveryUnitMailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(clientToken(req))
+    const localDeliveryUnitMailboxOptions = localDeliveryUnitMailboxes.map(({ id, emailAddress }) => {
+      return { text: emailAddress, value: id }
+    })
+    localDeliveryUnitMailboxOptions.unshift({ text: 'Please Select', value: null })
+    res.render('pages/probationTeams/new', { localDeliveryUnitMailboxOptions })
+  }
+
 export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
   validatedRequest({ validations, onValidationErrorRedirectTo: '/probation-teams/new' }, async (req, res) => {
     const { emailAddress, teamCode, localDeliveryUnitMailboxId } = matchedData(req)
