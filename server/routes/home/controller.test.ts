@@ -7,7 +7,7 @@ describe('index', () => {
     const [req, res, next] = testRequestHandler({ user: { userRoles: [AuthRole.PRISON] } })
     const viewContext = {
       shouldShowLduCard: true,
-      shouldShowOmuCard: true,
+      shouldShowOmuCard: false,
     }
 
     await index(req, res, next)

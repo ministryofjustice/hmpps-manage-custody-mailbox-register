@@ -12,11 +12,10 @@ describe('Homepage cards', () => {
       cy.signIn()
     })
 
-    // TODO: Adapt this test once we are using the PROBATION role
     it('Shows the LDU card but not the OMU card', () => {
       const page = new IndexPage()
       page.lduMailboxes().should('exist')
-      page.omuMailboxes().should('exist')
+      page.omuMailboxes().should('not.exist')
     })
   })
 
@@ -26,11 +25,10 @@ describe('Homepage cards', () => {
       cy.signIn()
     })
 
-    // TODO: Adapt this test once we are using the PROBATION role
     it('Shows the OMU card but not the LDU card', () => {
       const page = new IndexPage()
       page.lduMailboxes().should('not.exist')
-      page.omuMailboxes().should('not.exist')
+      page.omuMailboxes().should('exist')
     })
   })
 

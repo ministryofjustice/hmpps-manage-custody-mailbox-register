@@ -8,14 +8,21 @@ import AuthRole from '../../server/data/authRole'
 context('Creating an LDU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
     cy.task('stubCreateLduMailbox')
     cy.task('stubListLduMailboxes')
+  })
+
+  it('Denies access to user without the PRISON role', () => {
+    cy.task('stubSignIn', { roles: [] })
     cy.signIn()
+
+    cy.visit('/local-delivery-unit-mailboxes', { failOnStatusCode: false })
+    cy.url().should('contain', '/access-denied')
   })
 
   it('Enters the details and submits the form', () => {
-    cy.visit('/')
+    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
+    cy.signIn()
 
     const page = new IndexPage()
     page.lduMailboxes().click()
