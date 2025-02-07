@@ -1,6 +1,7 @@
 import type {
   CreateLocalDeliveryUnitMailboxRequest,
   CreateOffenderManagementUnitMailboxRequest,
+  CreateProbationTeamRequest,
   LocalDeliveryUnitMailbox,
   OffenderManagementUnitMailbox,
   PrisonCodesResult,
@@ -85,5 +86,12 @@ export default class MailboxRegisterApiClient {
 
   async deleteOffenderManagementUnitMailbox(id: string): Promise<void> {
     return this.restClient.delete<void>({ path: `/offender-management-unit-mailboxes/${id}` })
+  }
+
+  async createProbationTeam(probationTeam: CreateProbationTeamRequest): Promise<MailboxRegisterResponse> {
+    return this.restClient.post<MailboxRegisterResponse>({
+      path: '/probation-teams',
+      data: probationTeam,
+    })
   }
 }

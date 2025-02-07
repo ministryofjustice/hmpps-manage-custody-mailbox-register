@@ -1,0 +1,52 @@
+{% set probationTeam = submittedForm if submittedForm else probationTeam %}
+
+{{ govukInput({
+  label: {
+    text: "Team Code"
+  },
+  id: "team-code",
+  name: "teamCode",
+  value: probationTeam.teamCode,
+  errorMessage: validationErrors | errorFor("teamCode"),
+  classes: "govuk-!-width-one-quarter"
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Email Address"
+  },
+  id: "email-address",
+  name: "emailAddress",
+  value: probationTeam.emailAddress,
+  errorMessage: validationErrors | errorFor("emailAddress"),
+  classes: "govuk-!-width-two-thirds"
+}) }}
+
+{{ govukSelect({
+  id: "localDeliveryUnitMailboxId",
+  name: "localDeliveryUnitMailboxId",
+  label: {
+    text: "Local Delivery Unit"
+  },
+  items: localDeliveryUnitMailboxOptions,
+  errorMessage: validationErrors | errorFor("localDeliveryUnitMailboxId")
+}) }}
+
+{% if isEdit %}
+  {% set submitLabel = "Update Probation Team" %}
+{% else %}
+  {% set submitLabel = "Create Probation Team" %}
+{% endif %}
+
+<div class="govuk-button-group govuk-!-padding-top-5">
+  {{ govukButton({
+    text: submitLabel,
+    disabled: isWIP === true
+  }) }}
+
+  {% if isEdit %}
+    <a class="govuk-link govuk-link--no-visited-state" href="/probation-teams/{{ probationTeam.id }}/delete">Delete</a>
+  {% endif %}
+
+  <a class="govuk-link govuk-link--no-visited-state" href="/probation-teams">Cancel</a>
+</div>
