@@ -1,11 +1,12 @@
 import { Services } from '../../services'
 import { ResponseErrorWithData } from '../../services/validation'
 import { testRequestHandler } from '../testutils/requestHandler'
-import { create, index, newProbationTeam, update } from './controller'
+import { create, edit, index, newProbationTeam, update } from './controller'
 
 const mailboxRegisterService = {
   createProbationTeam: jest.fn(),
   updateProbationTeam: jest.fn(),
+  getProbationTeam: jest.fn(),
   listLocalDeliveryUnitMailboxes: jest.fn(),
   listProbationTeams: jest.fn(),
 }
@@ -26,12 +27,13 @@ const body = {
   localDeliveryUnitMailboxId: '56f6fcc6-5bd1-4a37-b0fd-9ece7bd9a8c4',
 }
 
+const localDeliveryUnitMailboxes = [
+  { id: 123, emailAddress: 'ldu1@email.com' },
+  { id: 456, emailAddress: 'ldu2@email.com' },
+]
+
 describe('new', () => {
   it('provides LDUs as a list to select from', async () => {
-    const localDeliveryUnitMailboxes = [
-      { id: 123, emailAddress: 'ldu1@email.com' },
-      { id: 456, emailAddress: 'ldu2@email.com' },
-    ]
     mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReturnValue(localDeliveryUnitMailboxes)
     const localDeliveryUnitMailboxOptions = [
       { text: 'Please Select', value: null },
@@ -43,6 +45,32 @@ describe('new', () => {
     await newProbationTeam(services)(req, res, next)
 
     expect(res.render).toHaveBeenCalledWith('pages/probationTeams/new', { localDeliveryUnitMailboxOptions })
+  })
+})
+
+describe('edit', () => {
+  const existingProbationTeam = {
+    teamCode: 'ABC',
+    emailAddress: 'probation.team@email.com',
+    localDeliveryUnitMailbox: { id: 456 },
+  }
+
+  it('provides LDUs as a list to select from with the LDU auto selected', async () => {
+    mailboxRegisterService.getProbationTeam.mockReturnValue(existingProbationTeam)
+    mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReturnValue(localDeliveryUnitMailboxes)
+    const localDeliveryUnitMailboxOptions = [
+      { text: 'Please Select', value: null, selected: false },
+      { text: 'ldu1@email.com', value: 123, selected: false },
+      { text: 'ldu2@email.com', value: 456, selected: true },
+    ]
+
+    const [req, res, next] = testRequestHandler({})
+    await edit(services)(req, res, next)
+
+    expect(res.render).toHaveBeenCalledWith('pages/probationTeams/edit', {
+      probationTeam: existingProbationTeam,
+      localDeliveryUnitMailboxOptions,
+    })
   })
 })
 

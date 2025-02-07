@@ -1,6 +1,6 @@
 {% extends "../../partials/layout.njk" %}
 
-{% set pageTitle = applicationName + " - Edit OMU Mailbox" %}
+{% set pageTitle = applicationName + " - Edit Probation Team" %}
 {% set mainClasses = "app-container govuk-body" %}
 
 {% from "govuk/components/input/macro.njk" import govukInput %}
@@ -19,8 +19,8 @@
           href: "/"
         },
         {
-          text: "Offender Management Unit Mailboxes",
-          href: "/offender-management-unit-mailboxes"
+          text: "Probation Teams",
+          href: "/probation-teams"
         },
         {
           text: "Edit"
@@ -29,22 +29,21 @@
     }) 
   }}
 
-  <form method="post" action="/offender-management-unit-mailboxes/{{ mailbox.id }}">
+  <form method="post" action="/probation-teams/{{ probationTeam.id }}">
     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
     {% call govukFieldset({
       legend: {
-        text: "Edit Offender Management Unit Mailbox",
+        text: "Edit Probation Team",
         classes: "govuk-fieldset__legend--l",
         isPageHeading: true
       }
     }) %}
 
     {% set isEdit = true %}
-    {% include "pages/omuMailboxes/_form.njk" %}
+    {% include "pages/probationTeams/_form.njk" %}
 
     {% endcall %}
-
   </form>
 
 {% endblock %}

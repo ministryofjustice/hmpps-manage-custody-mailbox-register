@@ -14,6 +14,18 @@ export const newProbationTeam: RequestHandlerWithServices =
     res.render('pages/probationTeams/new', { localDeliveryUnitMailboxOptions })
   }
 
+export const edit: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res) => {
+    const probationTeam = await mailboxRegisterService.getProbationTeam(clientToken(req), req.params.id)
+    const localDeliveryUnitMailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(clientToken(req))
+    const localDeliveryUnitMailboxOptions = localDeliveryUnitMailboxes.map(({ id, emailAddress }) => {
+      return { text: emailAddress, value: id, selected: id === probationTeam.localDeliveryUnitMailbox.id }
+    })
+    localDeliveryUnitMailboxOptions.unshift({ text: 'Please Select', value: null, selected: false })
+    res.render('pages/probationTeams/edit', { probationTeam, localDeliveryUnitMailboxOptions })
+  }
+
 export const index: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
