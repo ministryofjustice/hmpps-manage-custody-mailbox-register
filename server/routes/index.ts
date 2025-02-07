@@ -68,8 +68,11 @@ export default (services: Services): Router => {
     offenderManagementUnitMailboxes.deleteMailbox(services),
   )
 
-  get('/probation-teams/new', probationTeams.newProbationTeam(services))
-  post('/probation-teams', probationTeams.create(services))
+  get('/probation-teams', prisonOrAdminRoleCheck, probationTeams.index(services))
+  get('/probation-teams/new', prisonOrAdminRoleCheck, probationTeams.newProbationTeam(services))
+  post('/probation-teams', prisonOrAdminRoleCheck, probationTeams.create(services))
+  get('/probation-teams/:id/edit', prisonOrAdminRoleCheck, probationTeams.edit(services))
+  post('/probation-teams/:id', prisonOrAdminRoleCheck, probationTeams.update(services))
 
   return router
 }

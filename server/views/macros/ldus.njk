@@ -1,0 +1,7 @@
+{% macro nameOrEmail(ldu) %}
+  {% if ldu.name %}
+    {{ ldu.name }}
+  {% else %}
+    {{ ldu.email }}
+  {% endif %}
+{% endmacro %}

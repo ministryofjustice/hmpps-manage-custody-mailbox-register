@@ -8,6 +8,7 @@ describe('index', () => {
     const viewContext = {
       shouldShowLduCard: true,
       shouldShowOmuCard: false,
+      shouldShowProbationTeamsCard: true,
     }
 
     await index(req, res, next)

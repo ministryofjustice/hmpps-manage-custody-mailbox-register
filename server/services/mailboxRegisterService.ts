@@ -5,6 +5,7 @@ import type {
   CreateOffenderManagementUnitMailboxRequest,
   OffenderManagementUnitMailbox,
   CreateProbationTeamRequest,
+  ProbationTeam,
 } from '../@types/mailboxRegisterApiClientTypes'
 import { RestClientBuilder } from '../data'
 import MailboxRegisterApiClient, { MailboxRegisterResponse } from '../data/mailboxes/mailboxRegisterApiClient'
@@ -75,5 +76,21 @@ export default class MailboxRegisterService {
     probationTeam: CreateProbationTeamRequest,
   ): Promise<MailboxRegisterResponse> {
     return this.mailboxRegisterApiClientBuilder(token).createProbationTeam(probationTeam)
+  }
+
+  public async updateProbationTeam(
+    token: string,
+    id: string,
+    probationTeam: CreateProbationTeamRequest,
+  ): Promise<MailboxRegisterResponse> {
+    return this.mailboxRegisterApiClientBuilder(token).updateProbationTeam(id, probationTeam)
+  }
+
+  public async getProbationTeam(token: string, id: string): Promise<ProbationTeam> {
+    return this.mailboxRegisterApiClientBuilder(token).getProbationTeam(id)
+  }
+
+  public async listProbationTeams(token: string): Promise<ProbationTeam[]> {
+    return this.mailboxRegisterApiClientBuilder(token).listProbationTeams()
   }
 }
