@@ -6,3 +6,4 @@ export type CreateLocalDeliveryUnitMailboxRequest = components['schemas']['Creat
 export type PrisonCodesResult = { prisons: Record<string, string> }
 export type CreateOffenderManagementUnitMailboxRequest =
   components['schemas']['CreateOffenderManagementUnitMailboxRequest']
+export type CreateProbationTeamRequest = components['schemas']['CreateProbationTeamRequest']

@@ -35,5 +35,11 @@ export interface components {
       prisonCode: string
       role: string
     }
+
+    CreateProbationTeamRequest: {
+      emailAddress: string
+      teamCode: string
+      localDeliveryUnitMailboxId: string
+    }
   }
 }

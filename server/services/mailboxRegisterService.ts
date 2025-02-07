@@ -4,6 +4,7 @@ import type {
   PrisonCodesResult,
   CreateOffenderManagementUnitMailboxRequest,
   OffenderManagementUnitMailbox,
+  CreateProbationTeamRequest,
 } from '../@types/mailboxRegisterApiClientTypes'
 import { RestClientBuilder } from '../data'
 import MailboxRegisterApiClient, { MailboxRegisterResponse } from '../data/mailboxes/mailboxRegisterApiClient'
@@ -67,5 +68,12 @@ export default class MailboxRegisterService {
 
   public async deleteOffenderManagementUnitMailbox(token: string, id: string): Promise<void> {
     return this.mailboxRegisterApiClientBuilder(token).deleteOffenderManagementUnitMailbox(id)
+  }
+
+  public async createProbationTeam(
+    token: string,
+    probationTeam: CreateProbationTeamRequest,
+  ): Promise<MailboxRegisterResponse> {
+    return this.mailboxRegisterApiClientBuilder(token).createProbationTeam(probationTeam)
   }
 }

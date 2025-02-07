@@ -1,0 +1,55 @@
+import { Services } from '../../services'
+import { ResponseErrorWithData } from '../../services/validation'
+import { testRequestHandler } from '../testutils/requestHandler'
+import { create } from './controller'
+
+const mailboxRegisterService = {
+  createProbationTeam: jest.fn(),
+}
+beforeEach(() => Object.values(mailboxRegisterService).map(mock => mock.mockReset()))
+
+const services = { mailboxRegisterService } as unknown as Services
+
+const sharedValidationRules = [
+  ['emailAddress', null, 'Please enter a valid email address'],
+  ['emailAddress', 'notValid', 'Please enter a valid email address'],
+  ['teamCode', null, 'Please enter a team code'],
+  ['localDeliveryUnitMailboxId', null, 'Please select a Local Delivery Unit'],
+]
+
+const body = {
+  emailAddress: 'valid@email.com',
+  teamCode: '123',
+  localDeliveryUnitMailboxId: '56f6fcc6-5bd1-4a37-b0fd-9ece7bd9a8c4',
+}
+
+describe('create', () => {
+  it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
+    const bodyWithInvalidFeild = { ...body, [field]: value }
+    const [req, res, next, flash] = testRequestHandler({ requestBody: bodyWithInvalidFeild })
+    await create(services)(req, res, next)
+
+    expect(res.redirect).toHaveBeenCalledWith('/probation-teams/new')
+    expect(flash.validationErrors).toEqual(JSON.stringify({ [field]: expectedMessage }))
+  })
+
+  it('redirects when the backend returns a 400', async () => {
+    const error = new Error('Bad Request') as ResponseErrorWithData
+    error.status = 400
+    error.data = { errors: { name: 'Already Taken' } }
+    mailboxRegisterService.createProbationTeam.mockRejectedValue(error)
+
+    const [req, res, next, flash] = testRequestHandler({ requestBody: body })
+    await create(services)(req, res, next)
+
+    expect(res.redirect).toHaveBeenCalledWith('/probation-teams/new')
+    expect(flash.validationErrors).toEqual(JSON.stringify({ name: 'Already Taken' }))
+  })
+
+  it('sends the form data to the back end', async () => {
+    const [req, res, next] = testRequestHandler({ requestBody: body })
+    await create(services)(req, res, next)
+    expect(mailboxRegisterService.createProbationTeam).toHaveBeenCalledWith('CL13NT_T0K3N', body)
+    expect(res.redirect).toHaveBeenCalledWith('/probation-teams')
+  })
+})

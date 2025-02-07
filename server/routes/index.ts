@@ -3,6 +3,7 @@ import { Services } from '../services'
 import * as home from './home/controller'
 import * as localDeliveryUnitMailboxes from './localDeliveryUnitMailboxes/controller'
 import * as offenderManagementUnitMailboxes from './offenderManagementUnitMailboxes/controller'
+import * as probationTeams from './probationTeams/controller'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 
 export default (services: Services): Router => {
@@ -29,6 +30,8 @@ export default (services: Services): Router => {
   post('/offender-management-unit-mailboxes/:id', offenderManagementUnitMailboxes.update(services))
   get('/offender-management-unit-mailboxes/:id/delete', offenderManagementUnitMailboxes.confirmDelete(services))
   destroy('/offender-management-unit-mailboxes/:id', offenderManagementUnitMailboxes.deleteMailbox(services))
+
+  post('/probation-teams', probationTeams.create(services))
 
   return router
 }
