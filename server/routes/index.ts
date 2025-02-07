@@ -5,9 +5,14 @@ import * as localDeliveryUnitMailboxes from './localDeliveryUnitMailboxes/contro
 import * as offenderManagementUnitMailboxes from './offenderManagementUnitMailboxes/controller'
 import * as probationTeams from './probationTeams/controller'
 import asyncMiddleware from '../middleware/asyncMiddleware'
+import roleCheckMiddleware from '../middleware/roleCheckMiddleware'
+import AuthRole from '../data/authRole'
 
 export default (services: Services): Router => {
   const router = Router()
+
+  const prisonOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PRISON, AuthRole.ADMIN])
+  const probationOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PROBATION, AuthRole.ADMIN])
 
   const get = (path: string, ...handlers: RequestHandler[]) => router.get(path, handlers.map(asyncMiddleware))
   const post = (path: string, ...handlers: RequestHandler[]) => router.post(path, handlers.map(asyncMiddleware))
@@ -15,21 +20,53 @@ export default (services: Services): Router => {
 
   get('/', home.index)
 
-  get('/local-delivery-unit-mailboxes', localDeliveryUnitMailboxes.index(services))
-  get('/local-delivery-unit-mailboxes/new', localDeliveryUnitMailboxes.newMailbox)
-  post('/local-delivery-unit-mailboxes', localDeliveryUnitMailboxes.create(services))
-  get('/local-delivery-unit-mailboxes/:id/edit', localDeliveryUnitMailboxes.edit(services))
-  post('/local-delivery-unit-mailboxes/:id', localDeliveryUnitMailboxes.update(services))
-  get('/local-delivery-unit-mailboxes/:id/delete', localDeliveryUnitMailboxes.confirmDelete(services))
-  destroy('/local-delivery-unit-mailboxes/:id', localDeliveryUnitMailboxes.deleteMailbox(services))
+  get('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.index(services))
+  get('/local-delivery-unit-mailboxes/new', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.newMailbox)
+  post('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.create(services))
+  get('/local-delivery-unit-mailboxes/:id/edit', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.edit(services))
+  post('/local-delivery-unit-mailboxes/:id', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.update(services))
+  get(
+    '/local-delivery-unit-mailboxes/:id/delete',
+    prisonOrAdminRoleCheck,
+    localDeliveryUnitMailboxes.confirmDelete(services),
+  )
+  destroy(
+    '/local-delivery-unit-mailboxes/:id',
+    prisonOrAdminRoleCheck,
+    localDeliveryUnitMailboxes.deleteMailbox(services),
+  )
 
-  get('/offender-management-unit-mailboxes', offenderManagementUnitMailboxes.index(services))
-  get('/offender-management-unit-mailboxes/new', offenderManagementUnitMailboxes.newMailbox(services))
-  post('/offender-management-unit-mailboxes', offenderManagementUnitMailboxes.create(services))
-  get('/offender-management-unit-mailboxes/:id/edit', offenderManagementUnitMailboxes.edit(services))
-  post('/offender-management-unit-mailboxes/:id', offenderManagementUnitMailboxes.update(services))
-  get('/offender-management-unit-mailboxes/:id/delete', offenderManagementUnitMailboxes.confirmDelete(services))
-  destroy('/offender-management-unit-mailboxes/:id', offenderManagementUnitMailboxes.deleteMailbox(services))
+  get('/offender-management-unit-mailboxes', probationOrAdminRoleCheck, offenderManagementUnitMailboxes.index(services))
+  get(
+    '/offender-management-unit-mailboxes/new',
+    probationOrAdminRoleCheck,
+    offenderManagementUnitMailboxes.newMailbox(services),
+  )
+  post(
+    '/offender-management-unit-mailboxes',
+    probationOrAdminRoleCheck,
+    offenderManagementUnitMailboxes.create(services),
+  )
+  get(
+    '/offender-management-unit-mailboxes/:id/edit',
+    probationOrAdminRoleCheck,
+    offenderManagementUnitMailboxes.edit(services),
+  )
+  post(
+    '/offender-management-unit-mailboxes/:id',
+    probationOrAdminRoleCheck,
+    offenderManagementUnitMailboxes.update(services),
+  )
+  get(
+    '/offender-management-unit-mailboxes/:id/delete',
+    probationOrAdminRoleCheck,
+    offenderManagementUnitMailboxes.confirmDelete(services),
+  )
+  destroy(
+    '/offender-management-unit-mailboxes/:id',
+    probationOrAdminRoleCheck,
+    offenderManagementUnitMailboxes.deleteMailbox(services),
+  )
 
   get('/probation-teams/new', probationTeams.newProbationTeam(services))
   post('/probation-teams', probationTeams.create(services))
