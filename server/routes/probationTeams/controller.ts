@@ -29,6 +29,15 @@ export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =
     res.redirect('/probation-teams')
   })
 
+export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
+  validatedRequest({ validations, onValidationErrorRedirectTo: '/probation-teams/:id/edit' }, async (req, res) => {
+    const { id } = req.params
+    const { emailAddress, teamCode, localDeliveryUnitMailboxId } = matchedData(req)
+    const probationTeam = { emailAddress, teamCode, localDeliveryUnitMailboxId }
+    await mailboxRegisterService.updateProbationTeam(clientToken(req), id, probationTeam)
+    res.redirect('/probation-teams')
+  })
+
 const validations = [
   body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
   body('teamCode').notEmpty().withMessage('Please enter a team code'),

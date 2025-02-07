@@ -96,6 +96,13 @@ export default class MailboxRegisterApiClient {
     })
   }
 
+  async updateProbationTeam(id: string, probationTeam: CreateProbationTeamRequest): Promise<MailboxRegisterResponse> {
+    return this.restClient.put<MailboxRegisterResponse>({
+      path: `/probation-teams/${id}`,
+      data: probationTeam,
+    })
+  }
+
   async listProbationTeams(): Promise<ProbationTeam[]> {
     return this.restClient.get<ProbationTeam[]>({ path: `/probation-teams` })
   }

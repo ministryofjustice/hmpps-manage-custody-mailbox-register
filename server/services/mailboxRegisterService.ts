@@ -78,6 +78,14 @@ export default class MailboxRegisterService {
     return this.mailboxRegisterApiClientBuilder(token).createProbationTeam(probationTeam)
   }
 
+  public async updateProbationTeam(
+    token: string,
+    id: string,
+    probationTeam: CreateProbationTeamRequest,
+  ): Promise<MailboxRegisterResponse> {
+    return this.mailboxRegisterApiClientBuilder(token).updateProbationTeam(id, probationTeam)
+  }
+
   public async listProbationTeams(token: string): Promise<ProbationTeam[]> {
     return this.mailboxRegisterApiClientBuilder(token).listProbationTeams()
   }
