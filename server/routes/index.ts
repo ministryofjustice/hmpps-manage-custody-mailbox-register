@@ -73,6 +73,8 @@ export default (services: Services): Router => {
   post('/probation-teams', prisonOrAdminRoleCheck, probationTeams.create(services))
   get('/probation-teams/:id/edit', prisonOrAdminRoleCheck, probationTeams.edit(services))
   post('/probation-teams/:id', prisonOrAdminRoleCheck, probationTeams.update(services))
+  get('/probation-teams/:id/delete', prisonOrAdminRoleCheck, probationTeams.confirmDelete(services))
+  destroy('/probation-teams/:id', prisonOrAdminRoleCheck, probationTeams.deleteProbationTeam(services))
 
   return router
 }

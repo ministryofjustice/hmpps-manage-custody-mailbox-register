@@ -112,4 +112,8 @@ export default class MailboxRegisterApiClient {
   async listProbationTeams(): Promise<ProbationTeam[]> {
     return this.restClient.get<ProbationTeam[]>({ path: `/probation-teams` })
   }
+
+  async deleteProbationTeam(id: string): Promise<void> {
+    return this.restClient.delete<void>({ path: `/probation-teams/${id}` })
+  }
 }
