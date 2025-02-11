@@ -1,8 +1,8 @@
 import { RequestHandler, Router } from 'express'
 import { Services } from '../services'
 import * as home from './home/controller'
-import * as localDeliveryUnitMailboxes from './localDeliveryUnitMailboxes/controller'
-import * as offenderManagementUnitMailboxes from './offenderManagementUnitMailboxes/controller'
+import * as ldus from './localDeliveryUnitMailboxes/controller'
+import * as omus from './offenderManagementUnitMailboxes/controller'
 import * as probationTeams from './probationTeams/controller'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import roleCheckMiddleware from '../middleware/roleCheckMiddleware'
@@ -20,53 +20,21 @@ export default (services: Services): Router => {
 
   get('/', home.index)
 
-  get('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.index(services))
-  get('/local-delivery-unit-mailboxes/new', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.newMailbox)
-  post('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.create(services))
-  get('/local-delivery-unit-mailboxes/:id/edit', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.edit(services))
-  post('/local-delivery-unit-mailboxes/:id', prisonOrAdminRoleCheck, localDeliveryUnitMailboxes.update(services))
-  get(
-    '/local-delivery-unit-mailboxes/:id/delete',
-    prisonOrAdminRoleCheck,
-    localDeliveryUnitMailboxes.confirmDelete(services),
-  )
-  destroy(
-    '/local-delivery-unit-mailboxes/:id',
-    prisonOrAdminRoleCheck,
-    localDeliveryUnitMailboxes.deleteMailbox(services),
-  )
+  get('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, ldus.index(services))
+  get('/local-delivery-unit-mailboxes/new', prisonOrAdminRoleCheck, ldus.newMailbox)
+  post('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, ldus.create(services))
+  get('/local-delivery-unit-mailboxes/:id/edit', prisonOrAdminRoleCheck, ldus.edit(services))
+  post('/local-delivery-unit-mailboxes/:id', prisonOrAdminRoleCheck, ldus.update(services))
+  get('/local-delivery-unit-mailboxes/:id/delete', prisonOrAdminRoleCheck, ldus.confirmDelete(services))
+  destroy('/local-delivery-unit-mailboxes/:id', prisonOrAdminRoleCheck, ldus.deleteMailbox(services))
 
-  get('/offender-management-unit-mailboxes', probationOrAdminRoleCheck, offenderManagementUnitMailboxes.index(services))
-  get(
-    '/offender-management-unit-mailboxes/new',
-    probationOrAdminRoleCheck,
-    offenderManagementUnitMailboxes.newMailbox(services),
-  )
-  post(
-    '/offender-management-unit-mailboxes',
-    probationOrAdminRoleCheck,
-    offenderManagementUnitMailboxes.create(services),
-  )
-  get(
-    '/offender-management-unit-mailboxes/:id/edit',
-    probationOrAdminRoleCheck,
-    offenderManagementUnitMailboxes.edit(services),
-  )
-  post(
-    '/offender-management-unit-mailboxes/:id',
-    probationOrAdminRoleCheck,
-    offenderManagementUnitMailboxes.update(services),
-  )
-  get(
-    '/offender-management-unit-mailboxes/:id/delete',
-    probationOrAdminRoleCheck,
-    offenderManagementUnitMailboxes.confirmDelete(services),
-  )
-  destroy(
-    '/offender-management-unit-mailboxes/:id',
-    probationOrAdminRoleCheck,
-    offenderManagementUnitMailboxes.deleteMailbox(services),
-  )
+  get('/offender-management-unit-mailboxes', probationOrAdminRoleCheck, omus.index(services))
+  get('/offender-management-unit-mailboxes/new', probationOrAdminRoleCheck, omus.newMailbox(services))
+  post('/offender-management-unit-mailboxes', probationOrAdminRoleCheck, omus.create(services))
+  get('/offender-management-unit-mailboxes/:id/edit', probationOrAdminRoleCheck, omus.edit(services))
+  post('/offender-management-unit-mailboxes/:id', probationOrAdminRoleCheck, omus.update(services))
+  get('/offender-management-unit-mailboxes/:id/delete', probationOrAdminRoleCheck, omus.confirmDelete(services))
+  destroy('/offender-management-unit-mailboxes/:id', probationOrAdminRoleCheck, omus.deleteMailbox(services))
 
   get('/probation-teams', prisonOrAdminRoleCheck, probationTeams.index(services))
   get('/probation-teams/new', prisonOrAdminRoleCheck, probationTeams.newProbationTeam(services))
