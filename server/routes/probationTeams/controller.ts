@@ -50,6 +50,21 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
     res.redirect('/probation-teams')
   })
 
+export const confirmDelete: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res) => {
+    const probationTeam = await mailboxRegisterService.getProbationTeam(clientToken(req), req.params.id)
+    res.render('pages/probationTeams/delete', { probationTeam })
+  }
+
+export const deleteProbationTeam: RequestHandlerWithServices =
+  ({ mailboxRegisterService }) =>
+  async (req, res) => {
+    const { id } = req.params
+    await mailboxRegisterService.deleteProbationTeam(clientToken(req), id)
+    res.redirect('/probation-teams')
+  }
+
 const validations = [
   body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
   body('teamCode').notEmpty().withMessage('Please enter a team code'),

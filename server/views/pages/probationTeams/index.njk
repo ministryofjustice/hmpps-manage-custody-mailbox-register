@@ -43,7 +43,10 @@
         }
       },
       {
-        text: ldus.nameOrEmail(probationTeam.localDeliveryUnitMailbox)
+        text: ldus.nameOrEmail(probationTeam.localDeliveryUnitMailbox),
+        attributes: {
+          "data-qa": "ldu-name-column"
+      }
       }
     ]), tableRows) %}
   {% endfor %}

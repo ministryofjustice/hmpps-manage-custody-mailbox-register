@@ -1,11 +1,12 @@
 import { Services } from '../../services'
 import { ResponseErrorWithData } from '../../services/validation'
 import { testRequestHandler } from '../testutils/requestHandler'
-import { create, edit, index, newProbationTeam, update } from './controller'
+import { create, edit, index, newProbationTeam, update, deleteProbationTeam } from './controller'
 
 const mailboxRegisterService = {
   createProbationTeam: jest.fn(),
   updateProbationTeam: jest.fn(),
+  deleteProbationTeam: jest.fn(),
   getProbationTeam: jest.fn(),
   listLocalDeliveryUnitMailboxes: jest.fn(),
   listProbationTeams: jest.fn(),
@@ -148,6 +149,15 @@ describe('update', () => {
     const [req, res, next] = testRequestHandler({ requestBody: body, requestParams: { id: 123 } })
     await update(services)(req, res, next)
     expect(mailboxRegisterService.updateProbationTeam).toHaveBeenCalledWith('CL13NT_T0K3N', 123, body)
+    expect(res.redirect).toHaveBeenCalledWith('/probation-teams')
+  })
+})
+
+describe('deleteProbationTeam', () => {
+  it('sends this deletion to the back end', async () => {
+    const [req, res, next] = testRequestHandler({ requestParams: { id: 123 } })
+    await deleteProbationTeam(services)(req, res, next)
+    expect(mailboxRegisterService.deleteProbationTeam).toHaveBeenCalledWith('CL13NT_T0K3N', 123)
     expect(res.redirect).toHaveBeenCalledWith('/probation-teams')
   })
 })

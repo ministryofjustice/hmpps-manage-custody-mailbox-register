@@ -2,10 +2,6 @@ import Page, { PageElement } from './page'
 import { CreateOffenderManagementUnitMailboxRequest } from '../../server/@types/mailboxRegisterApiClientTypes'
 
 export default class OmuMailboxForm extends Page {
-  public constructor() {
-    super('HMPPS Manage Custody Mailbox Register - New OMU Mailbox')
-  }
-
   submitMailbox(mailbox: CreateOffenderManagementUnitMailboxRequest) {
     this.nameTextInput().clear().type(mailbox.name)
     this.emailAddressTextInput().clear().type(mailbox.emailAddress)

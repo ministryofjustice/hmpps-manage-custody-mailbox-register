@@ -1,0 +1,49 @@
+{% extends "../../partials/layout.njk" %}
+
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set pageTitle = applicationName + " - Delete Probation Team" %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "Probation Teams",
+        href: "/probation-teams"
+      },
+      {
+        text: "Delete"
+      }
+    ]
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form method="post" action="/probation-teams/{{ probationTeam.id }}?_method=DELETE">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
+        <h1 class="govuk-heading-l">Are you sure you want to delete the Probation Team "{{ probationTeam.emailAddress }}"</h1>
+
+        <p class="govuk-body">This action cannot be undone.</p>
+
+        <div class="govuk-button-group govuk-!-padding-top-5">
+          {{ govukButton({
+            text: "Delete probation team",
+            classes: "govuk-button--warning"
+          }) }}
+
+          <a class="govuk-link govuk-link--no-visited-state" href="/probation-teams">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

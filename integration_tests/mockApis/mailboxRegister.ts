@@ -4,6 +4,7 @@ import { stubFor } from './wiremock'
 const apiPrefix = '/mailbox-register-api'
 const lduBaseUri = 'local-delivery-unit-mailboxes'
 const omuBaseUri = 'offender-management-unit-mailboxes'
+const probationTeamsUri = 'probation-teams'
 const headers = { 'Content-Type': 'application/json;charset=UTF-8' }
 
 const lduMailbox = {
@@ -23,6 +24,13 @@ const omuMailbox = {
   emailAddress: 'omu@example.com',
   prisonCode: 'LEI',
   role: 'CVL',
+}
+
+const probationTeam = {
+  id: '123',
+  teamCode: 'XYZ',
+  emailAddress: 'pt@example.com',
+  localDeliveryUnitMailbox: lduMailbox,
 }
 
 const prisonCodes = {
@@ -71,6 +79,19 @@ export default {
       },
     }),
 
+  stubCreateProbationTeam: (httpStatus = 201): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'POST',
+        urlPattern: `${apiPrefix}/${probationTeamsUri}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: probationTeam,
+      },
+    }),
+
   stubListLduMailboxes: (httpStatus = 200): SuperAgentRequest =>
     stubFor({
       request: {
@@ -97,6 +118,19 @@ export default {
       },
     }),
 
+  stubListProbationTeams: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        urlPattern: `${apiPrefix}/${probationTeamsUri}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: [probationTeam],
+      },
+    }),
+
   stubGetLduMailbox: (httpStatus = 200): SuperAgentRequest =>
     stubFor({
       request: {
@@ -107,6 +141,32 @@ export default {
         status: httpStatus,
         headers,
         jsonBody: lduMailbox,
+      },
+    }),
+
+  stubGetOmuMailbox: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        urlPattern: `${apiPrefix}/${omuBaseUri}/${omuMailbox.id}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: omuMailbox,
+      },
+    }),
+
+  stubGetProbationTeam: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'GET',
+        urlPattern: `${apiPrefix}/${probationTeamsUri}/${probationTeam.id}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: probationTeam,
       },
     }),
 
@@ -128,6 +188,32 @@ export default {
       request: {
         method: 'DELETE',
         urlPattern: `${apiPrefix}/${lduBaseUri}/${lduMailbox.id}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: {},
+      },
+    }),
+
+  stubDeleteOmuMailbox: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'DELETE',
+        urlPattern: `${apiPrefix}/${omuBaseUri}/${omuMailbox.id}`,
+      },
+      response: {
+        status: httpStatus,
+        headers,
+        jsonBody: {},
+      },
+    }),
+
+  stubDeleteProbationTeam: (httpStatus = 200): SuperAgentRequest =>
+    stubFor({
+      request: {
+        method: 'DELETE',
+        urlPattern: `${apiPrefix}/${probationTeamsUri}/${probationTeam.id}`,
       },
       response: {
         status: httpStatus,
