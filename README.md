@@ -75,7 +75,7 @@ To start the main services excluding the example typescript template app:
 Create an environment file by copying `.env.example` -> `.env`
 Environment variables set in here will be available when running `start:dev`
 
-Install dependencies using `npm install`, ensuring you are using `node v20`
+Install dependencies using `npm install`, ensuring you are using `node v22`
 
 Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder
 to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json`
@@ -122,7 +122,3 @@ And then either, run tests in headless mode with:
 Or run tests with the cypress UI:
 
 `npm run int-test-ui`
-
-## Change log
-
-A changelog for the service is available [here](./CHANGELOG.md)
