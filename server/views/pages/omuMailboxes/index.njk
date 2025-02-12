@@ -49,18 +49,6 @@
       },
       {
         text: mailbox.role
-      },
-      {
-        text: mailbox.createdAt | formatDate('dd MMM yyyy HH:mm:ss'),
-        attributes: {
-        "data-sort-value": mailbox.createdAt | formatDate('T')
-      }
-      },
-      {
-        text: mailbox.updatedAt | formatDate('dd MMM yyyy HH:mm:ss'),
-        attributes: {
-        "data-sort-value": mailbox.updatedAt | formatDate('T')
-      }
       }
     ]), tableRows) %}
   {% endfor %}
@@ -90,18 +78,6 @@
       },
       {
         text: "Role",
-        attributes: {
-        "aria-sort": "none"
-      }
-      },
-      {
-        text: "Created at",
-        attributes: {
-        "aria-sort": "ascending"
-      }
-      },
-      {
-        text: "Updated at",
         attributes: {
         "aria-sort": "none"
       }
