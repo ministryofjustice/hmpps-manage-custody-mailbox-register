@@ -34,6 +34,8 @@
       <form method="post" action="/local-delivery-unit-mailboxes">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
+        {% include 'partials/errorSummary.njk' %}
+
         {% call govukFieldset({
           legend: {
             text: "New Local Delivery Unit Mailbox",
