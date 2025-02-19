@@ -1,0 +1,16 @@
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% if validationErrors %}
+  {% set errorList = [] %}
+
+  {% for fieldName, message in validationErrors %}
+    {% set errorItem = { text: message, href: '#' + fieldName } %}
+    {% set errorList = errorList.concat(errorItem) %}
+  {% endfor %}
+
+  {{ govukErrorSummary({
+    titleText: "There is a problem",
+    classes: "govuk-!-margin-top-4",
+    errorList: errorList
+  }) }}
+{% endif %}

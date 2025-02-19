@@ -11,40 +11,46 @@
 
 {% block content %}
 
-  {{
-    govukBreadcrumbs({
-      items: [
-        {
-          text: "Home",
-          href: "/"
-        },
-        {
-          text: "Offender Management Unit Mailboxes",
-          href: "/offender-management-unit-mailboxes"
-        },
-        {
-          text: "Edit"
-        }
-      ]
-    }) 
-  }}
-
-  <form method="post" action="/offender-management-unit-mailboxes/{{ mailbox.id }}">
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-
-    {% call govukFieldset({
-      legend: {
-        text: "Edit Offender Management Unit Mailbox",
-        classes: "govuk-fieldset__legend--l",
-        isPageHeading: true
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "Offender Management Unit Mailboxes",
+        href: "/offender-management-unit-mailboxes"
+      },
+      {
+        text: "Edit"
       }
-    }) %}
+    ]
+  }) }}
 
-    {% set isEdit = true %}
-    {% include "pages/omuMailboxes/_form.njk" %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
 
-    {% endcall %}
+      <form method="post" action="/offender-management-unit-mailboxes/{{ mailbox.id }}">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
-  </form>
+        {% include 'partials/errorSummary.njk' %}
+
+        {% call govukFieldset({
+          legend: {
+            text: "Edit Offender Management Unit Mailbox",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+        {% set isEdit = true %}
+        {% include "pages/omuMailboxes/_form.njk" %}
+
+        {% endcall %}
+
+      </form>
+
+    </div>
+  </div>
 
 {% endblock %}

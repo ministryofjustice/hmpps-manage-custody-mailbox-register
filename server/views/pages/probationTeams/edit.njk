@@ -11,39 +11,45 @@
 
 {% block content %}
 
-  {{
-    govukBreadcrumbs({
-      items: [
-        {
-          text: "Home",
-          href: "/"
-        },
-        {
-          text: "Probation Teams",
-          href: "/probation-teams"
-        },
-        {
-          text: "Edit"
-        }
-      ]
-    }) 
-  }}
-
-  <form method="post" action="/probation-teams/{{ probationTeam.id }}">
-    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-
-    {% call govukFieldset({
-      legend: {
-        text: "Edit Probation Team",
-        classes: "govuk-fieldset__legend--l",
-        isPageHeading: true
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: "Probation Teams",
+        href: "/probation-teams"
+      },
+      {
+        text: "Edit"
       }
-    }) %}
+    ]
+  }) }}
 
-    {% set isEdit = true %}
-    {% include "pages/probationTeams/_form.njk" %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
 
-    {% endcall %}
-  </form>
+      <form method="post" action="/probation-teams/{{ probationTeam.id }}">
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
+        {% include 'partials/errorSummary.njk' %}
+
+        {% call govukFieldset({
+          legend: {
+            text: "Edit Probation Team",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+        {% set isEdit = true %}
+        {% include "pages/probationTeams/_form.njk" %}
+
+        {% endcall %}
+      </form>
+
+    </div>
+  </div>
 
 {% endblock %}

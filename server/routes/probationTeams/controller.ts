@@ -66,7 +66,7 @@ export const deleteProbationTeam: RequestHandlerWithServices =
   }
 
 const validations = [
-  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
   body('teamCode').notEmpty().withMessage('Please enter a team code'),
+  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
   body('localDeliveryUnitMailboxId').notEmpty().withMessage('Please select a Local Delivery Unit'),
 ]
