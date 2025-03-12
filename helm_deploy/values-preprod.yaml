@@ -1,0 +1,21 @@
+---
+# Per environment values which override defaults in hmpps-manage-custody-mailbox-register/values.yaml
+
+generic-service:
+  ingress:
+    host: manage-custody-mailbox-register-preprod.hmpps.service.justice.gov.uk
+
+  env:
+    INGRESS_URL: "https://manage-custody-mailbox-register-preprod.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in-preprod.hmpps.service.justice.gov.uk/auth"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api-preprod.prison.service.justice.gov.uk"
+    MAILBOX_REGISTER_API_URL: "https://manage-custody-mailbox-register-api-preprod.hmpps.service.justice.gov.uk"
+    ENVIRONMENT_NAME: PREPROD
+    AUDIT_ENABLED: "false"
+
+generic-prometheus-alerts:
+  businessHoursOnly: true
+  alertSeverity: mpc-alerts-nonprod-preprod
+  elastiCacheAlertsClusterIds:
+    cp-0e9d505a5024743e-001: preprod cluster node 1
+    cp-0e9d505a5024743e-002: preprod cluster node 2
