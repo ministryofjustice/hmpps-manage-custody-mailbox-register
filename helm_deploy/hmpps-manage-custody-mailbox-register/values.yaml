@@ -69,18 +69,19 @@ generic-service:
   #   [name of kubernetes secret]:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
   namespace_secrets:
-    hmpps-auth:
-      AUTH_CODE_CLIENT_ID: 'AUTH_CODE_CLIENT_ID'
-      AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'
+    hmpps-manage-custody-mailbox-register-client-creds:
       CLIENT_CREDS_CLIENT_ID: 'CLIENT_CREDS_CLIENT_ID'
       CLIENT_CREDS_CLIENT_SECRET: 'CLIENT_CREDS_CLIENT_SECRET'
-    hmpps-manage-custody-mailbox-register:
+    hmpps-manage-custody-mailbox-register-auth-code:
+      AUTH_CODE_CLIENT_ID: 'AUTH_CODE_CLIENT_ID'
+      AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'
+    hmpps-manage-custody-mailbox-register-session-secret:
       SESSION_SECRET: 'SESSION_SECRET'
+    hmpps-manage-custody-mailbox-register-application-insights:
+      APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
     elasticache-redis:
       REDIS_HOST: 'primary_endpoint_address'
       REDIS_AUTH_TOKEN: 'auth_token'
-    application-insights:
-      APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
     # This secret will need to be created in your namespace (note it isn't in hmpps-templates-dev)
     # IRSA configuration in your namespace will also be required, and then uncomment serviceAccountName above.
     # sqs-hmpps-audit-secret:
