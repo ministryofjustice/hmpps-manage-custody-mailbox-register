@@ -23,8 +23,8 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-# This will cancel all running build/test/release pipelines that are not on the main branch
-# If this pipeline is on the main branch, it will wait until existing runs complete
+  # This will cancel all running build/test/release pipelines that are not on the main branch
+  # If this pipeline is on the main branch, it will wait until existing runs complete
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
   helm_lint:
     strategy:
       matrix:
-        environments: ['dev'] # Add 'preprod' and 'prod' when ready
+        environments: ['dev', 'preprod'] # Add 'prod' when ready
     name: helm lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2 # WORKFLOW_VERSION
     secrets: inherit
@@ -77,16 +77,16 @@ jobs:
     with:
       environment: 'dev'
       app_version: '${{ needs.build.outputs.app_version }}'
-  # deploy_preprod:
-  #   name: Deploy to pre-production environment
-  #   needs:
-  #     - build
-  #     - deploy_dev
-  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
-  #   secrets: inherit
-  #   with:
-  #     environment: 'preprod'
-  #     app_version: '${{ needs.build.outputs.app_version }}'
+  deploy_preprod:
+    name: Deploy to pre-production environment
+    needs:
+      - build
+      - deploy_dev
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+    secrets: inherit
+    with:
+      environment: 'preprod'
+      app_version: '${{ needs.build.outputs.app_version }}'
   # deploy_prod:
   #   name: Deploy to production environment
   #   needs:

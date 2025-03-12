@@ -15,6 +15,7 @@ generic-service:
 
 generic-prometheus-alerts:
   businessHoursOnly: true
+  alertSeverity: mpc-alerts-nonprod-dev
   elastiCacheAlertsClusterIds:
     cp-3da88ed1bfde281f-001: dev cluster node 1
     cp-3da88ed1bfde281f-002: dev cluster node 2
