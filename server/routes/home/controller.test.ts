@@ -27,8 +27,20 @@ describe('index', () => {
     expect(res.render).toHaveBeenCalledWith('pages/index', viewContext)
   })
 
-  it('configures cards shown for an ADMIN role', async () => {
-    const [req, res, next] = testRequestHandler({ user: { userRoles: [AuthRole.ADMIN] } })
+  it('configures cards shown for an MOIC_ADMIN role', async () => {
+    const [req, res, next] = testRequestHandler({ user: { userRoles: [AuthRole.MOIC_ADMIN] } })
+    const viewContext = {
+      shouldShowLduCard: true,
+      shouldShowOmuCard: true,
+      shouldShowProbationTeamsCard: true,
+    }
+
+    await index(req, res, next)
+    expect(res.render).toHaveBeenCalledWith('pages/index', viewContext)
+  })
+
+  it('configures cards shown for a SUPPORT role', async () => {
+    const [req, res, next] = testRequestHandler({ user: { userRoles: [AuthRole.SUPPORT] } })
     const viewContext = {
       shouldShowLduCard: true,
       shouldShowOmuCard: true,

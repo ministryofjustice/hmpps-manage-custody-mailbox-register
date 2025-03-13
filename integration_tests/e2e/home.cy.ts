@@ -12,8 +12,9 @@ describe('Homepage cards', () => {
       cy.signIn()
     })
 
-    it('Shows the LDU card but not the OMU card', () => {
+    it('Shows the Probation Teams card and the LDU card but not the OMU card', () => {
       const page = new IndexPage()
+      page.probationTeams().should('exist')
       page.lduMailboxes().should('exist')
       page.omuMailboxes().should('not.exist')
     })
@@ -25,21 +26,37 @@ describe('Homepage cards', () => {
       cy.signIn()
     })
 
-    it('Shows the OMU card but not the LDU card', () => {
+    it('Shows the OMU card but not the Probation Teams or LDU cards', () => {
       const page = new IndexPage()
+      page.probationTeams().should('not.exist')
       page.lduMailboxes().should('not.exist')
       page.omuMailboxes().should('exist')
     })
   })
 
-  context('User with ADMIN role', () => {
+  context('User with MOIC_ADMIN role', () => {
     beforeEach(() => {
-      cy.task('stubSignIn', { roles: [AuthRole.ADMIN] })
+      cy.task('stubSignIn', { roles: [AuthRole.MOIC_ADMIN] })
       cy.signIn()
     })
 
-    it('Shows the LDU card and the OMU card', () => {
+    it('Shows all the cards', () => {
       const page = new IndexPage()
+      page.probationTeams().should('exist')
+      page.lduMailboxes().should('exist')
+      page.omuMailboxes().should('exist')
+    })
+  })
+
+  context('User with SUPPORT role', () => {
+    beforeEach(() => {
+      cy.task('stubSignIn', { roles: [AuthRole.SUPPORT] })
+      cy.signIn()
+    })
+
+    it('Shows all the cards', () => {
+      const page = new IndexPage()
+      page.probationTeams().should('exist')
       page.lduMailboxes().should('exist')
       page.omuMailboxes().should('exist')
     })
@@ -51,8 +68,9 @@ describe('Homepage cards', () => {
       cy.signIn()
     })
 
-    it('Hides the LDU card and the OMU card', () => {
+    it('Hides all the cards', () => {
       const page = new IndexPage()
+      page.probationTeams().should('not.exist')
       page.lduMailboxes().should('not.exist')
       page.omuMailboxes().should('not.exist')
     })
