@@ -7,6 +7,6 @@ $govuk-page-width: $moj-page-width;
 @import "govuk-frontend/dist/govuk";
 @import "@ministryofjustice/frontend/moj/all";
 
-@import './components/cards';
+@import './components/card';
 @import './components/header-bar';
 @import './local';
