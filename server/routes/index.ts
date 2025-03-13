@@ -11,8 +11,8 @@ import AuthRole from '../data/authRole'
 export default (services: Services): Router => {
   const router = Router()
 
-  const prisonOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PRISON, AuthRole.ADMIN])
-  const probationOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PROBATION, AuthRole.ADMIN])
+  const prisonOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PRISON, AuthRole.MOIC_ADMIN, AuthRole.SUPPORT])
+  const probationOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PROBATION, AuthRole.MOIC_ADMIN, AuthRole.SUPPORT])
 
   const get = (path: string, ...handlers: RequestHandler[]) => router.get(path, handlers.map(asyncMiddleware))
   const post = (path: string, ...handlers: RequestHandler[]) => router.post(path, handlers.map(asyncMiddleware))
