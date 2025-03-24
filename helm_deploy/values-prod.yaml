@@ -1,0 +1,19 @@
+---
+# Per environment values which override defaults in hmpps-manage-custody-mailbox-register/values.yaml
+
+generic-service:
+  ingress:
+    host: manage-custody-mailbox-register.hmpps.service.justice.gov.uk
+
+  env:
+    INGRESS_URL: "https://manage-custody-mailbox-register.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
+    MAILBOX_REGISTER_API_URL: "https://manage-custody-mailbox-register-api.hmpps.service.justice.gov.uk"
+    AUDIT_ENABLED: "false"
+
+generic-prometheus-alerts:
+  alertSeverity: mpc-alerts-prod
+  elastiCacheAlertsClusterIds:
+    cp-16cb6c11c7242538-001: prod cluster node 1
+    cp-16cb6c11c7242538-002: prod cluster node 2
