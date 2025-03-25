@@ -31,9 +31,9 @@
     {% set tableRows = (tableRows.push([
       {
         html: '<a href="/probation-teams/' + probationTeam.id + '/edit" class="govuk-link">' + probationTeam.emailAddress + '</a>',
-        text: probationTeam.emailAddress,
         attributes: {
-          "data-qa": "email-column"
+          "data-qa": "email-column",
+          "data-sort-value": probationTeam.emailAddress
         }
       },
       {
@@ -60,7 +60,7 @@
         {
           text: "Email address",
           attributes: {
-            "aria-sort": "none"
+            "aria-sort": "ascending"
           }
         },
         {

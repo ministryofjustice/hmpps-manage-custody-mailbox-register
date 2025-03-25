@@ -29,12 +29,13 @@
 
   {% set tableRows = [] %}
   {% for mailbox in mailboxes %}
+    {% set lduName = ldus.nameOrEmail(mailbox) %}
     {% set tableRows = (tableRows.push([
       {
-        html: '<a href="/local-delivery-unit-mailboxes/' + mailbox.id + '/edit" class="govuk-link">' + ldus.nameOrEmail(mailbox) + '</a>',
+        html: '<a href="/local-delivery-unit-mailboxes/' + mailbox.id + '/edit" class="govuk-link">' + lduName + '</a>',
         attributes: {
           "data-qa": "name-column",
-          "data-sort-value": mailbox.name
+          "data-sort-value": lduName
         }
       },
       {
@@ -45,9 +46,6 @@
       },
       {
         text: mailbox.unitCode
-      },
-      {
-        text: mailbox.areaCode
       },
       {
         text: mailbox.country
@@ -63,7 +61,7 @@
       {
         text: "Name",
         attributes: {
-          "aria-sort": "none"
+          "aria-sort": "ascending"
         }
       },
       {
@@ -74,12 +72,6 @@
       },
       {
         text: "Unit code",
-        attributes: {
-          "aria-sort": "none"
-        }
-      },
-      {
-        text: "Area code",
         attributes: {
           "aria-sort": "none"
         }
