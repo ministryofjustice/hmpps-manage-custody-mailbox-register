@@ -3,6 +3,7 @@ import { testRequestHandler } from '../testutils/requestHandler'
 import { index, create, deleteMailbox, update } from './controller'
 import { ResponseErrorWithData } from '../../services/validation'
 import { LocalDeliveryUnitMailbox } from '../../@types/mailboxRegisterApiClientTypes'
+import AuthRole from '../../data/authRole'
 
 const mailboxRegisterService = {
   listLocalDeliveryUnitMailboxes: jest.fn(),
@@ -36,14 +37,15 @@ const body = {
 
 describe('index', () => {
   it('retrieves a list of mailboxes from the backend', async () => {
-    const [req, res, next] = testRequestHandler({})
+    const [req, res, next] = testRequestHandler({ user: { userRoles: [AuthRole.MOIC_ADMIN] } })
     const mailboxes: LocalDeliveryUnitMailbox[] = []
+    const viewContext = { hasAdminRole: true }
 
     mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReturnValue(mailboxes)
     await index(services)(req, res, next)
 
     expect(mailboxRegisterService.listLocalDeliveryUnitMailboxes).toHaveBeenCalledWith('CL13NT_T0K3N')
-    expect(res.render).toHaveBeenCalledWith('pages/lduMailboxes/index', { mailboxes })
+    expect(res.render).toHaveBeenCalledWith('pages/lduMailboxes/index', { mailboxes, viewContext })
   })
 })
 

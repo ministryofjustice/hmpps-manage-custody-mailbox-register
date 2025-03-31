@@ -11,6 +11,7 @@ import AuthRole from '../data/authRole'
 export default (services: Services): Router => {
   const router = Router()
 
+  const adminRoleCheck = roleCheckMiddleware([AuthRole.MOIC_ADMIN, AuthRole.SUPPORT])
   const prisonOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PRISON, AuthRole.MOIC_ADMIN, AuthRole.SUPPORT])
   const probationOrAdminRoleCheck = roleCheckMiddleware([AuthRole.PROBATION, AuthRole.MOIC_ADMIN, AuthRole.SUPPORT])
 
@@ -21,28 +22,28 @@ export default (services: Services): Router => {
   get('/', home.index)
 
   get('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, ldus.index(services))
-  get('/local-delivery-unit-mailboxes/new', prisonOrAdminRoleCheck, ldus.newMailbox)
-  post('/local-delivery-unit-mailboxes', prisonOrAdminRoleCheck, ldus.create(services))
-  get('/local-delivery-unit-mailboxes/:id/edit', prisonOrAdminRoleCheck, ldus.edit(services))
-  post('/local-delivery-unit-mailboxes/:id', prisonOrAdminRoleCheck, ldus.update(services))
-  get('/local-delivery-unit-mailboxes/:id/delete', prisonOrAdminRoleCheck, ldus.confirmDelete(services))
-  destroy('/local-delivery-unit-mailboxes/:id', prisonOrAdminRoleCheck, ldus.deleteMailbox(services))
+  get('/local-delivery-unit-mailboxes/new', adminRoleCheck, ldus.newMailbox)
+  post('/local-delivery-unit-mailboxes', adminRoleCheck, ldus.create(services))
+  get('/local-delivery-unit-mailboxes/:id/edit', adminRoleCheck, ldus.edit(services))
+  post('/local-delivery-unit-mailboxes/:id', adminRoleCheck, ldus.update(services))
+  get('/local-delivery-unit-mailboxes/:id/delete', adminRoleCheck, ldus.confirmDelete(services))
+  destroy('/local-delivery-unit-mailboxes/:id', adminRoleCheck, ldus.deleteMailbox(services))
 
   get('/offender-management-unit-mailboxes', probationOrAdminRoleCheck, omus.index(services))
-  get('/offender-management-unit-mailboxes/new', probationOrAdminRoleCheck, omus.newMailbox(services))
-  post('/offender-management-unit-mailboxes', probationOrAdminRoleCheck, omus.create(services))
-  get('/offender-management-unit-mailboxes/:id/edit', probationOrAdminRoleCheck, omus.edit(services))
-  post('/offender-management-unit-mailboxes/:id', probationOrAdminRoleCheck, omus.update(services))
-  get('/offender-management-unit-mailboxes/:id/delete', probationOrAdminRoleCheck, omus.confirmDelete(services))
-  destroy('/offender-management-unit-mailboxes/:id', probationOrAdminRoleCheck, omus.deleteMailbox(services))
+  get('/offender-management-unit-mailboxes/new', adminRoleCheck, omus.newMailbox(services))
+  post('/offender-management-unit-mailboxes', adminRoleCheck, omus.create(services))
+  get('/offender-management-unit-mailboxes/:id/edit', adminRoleCheck, omus.edit(services))
+  post('/offender-management-unit-mailboxes/:id', adminRoleCheck, omus.update(services))
+  get('/offender-management-unit-mailboxes/:id/delete', adminRoleCheck, omus.confirmDelete(services))
+  destroy('/offender-management-unit-mailboxes/:id', adminRoleCheck, omus.deleteMailbox(services))
 
   get('/probation-teams', prisonOrAdminRoleCheck, probationTeams.index(services))
-  get('/probation-teams/new', prisonOrAdminRoleCheck, probationTeams.newProbationTeam(services))
-  post('/probation-teams', prisonOrAdminRoleCheck, probationTeams.create(services))
-  get('/probation-teams/:id/edit', prisonOrAdminRoleCheck, probationTeams.edit(services))
-  post('/probation-teams/:id', prisonOrAdminRoleCheck, probationTeams.update(services))
-  get('/probation-teams/:id/delete', prisonOrAdminRoleCheck, probationTeams.confirmDelete(services))
-  destroy('/probation-teams/:id', prisonOrAdminRoleCheck, probationTeams.deleteProbationTeam(services))
+  get('/probation-teams/new', adminRoleCheck, probationTeams.newProbationTeam(services))
+  post('/probation-teams', adminRoleCheck, probationTeams.create(services))
+  get('/probation-teams/:id/edit', adminRoleCheck, probationTeams.edit(services))
+  post('/probation-teams/:id', adminRoleCheck, probationTeams.update(services))
+  get('/probation-teams/:id/delete', adminRoleCheck, probationTeams.confirmDelete(services))
+  destroy('/probation-teams/:id', adminRoleCheck, probationTeams.deleteProbationTeam(services))
 
   return router
 }

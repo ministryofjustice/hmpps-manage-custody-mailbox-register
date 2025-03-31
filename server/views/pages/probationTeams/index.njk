@@ -21,10 +21,12 @@
 
   <h1 class="govuk-heading-l">Probation Teams</h1>
 
+  {% if viewContext.hasAdminRole %}
   <p class="govuk-body">
     <a href="/probation-teams/new" class="govuk-link govuk-link--no-visited-state">Create a new
       Probation Team</a>
   </p>
+  {% endif %}
 
   {% set tableRows = [] %}
   {% for probationTeam in probationTeams %}
@@ -51,6 +53,7 @@
     ]), tableRows) %}
   {% endfor %}
 
+  {% if probationTeams.length %}
   {{
     govukTable({
       attributes: {
@@ -79,5 +82,8 @@
       rows: tableRows
     })
   }}
+  {% else %}
+    <p class="govuk-body">No Probation Teams have been created yet.</p>
+  {% endif %}
 
 {% endblock %}

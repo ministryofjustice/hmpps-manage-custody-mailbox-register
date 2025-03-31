@@ -5,6 +5,20 @@ import EditLduMailboxPage from '../pages/editLduMailbox'
 import DeleteLduMailboxPage from '../pages/deleteLduMailbox'
 import AuthRole from '../../server/data/authRole'
 
+context('Listing LDU mailboxes', () => {
+  beforeEach(() => {
+    cy.task('reset')
+  })
+
+  it('Denies access to user without the PRISON or admin roles', () => {
+    cy.task('stubSignIn', { roles: [] })
+    cy.signIn()
+
+    cy.visit('/local-delivery-unit-mailboxes', { failOnStatusCode: false })
+    cy.url().should('contain', '/access-denied')
+  })
+})
+
 context('Creating an LDU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
@@ -12,16 +26,16 @@ context('Creating an LDU mailbox', () => {
     cy.task('stubListLduMailboxes')
   })
 
-  it('Denies access to user without the PRISON role', () => {
-    cy.task('stubSignIn', { roles: [] })
+  it('Denies access to user without the MOIC_ADMIN role', () => {
+    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
     cy.signIn()
 
-    cy.visit('/local-delivery-unit-mailboxes', { failOnStatusCode: false })
+    cy.visit('/local-delivery-unit-mailboxes/new', { failOnStatusCode: false })
     cy.url().should('contain', '/access-denied')
   })
 
   it('Enters the details and submits the form', () => {
-    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
+    cy.task('stubSignIn', { roles: [AuthRole.MOIC_ADMIN] })
     cy.signIn()
 
     const page = new IndexPage()
@@ -46,7 +60,7 @@ context('Creating an LDU mailbox', () => {
 context('Updating an LDU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
+    cy.task('stubSignIn', { roles: [AuthRole.MOIC_ADMIN] })
     cy.task('stubListLduMailboxes')
     cy.task('stubGetLduMailbox')
     cy.task('stubUpdateLduMailbox')
@@ -79,7 +93,7 @@ context('Updating an LDU mailbox', () => {
 context('Deleting an LDU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
+    cy.task('stubSignIn', { roles: [AuthRole.MOIC_ADMIN] })
     cy.task('stubListLduMailboxes')
     cy.task('stubGetLduMailbox')
     cy.task('stubDeleteLduMailbox')

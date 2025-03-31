@@ -5,6 +5,20 @@ import EditProbationTeamPage from '../pages/editProbationTeam'
 import DeleteProbationTeamPage from '../pages/deleteProbationTeam'
 import NewProbationTeamPage from '../pages/newProbationTeam'
 
+context('Listing probation teams', () => {
+  beforeEach(() => {
+    cy.task('reset')
+  })
+
+  it('Denies access to user without the PRISON or admin roles', () => {
+    cy.task('stubSignIn', { roles: [] })
+    cy.signIn()
+
+    cy.visit('/probation-teams', { failOnStatusCode: false })
+    cy.url().should('contain', '/access-denied')
+  })
+})
+
 context('Creating a probation team', () => {
   beforeEach(() => {
     cy.task('reset')
@@ -13,16 +27,16 @@ context('Creating a probation team', () => {
     cy.task('stubListProbationTeams')
   })
 
-  it('Denies access to user without the PRISON role', () => {
-    cy.task('stubSignIn', { roles: [] })
+  it('Denies access to user without the SUPPORT role', () => {
+    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
     cy.signIn()
 
-    cy.visit('/probation-teams', { failOnStatusCode: false })
+    cy.visit('/probation-teams/new', { failOnStatusCode: false })
     cy.url().should('contain', '/access-denied')
   })
 
   it('Enters the details and submits the form', () => {
-    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
+    cy.task('stubSignIn', { roles: [AuthRole.SUPPORT] })
     cy.signIn()
 
     const page = new IndexPage()
@@ -46,7 +60,7 @@ context('Creating a probation team', () => {
 context('Deleting a probation team', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn', { roles: [AuthRole.PRISON] })
+    cy.task('stubSignIn', { roles: [AuthRole.SUPPORT] })
     cy.task('stubListLduMailboxes')
     cy.task('stubListProbationTeams')
     cy.task('stubGetProbationTeam')
