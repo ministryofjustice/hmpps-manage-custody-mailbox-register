@@ -22,10 +22,12 @@
   }}
 
   <h1 class="govuk-heading-l">Local Delivery Unit Mailboxes</h1>
-  
+
+  {% if viewContext.hasAdminRole %}
   <p class="govuk-body">
     <a href="/local-delivery-unit-mailboxes/new" class="govuk-link govuk-link--no-visited-state">Create new Local Delivery Unit Mailbox</a>
   </p>
+  {% endif %}
 
   {% set tableRows = [] %}
   {% for mailbox in mailboxes %}
@@ -53,6 +55,7 @@
     ]), tableRows) %}
   {% endfor %}
 
+  {% if mailboxes.length %}
   {{ govukTable({
     attributes: {
       'data-module': 'moj-sortable-table'
@@ -85,5 +88,8 @@
     ],
     rows: tableRows
   }) }}
+  {% else %}
+    <p class="govuk-body">No Local Delivery Unit Mailboxes have been created yet.</p>
+  {% endif %}
 
 {% endblock %}

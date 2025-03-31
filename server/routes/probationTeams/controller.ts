@@ -2,6 +2,7 @@ import { body, matchedData } from 'express-validator'
 import { RequestHandlerWithServices } from '../../services'
 import { validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
+import { hasAdminRole } from '../../utils/utils'
 
 export const newProbationTeam: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
@@ -30,7 +31,9 @@ export const index: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
     const probationTeams = await mailboxRegisterService.listProbationTeams(clientToken(req))
-    res.render('pages/probationTeams/index', { probationTeams })
+    const viewContext = { hasAdminRole: hasAdminRole(req.user) }
+
+    res.render('pages/probationTeams/index', { probationTeams, viewContext })
   }
 
 export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =>

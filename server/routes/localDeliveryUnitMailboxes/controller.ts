@@ -2,13 +2,15 @@ import { body, matchedData } from 'express-validator'
 import { RequestHandler, RequestHandlerWithServices } from '../../services'
 import { validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
+import { hasAdminRole } from '../../utils/utils'
 
 export const index: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
     const mailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(clientToken(req))
+    const viewContext = { hasAdminRole: hasAdminRole(req.user) }
 
-    res.render('pages/lduMailboxes/index', { mailboxes })
+    res.render('pages/lduMailboxes/index', { mailboxes, viewContext })
   }
 
 export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =>

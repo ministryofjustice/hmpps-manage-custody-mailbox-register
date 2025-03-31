@@ -34,7 +34,8 @@ const errorForField = (errors: { [field: string]: string }, fieldName: string) =
 }
 
 const hasRole = (user: Express.User, role: AuthRole): boolean => user?.userRoles.includes(role) || false
-const hasRoleOrAdmin = (user: Express.User, role: AuthRole): boolean =>
-  hasRole(user, role) || hasRole(user, AuthRole.MOIC_ADMIN) || hasRole(user, AuthRole.SUPPORT)
+const hasRoleOrAdmin = (user: Express.User, role: AuthRole): boolean => hasRole(user, role) || hasAdminRole(user)
+const hasAdminRole = (user: Express.User): boolean =>
+  hasRole(user, AuthRole.MOIC_ADMIN) || hasRole(user, AuthRole.SUPPORT)
 
-export { hasRoleOrAdmin, properCase, convertToTitleCase, initialiseName, formatDate, errorForField }
+export { hasAdminRole, hasRoleOrAdmin, properCase, convertToTitleCase, initialiseName, formatDate, errorForField }

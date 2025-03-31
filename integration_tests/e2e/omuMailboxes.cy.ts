@@ -5,6 +5,20 @@ import NewOmuMailboxPage from '../pages/newOmuMailbox'
 import EditOmuMailboxPage from '../pages/editOmuMailbox'
 import DeleteOmuMailboxPage from '../pages/deleteOmuMailbox'
 
+context('Listing OMU mailboxes', () => {
+  beforeEach(() => {
+    cy.task('reset')
+  })
+
+  it('Denies access to user without the PROBATION or admin roles', () => {
+    cy.task('stubSignIn', { roles: [] })
+    cy.signIn()
+
+    cy.visit('/offender-management-unit-mailboxes', { failOnStatusCode: false })
+    cy.url().should('contain', '/access-denied')
+  })
+})
+
 context('Creating an OMU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
@@ -13,16 +27,16 @@ context('Creating an OMU mailbox', () => {
     cy.task('stubListPrisonCodes')
   })
 
-  it('Denies access to user without the PROBATION role', () => {
-    cy.task('stubSignIn', { roles: [] })
+  it('Denies access to user without the SUPPORT role', () => {
+    cy.task('stubSignIn', { roles: [AuthRole.PROBATION] })
     cy.signIn()
 
-    cy.visit('/offender-management-unit-mailboxes', { failOnStatusCode: false })
+    cy.visit('/offender-management-unit-mailboxes/new', { failOnStatusCode: false })
     cy.url().should('contain', '/access-denied')
   })
 
   it('Enters the details and submits the form', () => {
-    cy.task('stubSignIn', { roles: [AuthRole.PROBATION] })
+    cy.task('stubSignIn', { roles: [AuthRole.SUPPORT] })
     cy.signIn()
 
     const page = new IndexPage()
@@ -47,7 +61,7 @@ context('Creating an OMU mailbox', () => {
 context('Deleting an OMU mailbox', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubSignIn', { roles: [AuthRole.PROBATION] })
+    cy.task('stubSignIn', { roles: [AuthRole.SUPPORT] })
     cy.task('stubListPrisonCodes')
     cy.task('stubListOmuMailboxes')
     cy.task('stubGetOmuMailbox')

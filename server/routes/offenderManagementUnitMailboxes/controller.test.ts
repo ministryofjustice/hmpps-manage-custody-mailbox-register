@@ -3,6 +3,7 @@ import { index, create, deleteMailbox, update } from './controller'
 import { testRequestHandler } from '../testutils/requestHandler'
 import { ResponseErrorWithData } from '../../services/validation'
 import { OffenderManagementUnitMailbox } from '../../@types/mailboxRegisterApiClientTypes'
+import AuthRole from '../../data/authRole'
 
 const body = {
   name: 'A Name',
@@ -38,16 +39,17 @@ const sharedValidationRules = [
 
 describe('index', () => {
   it('retrieves a list of mailboxes from the backend', async () => {
-    const [req, res, next] = testRequestHandler({})
+    const [req, res, next] = testRequestHandler({ user: { userRoles: [AuthRole.SUPPORT] } })
     const mailboxes: OffenderManagementUnitMailbox[] = []
     const prisons = [{ LEI: 'Leeds' }, { WHI: 'Woodhill' }]
+    const viewContext = { hasAdminRole: true }
 
     mailboxRegisterService.listPrisonCodes.mockReturnValue({ prisons })
     mailboxRegisterService.listOffenderManagementUnitMailboxes.mockReturnValue(mailboxes)
     await index(services)(req, res, next)
 
     expect(mailboxRegisterService.listOffenderManagementUnitMailboxes).toHaveBeenCalledWith('CL13NT_T0K3N')
-    expect(res.render).toHaveBeenCalledWith('pages/omuMailboxes/index', { mailboxes, prisons })
+    expect(res.render).toHaveBeenCalledWith('pages/omuMailboxes/index', { mailboxes, prisons, viewContext })
   })
 })
 

@@ -2,6 +2,7 @@ import { Services } from '../../services'
 import { ResponseErrorWithData } from '../../services/validation'
 import { testRequestHandler } from '../testutils/requestHandler'
 import { create, edit, index, newProbationTeam, update, deleteProbationTeam } from './controller'
+import AuthRole from '../../data/authRole'
 
 const mailboxRegisterService = {
   createProbationTeam: jest.fn(),
@@ -81,10 +82,12 @@ describe('index', () => {
       { id: 123, emailAddress: 'probation.team1@email.com' },
       { id: 456, emailAddress: 'probation.team2@email.com' },
     ]
+    const viewContext = { hasAdminRole: true }
     mailboxRegisterService.listProbationTeams.mockReturnValue(probationTeams)
-    const [req, res, next] = testRequestHandler({})
+    const [req, res, next] = testRequestHandler({ user: { userRoles: [AuthRole.MOIC_ADMIN] } })
+
     await index(services)(req, res, next)
-    expect(res.render).toHaveBeenCalledWith('pages/probationTeams/index', { probationTeams })
+    expect(res.render).toHaveBeenCalledWith('pages/probationTeams/index', { probationTeams, viewContext })
   })
 })
 

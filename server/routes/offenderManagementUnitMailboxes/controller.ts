@@ -3,13 +3,16 @@ import { RequestHandlerWithServices } from '../../services'
 import { prisonCodeOptions } from './prisons'
 import { validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
+import { hasAdminRole } from '../../utils/utils'
 
 export const index: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
     const mailboxes = await mailboxRegisterService.listOffenderManagementUnitMailboxes(clientToken(req))
     const { prisons } = await mailboxRegisterService.listPrisonCodes(clientToken(req))
-    res.render('pages/omuMailboxes/index', { mailboxes, prisons })
+    const viewContext = { hasAdminRole: hasAdminRole(req.user) }
+
+    res.render('pages/omuMailboxes/index', { mailboxes, prisons, viewContext })
   }
 
 export const newMailbox: RequestHandlerWithServices =
