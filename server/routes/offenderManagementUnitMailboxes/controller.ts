@@ -70,8 +70,8 @@ export const deleteMailbox: RequestHandlerWithServices =
   }
 
 const validations = [
-  body('name').notEmpty().withMessage('Please enter a name'),
-  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
-  body('prisonCode').notEmpty().withMessage('Please select a prison'),
-  body('role').notEmpty().withMessage('Please select a role / activity'),
+  body('name').trim().notEmpty().withMessage('Please enter a name'),
+  body('emailAddress').trim().isEmail().withMessage('Please enter a valid email address'),
+  body('prisonCode').trim().notEmpty().withMessage('Please select a prison'),
+  body('role').trim().isIn(['CVL', 'HDC']).withMessage('Please select a role / activity'),
 ]

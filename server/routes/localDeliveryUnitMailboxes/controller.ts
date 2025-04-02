@@ -77,14 +77,29 @@ export const deleteMailbox: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
     const { id } = req.params
-    await mailboxRegisterService.deleteLocalDeliveryUnitMailbox(clientToken(req), id)
-    res.redirect('/local-delivery-unit-mailboxes')
+
+    try {
+      await mailboxRegisterService.deleteLocalDeliveryUnitMailbox(clientToken(req), id)
+      res.redirect('/local-delivery-unit-mailboxes')
+    } catch (error) {
+      if (error.status === 400) {
+        req.flash('error', error.data.errors.error)
+        res.redirect(`/local-delivery-unit-mailboxes/${id}/delete`)
+      } else {
+        throw error
+      }
+    }
   }
 
 export const validations = [
-  body('name'),
-  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
-  body('country'),
-  body('unitCode').notEmpty().withMessage('Please enter the unit code'),
-  body('areaCode').notEmpty().withMessage('Please enter the area code'),
+  body('name').trim().notEmpty().withMessage('Please enter a name'),
+  body('emailAddress').trim().isEmail().withMessage('Please enter a valid email address'),
+  body('country').trim().isIn(['England', 'Wales']).withMessage('Please select the country'),
+  body('unitCode')
+    .trim()
+    .notEmpty()
+    .withMessage('Please enter the unit code')
+    .isAlphanumeric()
+    .withMessage('Please enter only letters and numbers'),
+  body('areaCode').optional().trim(),
 ]

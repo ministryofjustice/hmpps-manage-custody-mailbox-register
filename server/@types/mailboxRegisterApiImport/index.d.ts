@@ -1,10 +1,10 @@
 type LocalDeliveryUnitMailbox = {
   id: string
   unitCode: string
-  areaCode: string
+  areaCode?: string
   emailAddress: string
-  country?: string
-  name?: string
+  country: string
+  name: string
   createdAt: string
   updatedAt: string
 }
@@ -15,10 +15,10 @@ export interface components {
 
     CreateLocalDeliveryUnitMailboxRequest: {
       unitCode: string
-      areaCode: string
+      areaCode?: string
       emailAddress: string
-      country?: string
-      name?: string
+      country: string
+      name: string
     }
 
     OffenderManagementUnitMailbox: {

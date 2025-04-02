@@ -5,7 +5,7 @@ export default class LduMailboxForm extends Page {
   submitMailbox(mailbox: CreateLocalDeliveryUnitMailboxRequest) {
     this.nameTextInput().clear().type(mailbox.name)
     this.emailAddressTextInput().clear().type(mailbox.emailAddress)
-    this.countryTextInput().clear().type(mailbox.country)
+    this.countrySelect().select(mailbox.country)
     this.unitCodeTextInput().clear().type(mailbox.unitCode)
     this.areaCodeTextInput().clear().type(mailbox.areaCode)
     this.submitButton().click()
@@ -15,7 +15,7 @@ export default class LduMailboxForm extends Page {
 
   private emailAddressTextInput = (): PageElement => cy.get('input[name="emailAddress"]')
 
-  private countryTextInput = (): PageElement => cy.get('input[name="country"]')
+  private countrySelect = (): PageElement => cy.get('select[name="country"]')
 
   private unitCodeTextInput = (): PageElement => cy.get('input[name="unitCode"]')
 

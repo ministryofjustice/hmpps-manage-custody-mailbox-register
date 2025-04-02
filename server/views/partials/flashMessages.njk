@@ -1,0 +1,12 @@
+{% from "moj/components/alert/macro.njk" import mojAlert -%}
+
+{% for message in flashMessages %}
+  {% for variant, title in message %}
+    {{ mojAlert({
+      variant: variant,
+      title: title,
+      showTitleAsHeading: true,
+      classes: "govuk-!-margin-top-4"
+    }) }}
+  {% endfor %}
+{% endfor %}

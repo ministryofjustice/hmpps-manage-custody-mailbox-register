@@ -21,16 +21,19 @@ beforeEach(() => {
 })
 
 const sharedValidationRules = [
-  ['emailAddress', 'notValid', 'Please enter a valid email address'],
+  ['name', null, 'Please enter a name'],
   ['emailAddress', null, 'Please enter a valid email address'],
+  ['emailAddress', 'notValid', 'Please enter a valid email address'],
   ['unitCode', null, 'Please enter the unit code'],
-  ['areaCode', null, 'Please enter the area code'],
+  ['unitCode', 'not-valid', 'Please enter only letters and numbers'],
+  ['country', null, 'Please select the country'],
+  ['country', 'notValid', 'Please select the country'],
 ]
 
 const body = {
   name: 'A Name',
   emailAddress: 'valid@email.com',
-  country: 'A Country',
+  country: 'England',
   unitCode: '123',
   areaCode: 'ABC',
 }
@@ -51,8 +54,8 @@ describe('index', () => {
 
 describe('create', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
-    const bodyWithInvalidFeild = { ...body, [field]: value }
-    const [req, res, next, flash] = testRequestHandler({ requestBody: bodyWithInvalidFeild })
+    const bodyWithInvalidField = { ...body, [field]: value }
+    const [req, res, next, flash] = testRequestHandler({ requestBody: bodyWithInvalidField })
     await create(services)(req, res, next)
 
     expect(res.redirect).toHaveBeenCalledWith('/local-delivery-unit-mailboxes/new')
@@ -83,9 +86,9 @@ describe('create', () => {
 
 describe('update', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
-    const bodyWithInvalidFeild = { ...body, [field]: value }
+    const bodyWithInvalidField = { ...body, [field]: value }
     const [req, res, next, flash] = testRequestHandler({
-      requestBody: bodyWithInvalidFeild,
+      requestBody: bodyWithInvalidField,
       requestParams: { id: 123 },
     })
     await update(services)(req, res, next)

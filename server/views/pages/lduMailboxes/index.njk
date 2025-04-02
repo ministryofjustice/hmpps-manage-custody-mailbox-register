@@ -1,6 +1,5 @@
 {% extends "../../partials/layout.njk" %}
 {%- from "govuk/components/table/macro.njk" import govukTable -%}
-{% import "../../macros/ldus.njk" as ldus %}
 
 {% set pageTitle = applicationName + " - LDU Mailboxes" %}
 {% set mainClasses = "app-container govuk-body" %}
@@ -31,13 +30,12 @@
 
   {% set tableRows = [] %}
   {% for mailbox in mailboxes %}
-    {% set lduName = ldus.nameOrEmail(mailbox) %}
     {% set tableRows = (tableRows.push([
       {
-        html: '<a href="/local-delivery-unit-mailboxes/' + mailbox.id + '/edit" class="govuk-link">' + lduName + '</a>',
+        html: '<a href="/local-delivery-unit-mailboxes/' + mailbox.id + '/edit" class="govuk-link">' + mailbox.name + '</a>',
         attributes: {
           "data-qa": "name-column",
-          "data-sort-value": lduName
+          "data-sort-value": mailbox.name
         }
       },
       {
