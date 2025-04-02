@@ -17,7 +17,7 @@ export const validatedRequest = (
       return res.redirect(redirectPath(config.onValidationErrorRedirectTo, req))
     }
 
-    // Handle potential back end validataions
+    // Handle potential back end validations
     try {
       return await action(req, res, next)
     } catch (error) {
@@ -39,6 +39,9 @@ export const retrieveValidationErrorsPostRedirect: RequestHandler = (req, res, n
       res.locals.validationErrors = JSON.parse(validationErrors)
       res.locals.submittedForm = JSON.parse(submittedForm)
     }
+
+    // general error messages
+    res.locals.flashMessages = req.flash('error').map((message: string) => ({ error: message }))
   }
   next()
 }

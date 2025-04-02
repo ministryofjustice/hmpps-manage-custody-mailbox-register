@@ -8,8 +8,8 @@ export const newProbationTeam: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
     const localDeliveryUnitMailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(clientToken(req))
-    const localDeliveryUnitMailboxOptions = localDeliveryUnitMailboxes.map(({ id, emailAddress }) => {
-      return { text: emailAddress, value: id }
+    const localDeliveryUnitMailboxOptions = localDeliveryUnitMailboxes.map(({ id, name }) => {
+      return { text: name, value: id }
     })
     localDeliveryUnitMailboxOptions.unshift({ text: 'Please Select', value: null })
     res.render('pages/probationTeams/new', { localDeliveryUnitMailboxOptions })
@@ -20,8 +20,8 @@ export const edit: RequestHandlerWithServices =
   async (req, res) => {
     const probationTeam = await mailboxRegisterService.getProbationTeam(clientToken(req), req.params.id)
     const localDeliveryUnitMailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(clientToken(req))
-    const localDeliveryUnitMailboxOptions = localDeliveryUnitMailboxes.map(({ id, emailAddress }) => {
-      return { text: emailAddress, value: id, selected: id === probationTeam.localDeliveryUnitMailbox.id }
+    const localDeliveryUnitMailboxOptions = localDeliveryUnitMailboxes.map(({ id, name }) => {
+      return { text: name, value: id, selected: id === probationTeam.localDeliveryUnitMailbox.id }
     })
     localDeliveryUnitMailboxOptions.unshift({ text: 'Please Select', value: null, selected: false })
     res.render('pages/probationTeams/edit', { probationTeam, localDeliveryUnitMailboxOptions })
@@ -69,7 +69,7 @@ export const deleteProbationTeam: RequestHandlerWithServices =
   }
 
 const validations = [
-  body('teamCode').notEmpty().withMessage('Please enter a team code'),
-  body('emailAddress').isEmail().withMessage('Please enter a valid email address'),
-  body('localDeliveryUnitMailboxId').notEmpty().withMessage('Please select a Local Delivery Unit'),
+  body('teamCode').trim().notEmpty().withMessage('Please enter a team code'),
+  body('emailAddress').trim().isEmail().withMessage('Please enter a valid email address'),
+  body('localDeliveryUnitMailboxId').trim().notEmpty().withMessage('Please select a Local Delivery Unit'),
 ]

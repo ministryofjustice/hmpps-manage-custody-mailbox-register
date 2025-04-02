@@ -55,8 +55,8 @@ describe('index', () => {
 
 describe('create', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
-    const bodyWithInvalidFeild = { ...body, [field]: value }
-    const [req, res, next, flash] = testRequestHandler({ requestBody: bodyWithInvalidFeild })
+    const bodyWithInvalidField = { ...body, [field]: value }
+    const [req, res, next, flash] = testRequestHandler({ requestBody: bodyWithInvalidField })
     await create(services)(req, res, next)
 
     expect(res.redirect).toHaveBeenCalledWith('/offender-management-unit-mailboxes/new')
@@ -86,9 +86,9 @@ describe('create', () => {
 
 describe('update', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
-    const bodyWithInvalidFeild = { ...body, [field]: value }
+    const bodyWithInvalidField = { ...body, [field]: value }
     const [req, res, next, flash] = testRequestHandler({
-      requestBody: bodyWithInvalidFeild,
+      requestBody: bodyWithInvalidField,
       requestParams: { id: 123 },
     })
     await update(services)(req, res, next)

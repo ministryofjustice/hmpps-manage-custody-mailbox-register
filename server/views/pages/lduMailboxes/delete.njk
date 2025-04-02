@@ -26,6 +26,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {% include 'partials/flashMessages.njk' %}
 
       <form method="post" action="/local-delivery-unit-mailboxes/{{ mailbox.id }}?_method=DELETE">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">

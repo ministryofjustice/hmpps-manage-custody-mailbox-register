@@ -7,7 +7,8 @@
   id: "name",
   name: "name",
   value: mailbox.name,
-  errorMessage: validationErrors | errorFor("name")
+  errorMessage: validationErrors | errorFor("name"),
+  classes: "govuk-!-width-two-thirds"
 }) }}
 
 {{ govukInput({
@@ -21,15 +22,30 @@
   classes: "govuk-!-width-two-thirds"
 }) }}
 
-{{ govukInput({
+{{ govukSelect({
   label: {
     text: "Country"
   },
   id: "country",
   name: "country",
-  value: mailbox.country,
-  errorMessage: validationErrors | errorFor("country"),
-  classes: "govuk-!-width-two-thirds"
+  items: [
+    {
+      value: "",
+      text: 'Please Select',
+      selected: (not mailbox.country)
+    },
+    {
+      value: "England",
+      text: "England",
+      selected: mailbox.country == "England"
+    },
+    {
+      value: "Wales",
+      text: "Wales",
+      selected: mailbox.country == "Wales"
+    }
+  ],
+  errorMessage: validationErrors | errorFor("country")
 }) }}
 
 {{ govukInput({

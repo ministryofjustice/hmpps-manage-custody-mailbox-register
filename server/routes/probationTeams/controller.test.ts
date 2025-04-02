@@ -30,8 +30,8 @@ const body = {
 }
 
 const localDeliveryUnitMailboxes = [
-  { id: 123, emailAddress: 'ldu1@email.com' },
-  { id: 456, emailAddress: 'ldu2@email.com' },
+  { id: 123, name: 'ldu 1' },
+  { id: 456, name: 'ldu 2' },
 ]
 
 describe('new', () => {
@@ -39,8 +39,8 @@ describe('new', () => {
     mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReturnValue(localDeliveryUnitMailboxes)
     const localDeliveryUnitMailboxOptions = [
       { text: 'Please Select', value: null },
-      { text: 'ldu1@email.com', value: 123 },
-      { text: 'ldu2@email.com', value: 456 },
+      { text: 'ldu 1', value: 123 },
+      { text: 'ldu 2', value: 456 },
     ]
 
     const [req, res, next] = testRequestHandler({})
@@ -62,8 +62,8 @@ describe('edit', () => {
     mailboxRegisterService.listLocalDeliveryUnitMailboxes.mockReturnValue(localDeliveryUnitMailboxes)
     const localDeliveryUnitMailboxOptions = [
       { text: 'Please Select', value: null, selected: false },
-      { text: 'ldu1@email.com', value: 123, selected: false },
-      { text: 'ldu2@email.com', value: 456, selected: true },
+      { text: 'ldu 1', value: 123, selected: false },
+      { text: 'ldu 2', value: 456, selected: true },
     ]
 
     const [req, res, next] = testRequestHandler({})
@@ -93,8 +93,8 @@ describe('index', () => {
 
 describe('create', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
-    const bodyWithInvalidFeild = { ...body, [field]: value }
-    const [req, res, next, flash] = testRequestHandler({ requestBody: bodyWithInvalidFeild })
+    const bodyWithInvalidField = { ...body, [field]: value }
+    const [req, res, next, flash] = testRequestHandler({ requestBody: bodyWithInvalidField })
     await create(services)(req, res, next)
 
     expect(res.redirect).toHaveBeenCalledWith('/probation-teams/new')
@@ -124,9 +124,9 @@ describe('create', () => {
 
 describe('update', () => {
   it.each(sharedValidationRules)('redirects without a valid value for %s', async (field, value, expectedMessage) => {
-    const bodyWithInvalidFeild = { ...body, [field]: value }
+    const bodyWithInvalidField = { ...body, [field]: value }
     const [req, res, next, flash] = testRequestHandler({
-      requestBody: bodyWithInvalidFeild,
+      requestBody: bodyWithInvalidField,
       requestParams: { id: 123 },
     })
     await update(services)(req, res, next)
