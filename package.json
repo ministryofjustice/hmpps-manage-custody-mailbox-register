@@ -25,15 +25,12 @@
   },
   "engines": {
     "node": "^22",
-    "npm": "^10"
+    "npm": "^11"
   },
   "jest": {
     "transform": {
       "^.+\\.tsx?$": [
-        "ts-jest",
-        {
-          "isolatedModules": true
-        }
+        "ts-jest"
       ]
     },
     "collectCoverageFrom": [
@@ -76,23 +73,23 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.775.0",
+    "@aws-sdk/client-sqs": "^3.804.0",
     "@ministryofjustice/frontend": "^4.0.1",
     "@ministryofjustice/hmpps-monitoring": "^0.0.1-beta.2",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.6",
-    "body-parser": "^1.20.3",
+    "body-parser": "^2.2.0",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
     "compression": "^1.8.0",
     "connect-flash": "^0.1.1",
-    "connect-redis": "^8.0.2",
-    "csrf-sync": "^4.1.0",
+    "connect-redis": "^8.0.3",
+    "csrf-sync": "^4.2.0",
     "date-fns": "^4.1.0",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
-    "govuk-frontend": "^5.9.0",
+    "govuk-frontend": "^5.10.0",
     "helmet": "^8.1.0",
     "http-errors": "^2.0.0",
     "jquery": "^3.7.1",
@@ -103,7 +100,7 @@
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
     "redis": "^4.7.0",
-    "superagent": "^10.2.0"
+    "superagent": "^10.2.1"
   },
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.3",
@@ -118,7 +115,7 @@
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/method-override": "^3.0.0",
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.15.14",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.4.17",
@@ -128,27 +125,27 @@
     "aws-sdk-client-mock": "^4.1.0",
     "chokidar": "^3.6.0",
     "concurrently": "^9.1.2",
-    "cypress": "^14.2.0",
+    "cypress": "^14.3.3",
     "cypress-multi-reporters": "^2.0.5",
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.25.4",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-manifest": "^1.0.5",
     "esbuild-sass-plugin": "^3.3.1",
-    "glob": "^11.0.1",
+    "glob": "^11.0.2",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-html-reporter": "^4.1.0",
     "jest-junit": "^16.0.0",
     "jsonwebtoken": "^9.0.2",
-    "lint-staged": "^15.5.0",
+    "lint-staged": "^15.5.2",
     "mocha-junit-reporter": "^2.2.1",
-    "nock": "^14.0.1",
+    "nock": "^14.0.4",
     "prettier": "^3.5.3",
-    "prettier-plugin-jinja-template": "^2.0.0",
+    "prettier-plugin-jinja-template": "^2.1.0",
     "supertest": "^7.1.0",
-    "ts-jest": "^29.3.0",
-    "typescript": "^5.8.2"
+    "ts-jest": "^29.3.2",
+    "typescript": "^5.8.3"
   },
   "overrides": {
     "@jgoz/esbuild-plugin-typecheck": {

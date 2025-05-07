@@ -19,4 +19,4 @@ export const services = () => {
 
 export type Services = ReturnType<typeof services>
 export type RequestHandlerWithServices = (services?: Services) => RequestHandler
-export { RequestHandler }
+export type { RequestHandler }
