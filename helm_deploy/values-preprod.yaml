@@ -5,6 +5,9 @@ generic-service:
   ingress:
     host: manage-custody-mailbox-register-preprod.hmpps.service.justice.gov.uk
 
+  scheduledDowntime:
+    enabled: true
+
   env:
     INGRESS_URL: "https://manage-custody-mailbox-register-preprod.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in-preprod.hmpps.service.justice.gov.uk/auth"
