@@ -109,7 +109,7 @@ for the in-memory DB used by Auth
 
 For local running, start a wiremock instance by:
 
-`docker compose -f docker-compose-test.yml up`
+`docker compose -f docker-compose-test.yml up` or `java -jar ../wiremock.jar --port 9091`
 
 Then run the server in test mode by:
 

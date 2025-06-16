@@ -1,12 +1,12 @@
+import { AuthenticationClient } from '@ministryofjustice/hmpps-auth-clients'
 import { RequestHandler } from 'express'
 import logger from '../../logger'
-import { HmppsAuthClient } from '../data'
 
-export default function populateClientToken(hmppsAuthClient: HmppsAuthClient): RequestHandler {
+export default function populateClientToken(hmppsAuthClient: AuthenticationClient): RequestHandler {
   return async (req, res, next) => {
     try {
       if (res.locals.user) {
-        const clientToken = await hmppsAuthClient.getSystemClientToken(res.locals.user.username)
+        const clientToken = await hmppsAuthClient.getToken(res.locals.user.username)
         if (clientToken) {
           // @ts-expect-error - temporary linting bypass
           req.middleware = { ...req.middleware, clientToken }
