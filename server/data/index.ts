@@ -3,6 +3,7 @@
  * Do appinsights first as it does some magic instrumentation work, i.e. it affects other 'require's
  * In particular, applicationinsights automatically collects bunyan logs
  */
+import { AuthenticationClient, InMemoryTokenStore, RedisTokenStore } from '@ministryofjustice/hmpps-auth-clients'
 import { initialiseAppInsights, buildAppInsightsClient } from '../utils/azureAppInsights'
 import applicationInfoSupplier from '../applicationInfo'
 import MailboxRegisterApiClient from './mailboxes/mailboxRegisterApiClient'
@@ -11,25 +12,29 @@ const applicationInfo = applicationInfoSupplier()
 initialiseAppInsights()
 buildAppInsightsClient(applicationInfo)
 
-import HmppsAuthClient from './hmppsAuthClient'
 import { createRedisClient } from './redisClient'
-import RedisTokenStore from './tokenStore/redisTokenStore'
-import InMemoryTokenStore from './tokenStore/inMemoryTokenStore'
 import config from '../config'
 import HmppsAuditClient from './hmppsAuditClient'
+import logger from '../../logger'
 
 type RestClientBuilder<T> = (token: string) => T
 
-export const dataAccess = () => ({
-  applicationInfo,
-  hmppsAuthClient: new HmppsAuthClient(
+export const dataAccess = () => {
+  const hmppsAuthClient = new AuthenticationClient(
+    config.apis.hmppsAuth,
+    logger,
     config.redis.enabled ? new RedisTokenStore(createRedisClient()) : new InMemoryTokenStore(),
-  ),
-  hmppsAuditClient: new HmppsAuditClient(config.sqs.audit),
-  mailboxRegisterApiClientBuilder: (token: string) => new MailboxRegisterApiClient(token),
-})
+  )
+
+  return {
+    applicationInfo,
+    hmppsAuthClient,
+    mailboxRegisterApiClientBuilder: (token: string) => new MailboxRegisterApiClient(token),
+    hmppsAuditClient: new HmppsAuditClient(config.sqs.audit),
+  }
+}
 
 export type DataAccess = ReturnType<typeof dataAccess>
 
-export { HmppsAuthClient, HmppsAuditClient, MailboxRegisterApiClient }
+export { AuthenticationClient, HmppsAuditClient, MailboxRegisterApiClient }
 export type { RestClientBuilder }
