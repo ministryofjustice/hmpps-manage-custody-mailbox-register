@@ -1,4 +1,3 @@
-import { PageElement } from './page'
 import ProbationTeamForm from './probationTeamForm'
 
 export default class EditProbationTeamPage extends ProbationTeamForm {
@@ -6,5 +5,5 @@ export default class EditProbationTeamPage extends ProbationTeamForm {
     super('HMPPS Manage Custody Mailbox Register - Edit Probation Team')
   }
 
-  deleteLink = (): PageElement => cy.get('a').contains('Delete')
+  deleteLink = () => cy.get('a').contains('Delete')
 }

@@ -1,4 +1,3 @@
-import { PageElement } from './page'
 import OmuMailboxForm from './omuMailboxForm'
 
 export default class EditOmuMailboxPage extends OmuMailboxForm {
@@ -6,5 +5,5 @@ export default class EditOmuMailboxPage extends OmuMailboxForm {
     super('HMPPS Manage Custody Mailbox Register - Edit OMU Mailbox')
   }
 
-  deleteLink = (): PageElement => cy.get('a').contains('Delete')
+  deleteLink = () => cy.get('a').contains('Delete')
 }
