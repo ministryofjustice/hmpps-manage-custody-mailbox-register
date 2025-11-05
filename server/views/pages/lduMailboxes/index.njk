@@ -49,6 +49,12 @@
       },
       {
         text: mailbox.country
+      },
+      {
+        text: mailbox.updatedAt | formatDate('dd MMM yyyy'),
+        attributes: {
+          "data-sort-value": mailbox.updatedAt | formatDate('T')
+        }
       }
     ]), tableRows) %}
   {% endfor %}
@@ -79,6 +85,12 @@
       },
       {
         text: "Country",
+        attributes: {
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Updated at",
         attributes: {
           "aria-sort": "none"
         }

@@ -47,7 +47,13 @@
         text: probationTeam.localDeliveryUnitMailbox.name,
         attributes: {
           "data-qa": "ldu-name-column"
-      }
+        }
+      },
+      {
+        text: probationTeam.updatedAt | formatDate('dd MMM yyyy'),
+        attributes: {
+          "data-sort-value": probationTeam.updatedAt | formatDate('T')
+        }
       }
     ]), tableRows) %}
   {% endfor %}
@@ -73,6 +79,12 @@
         },
         {
           text: "LDU",
+          attributes: {
+            "aria-sort": "none"
+          }
+        },
+        {
+          text: "Updated at",
           attributes: {
             "aria-sort": "none"
           }

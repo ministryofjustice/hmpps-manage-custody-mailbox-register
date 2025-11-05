@@ -26,14 +26,17 @@
     ]
   }) }}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+  <form method="post" action="/local-delivery-unit-mailboxes/{{ mailbox.id }}">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
-      <form method="post" action="/local-delivery-unit-mailboxes/{{ mailbox.id }}">
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="govuk-grid-column-two-thirds">
         {% include 'partials/errorSummary.njk' %}
+      </div>
+    </div>
 
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
         {% call govukFieldset({
           legend: {
             text: "Edit Local Delivery Unit Mailbox",
@@ -46,9 +49,10 @@
         {% include "pages/lduMailboxes/_form.njk" %}
 
         {% endcall %}
+      </div>
 
-      </form>
+      {{ mailboxDetails.timestamps(mailbox) }}
     </div>
-  </div>
+  </form>
 
 {% endblock %}
