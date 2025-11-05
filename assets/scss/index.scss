@@ -1,8 +1,7 @@
-$govuk-global-styles: true;
-$path: "/assets/images/";
-
-$moj-page-width: 1170px;
-$govuk-page-width: $moj-page-width;
+@forward "govuk-frontend/dist/govuk/index" with (
+  $govuk-global-styles: true,
+  $govuk-page-width: 1170px,
+);
 
 @use "govuk-frontend/dist/govuk";
 @use "@ministryofjustice/frontend/moj/all";
