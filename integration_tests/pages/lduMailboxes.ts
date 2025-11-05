@@ -1,11 +1,11 @@
-import Page, { PageElement } from './page'
+import Page from './page'
 
 export default class LduMailboxesPage extends Page {
   public constructor() {
     super('HMPPS Manage Custody Mailbox Register - LDU Mailboxes')
   }
 
-  createNewLduMailbox = (): PageElement => cy.get('a').contains('Create new Local Delivery Unit Mailbox')
+  createNewLduMailbox = () => cy.get('a').contains('Create new Local Delivery Unit Mailbox')
 
   mailboxes = () => cy.get('td[data-qa=name-column] a.govuk-link')
 

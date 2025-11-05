@@ -1,11 +1,11 @@
-import Page, { PageElement } from './page'
+import Page from './page'
 
 export default class ProbationTeamsPage extends Page {
   public constructor() {
     super('HMPPS Manage Custody Mailbox Register - Probation Teams')
   }
 
-  createNewProbationTeam = (): PageElement => cy.get('a').contains('Create a new Probation Team')
+  createNewProbationTeam = () => cy.get('a').contains('Create a new Probation Team')
 
   teams = () => cy.get('td[data-qa=email-column] a.govuk-link')
 

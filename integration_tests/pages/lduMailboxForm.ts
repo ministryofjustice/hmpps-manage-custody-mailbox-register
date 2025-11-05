@@ -1,4 +1,4 @@
-import Page, { PageElement } from './page'
+import Page from './page'
 import { CreateLocalDeliveryUnitMailboxRequest } from '../../server/@types/mailboxRegisterApiClientTypes'
 
 export default class LduMailboxForm extends Page {
@@ -7,19 +7,21 @@ export default class LduMailboxForm extends Page {
     this.emailAddressTextInput().clear().type(mailbox.emailAddress)
     this.countrySelect().select(mailbox.country)
     this.unitCodeTextInput().clear().type(mailbox.unitCode)
-    this.areaCodeTextInput().clear().type(mailbox.areaCode)
+    if (mailbox.areaCode != null) {
+      this.areaCodeTextInput().clear().type(mailbox.areaCode)
+    }
     this.submitButton().click()
   }
 
-  private nameTextInput = (): PageElement => cy.get('input[name="name"]')
+  private nameTextInput = () => cy.get('input[name="name"]')
 
-  private emailAddressTextInput = (): PageElement => cy.get('input[name="emailAddress"]')
+  private emailAddressTextInput = () => cy.get('input[name="emailAddress"]')
 
-  private countrySelect = (): PageElement => cy.get('select[name="country"]')
+  private countrySelect = () => cy.get('select[name="country"]')
 
-  private unitCodeTextInput = (): PageElement => cy.get('input[name="unitCode"]')
+  private unitCodeTextInput = () => cy.get('input[name="unitCode"]')
 
-  private areaCodeTextInput = (): PageElement => cy.get('input[name="areaCode"]')
+  private areaCodeTextInput = () => cy.get('input[name="areaCode"]')
 
-  private submitButton = (): PageElement => cy.get('button[type="submit"]')
+  private submitButton = () => cy.get('button[type="submit"]')
 }
