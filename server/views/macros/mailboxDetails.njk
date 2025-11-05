@@ -1,0 +1,14 @@
+{% macro timestamps(mailbox) %}
+  <div class="govuk-grid-column-one-third border-left--mid-grey govuk-!-padding-left-3">
+    <ul class="govuk-list">
+      <li>
+        <h3 class="govuk-heading-s no-bottom-margin">Created at</h3>
+        {{ mailbox.createdAt | formatDate('dd MMM yyyy HH:mm:ss') }}
+      </li>
+      <li>
+        <h3 class="govuk-heading-s no-bottom-margin govuk-!-margin-top-3">Updated at</h3>
+        {{ mailbox.updatedAt | formatDate('dd MMM yyyy HH:mm:ss') }}
+      </li>
+    </ul>
+  </div>
+{% endmacro %}

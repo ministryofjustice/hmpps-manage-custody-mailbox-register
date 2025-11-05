@@ -51,6 +51,12 @@
       },
       {
         text: mailbox.role
+      },
+      {
+        text: mailbox.updatedAt | formatDate('dd MMM yyyy'),
+        attributes: {
+          "data-sort-value": mailbox.updatedAt | formatDate('T')
+        }
       }
     ]), tableRows) %}
   {% endfor %}
@@ -82,8 +88,14 @@
       {
         text: "Role",
         attributes: {
-        "aria-sort": "none"
-      }
+          "aria-sort": "none"
+        }
+      },
+      {
+        text: "Updated at",
+        attributes: {
+          "aria-sort": "none"
+        }
       }
     ],
     rows: tableRows
