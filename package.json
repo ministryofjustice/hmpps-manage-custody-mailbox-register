@@ -35,7 +35,7 @@
     "@ministryofjustice/hmpps-monitoring": "^1.0.0",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
     "@ministryofjustice/hmpps-rest-client": "^1.0.0",
-    "applicationinsights": "^3.13.0",
+    "applicationinsights": "^2.9.8",
     "body-parser": "^2.2.2",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
