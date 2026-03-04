@@ -96,6 +96,31 @@ To request specific users and roles then raise a PR
 to [update the seed data](https://github.com/ministryofjustice/hmpps-auth/blob/main/src/main/resources/db/dev/data/auth/V900_3__users.sql)
 for the in-memory DB used by Auth
 
+### Installing dependencies
+
+By default no pre or post install scripts will be run during `npm install`.
+Instead a list of configured install scripts will be run via
+the [npm script allowlist](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/npm-script-allowlist)
+tool.
+
+Instead of running `npm install`, run `npm run setup` - this will run an `npm ci` to install any dependencies and then
+run any configured install scripts.
+
+### Making changes
+
+The [hmpps precommit hooks library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks)
+will ensure that [prek](https://prek.j178.dev/cli/) is installed and initialised against the repo as part of
+`npm run setup`.
+
+This will run a set of precommit hooks before every commit as configured in `.pre-commit-config.yaml`.
+This will scan for potential secrets in the staged files and fail the commit if any are detected.
+
+There's some guidance for dealing with false positives in
+the [precommit hooks docs](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks#dealing-with-false-positives).
+
+The secret scanner hook can also be configured as
+described [here](https://github.com/ministryofjustice/devsecops-hooks?tab=readme-ov-file#-configuration).
+
 ### Run linter
 
 * `npm run lint` runs `eslint`.
