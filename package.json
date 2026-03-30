@@ -29,11 +29,11 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1005.0",
+    "@aws-sdk/client-sqs": "^3.1019.0",
     "@ministryofjustice/frontend": "^9.0.0",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
     "@ministryofjustice/hmpps-monitoring": "^1.0.2",
-    "@ministryofjustice/hmpps-rest-client": "^1.1.0",
+    "@ministryofjustice/hmpps-rest-client": "^1.2.0",
     "applicationinsights": "^2.9.8",
     "body-parser": "^2.2.2",
     "bunyan": "^1.8.15",
@@ -73,7 +73,7 @@
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/method-override": "^3.0.0",
-    "@types/node": "^25.3.3",
+    "@types/node": "^25.5.0",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.8.0",
@@ -83,18 +83,18 @@
     "aws-sdk-client-mock": "^4.1.0",
     "chokidar": "^3.6.0",
     "concurrently": "^9.2.1",
-    "cypress": "^15.11.0",
+    "cypress": "^15.13.0",
     "cypress-multi-reporters": "^2.0.5",
-    "esbuild": "^0.27.3",
+    "esbuild": "^0.27.4",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-manifest": "^1.0.5",
     "esbuild-sass-plugin": "^3.7.0",
     "jest": "^30.3.0",
-    "jest-html-reporter": "^4.3.0",
+    "jest-html-reporter": "^4.4.0",
     "jest-junit": "^16.0.0",
     "jsonwebtoken": "^9.0.3",
-    "lint-staged": "^16.3.3",
+    "lint-staged": "^16.4.0",
     "mocha-junit-reporter": "^2.2.1",
     "nock": "^14.0.11",
     "supertest": "^7.2.2",
@@ -104,6 +104,14 @@
   "overrides": {
     "@aws-sdk/xml-builder": {
       "fast-xml-parser": "^5.3.8"
-    }
+    },
+    "handlebars": "^4.7.9",
+    "serialize-javascript": "^7.0.5",
+    "diff": "^8.0.3",
+    "flatted": "^3.4.2",
+    "path-to-regexp": "^8.4.0",
+    "yaml": "^2.8.3",
+    "brace-expansion": "^5.0.5",
+    "picomatch": "^4.0.4"
   }
 }
