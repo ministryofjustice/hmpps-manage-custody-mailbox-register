@@ -1,6 +1,6 @@
 import { body, matchedData } from 'express-validator'
 import { RequestHandler, RequestHandlerWithServices } from '../../services'
-import { validatedRequest } from '../../services/validation'
+import { routeParam, validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
 import { hasAdminRole } from '../../utils/utils'
 
@@ -38,7 +38,7 @@ export const newMailbox: RequestHandler = async (req, res, next) => res.render('
 export const edit: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
-    const { id } = req.params
+    const id = routeParam(req, 'id')
     const mailbox = await mailboxRegisterService.getLocalDeliveryUnitMailbox(clientToken(req), id)
 
     res.render('pages/lduMailboxes/edit', { mailbox })
@@ -49,7 +49,7 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
     { validations, onValidationErrorRedirectTo: '/local-delivery-unit-mailboxes/:id/edit' },
     async (req, res, next) => {
       const { name, emailAddress, country, unitCode, areaCode } = req.body
-      const { id } = req.params
+      const id = routeParam(req, 'id')
 
       const mailbox = {
         name,
@@ -68,7 +68,7 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
 export const confirmDelete: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
-    const { id } = req.params
+    const id = routeParam(req, 'id')
     const mailbox = await mailboxRegisterService.getLocalDeliveryUnitMailbox(clientToken(req), id)
     res.render('pages/lduMailboxes/delete', { mailbox })
   }
@@ -76,7 +76,7 @@ export const confirmDelete: RequestHandlerWithServices =
 export const deleteMailbox: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res, next) => {
-    const { id } = req.params
+    const id = routeParam(req, 'id')
 
     try {
       await mailboxRegisterService.deleteLocalDeliveryUnitMailbox(clientToken(req), id)

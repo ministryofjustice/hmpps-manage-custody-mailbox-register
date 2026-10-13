@@ -1,5 +1,6 @@
 import { jwtDecode } from 'jwt-decode'
 import express from 'express'
+import { telemetry } from '@ministryofjustice/hmpps-azure-telemetry'
 import { convertToTitleCase } from '../utils/utils'
 import logger from '../../logger'
 
@@ -10,17 +11,23 @@ export default function setUpCurrentUser() {
     try {
       const {
         name,
-        user_id: userId,
+        user_id: userIdClaim,
+        user_uuid: userUuidClaim,
         authorities: roles = [],
-      } = jwtDecode(res.locals.user.token) as {
+      } = jwtDecode<{
         name?: string
-        user_id?: string
+        user_id?: unknown
+        user_uuid?: unknown
         authorities?: string[]
-      }
+      }>(res.locals.user.token)
+
+      const userId = typeof userIdClaim === 'string' && userIdClaim.trim() ? userIdClaim : undefined
+      const userUuid = typeof userUuidClaim === 'string' && userUuidClaim.trim() ? userUuidClaim : undefined
 
       res.locals.user = {
         ...res.locals.user,
         userId,
+        userUuid,
         name,
         displayName: convertToTitleCase(name),
         userRoles: roles.map(role => role.substring(role.indexOf('_') + 1)),
@@ -28,6 +35,14 @@ export default function setUpCurrentUser() {
 
       if (res.locals.user.authSource === 'nomis') {
         res.locals.user.staffId = parseInt(userId, 10) || undefined
+      }
+
+      const attributes: Record<string, string> = {
+        ...(userId && { userId }),
+        ...(userUuid && { userUuid }),
+      }
+      if (Object.keys(attributes).length) {
+        telemetry.setSpanAttributes(attributes)
       }
 
       next()

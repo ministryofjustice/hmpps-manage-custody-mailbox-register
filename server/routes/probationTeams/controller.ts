@@ -1,6 +1,6 @@
 import { body, matchedData } from 'express-validator'
 import { RequestHandlerWithServices } from '../../services'
-import { validatedRequest } from '../../services/validation'
+import { routeParam, validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
 import { hasAdminRole } from '../../utils/utils'
 
@@ -18,7 +18,7 @@ export const newProbationTeam: RequestHandlerWithServices =
 export const edit: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
-    const probationTeam = await mailboxRegisterService.getProbationTeam(clientToken(req), req.params.id)
+    const probationTeam = await mailboxRegisterService.getProbationTeam(clientToken(req), routeParam(req, 'id'))
     const localDeliveryUnitMailboxes = await mailboxRegisterService.listLocalDeliveryUnitMailboxes(clientToken(req))
     const localDeliveryUnitMailboxOptions = localDeliveryUnitMailboxes.map(({ id, name }) => {
       return { text: name, value: id, selected: id === probationTeam.localDeliveryUnitMailbox.id }
@@ -46,7 +46,7 @@ export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =
 
 export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =>
   validatedRequest({ validations, onValidationErrorRedirectTo: '/probation-teams/:id/edit' }, async (req, res) => {
-    const { id } = req.params
+    const id = routeParam(req, 'id')
     const { emailAddress, teamCode, localDeliveryUnitMailboxId } = matchedData(req)
     const probationTeam = { emailAddress, teamCode, localDeliveryUnitMailboxId }
     await mailboxRegisterService.updateProbationTeam(clientToken(req), id, probationTeam)
@@ -56,14 +56,14 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
 export const confirmDelete: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
-    const probationTeam = await mailboxRegisterService.getProbationTeam(clientToken(req), req.params.id)
+    const probationTeam = await mailboxRegisterService.getProbationTeam(clientToken(req), routeParam(req, 'id'))
     res.render('pages/probationTeams/delete', { probationTeam })
   }
 
 export const deleteProbationTeam: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
-    const { id } = req.params
+    const id = routeParam(req, 'id')
     await mailboxRegisterService.deleteProbationTeam(clientToken(req), id)
     res.redirect('/probation-teams')
   }

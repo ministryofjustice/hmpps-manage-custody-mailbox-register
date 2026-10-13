@@ -18,7 +18,6 @@ generic-service:
 
 generic-prometheus-alerts:
   businessHoursOnly: true
-  alertSeverity: mpc-alerts-nonprod-preprod
   elastiCacheAlertsClusterIds:
     cp-0e9d505a5024743e-001: preprod cluster node 1
     cp-0e9d505a5024743e-002: preprod cluster node 2

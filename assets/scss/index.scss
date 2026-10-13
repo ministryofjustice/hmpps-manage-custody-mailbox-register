@@ -1,11 +1,12 @@
-@forward "govuk-frontend/dist/govuk/index" with (
-  $govuk-global-styles: true,
-  $govuk-page-width: 1170px,
-);
+$govuk-global-styles: true;
+$path: "/assets/images/";
 
-@use "govuk-frontend/dist/govuk";
-@use "@ministryofjustice/frontend/moj/all";
+$moj-page-width: 1170px;
+$govuk-page-width: $moj-page-width;
 
-@use './components/card';
-@use './components/header-bar';
-@use './overrides/local';
+@import "govuk-frontend/dist/govuk/index";
+@import "@ministryofjustice/frontend/moj/all";
+
+@import './components/card';
+@import './components/header-bar';
+@import './overrides/local';

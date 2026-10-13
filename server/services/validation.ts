@@ -50,10 +50,14 @@ export const retrieveValidationErrorsPostRedirect: RequestHandler = (req, res, n
 export const redirectPath = (pathTemplate: string, req: Request): string => {
   let redirectTo = pathTemplate
   Object.entries(req.params).forEach(([key, value]) => {
-    redirectTo = redirectTo.replace(`:${key}`, value)
+    redirectTo = redirectTo.replace(`:${key}`, routeParamValue(value))
   })
   return redirectTo
 }
+
+export const routeParam = (req: Request, name: string): string => routeParamValue(req.params[name])
+
+const routeParamValue = (value: string | string[]): string => (Array.isArray(value) ? value.join('/') : value)
 
 const formatExpressValidations = (errors: Result<ValidationError>): Record<string, string> =>
   Object.entries(errors.mapped()).reduce((ne, [key, data]) => {

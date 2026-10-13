@@ -1,7 +1,7 @@
 import { body, matchedData } from 'express-validator'
 import { RequestHandlerWithServices } from '../../services'
 import { prisonCodeOptions } from './prisons'
-import { validatedRequest } from '../../services/validation'
+import { routeParam, validatedRequest } from '../../services/validation'
 import { clientToken } from '../clientToken'
 import { hasAdminRole } from '../../utils/utils'
 
@@ -37,7 +37,10 @@ export const create: RequestHandlerWithServices = ({ mailboxRegisterService }) =
 export const edit: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
-    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(clientToken(req), req.params.id)
+    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(
+      clientToken(req),
+      routeParam(req, 'id'),
+    )
     const prisonCodes = await mailboxRegisterService.listPrisonCodes(clientToken(req))
     const prisonOptions = prisonCodeOptions(prisonCodes, mailbox.prisonCode)
     res.render('pages/omuMailboxes/edit', { mailbox, prisonOptions })
@@ -49,7 +52,7 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
     async (req, res) => {
       const { name, emailAddress, prisonCode, role } = matchedData(req)
       const mailbox = { name, emailAddress, prisonCode, role }
-      await mailboxRegisterService.updateOffenderManagementUnitMailbox(clientToken(req), req.params.id, mailbox)
+      await mailboxRegisterService.updateOffenderManagementUnitMailbox(clientToken(req), routeParam(req, 'id'), mailbox)
       return res.redirect('/offender-management-unit-mailboxes')
     },
   )
@@ -57,14 +60,17 @@ export const update: RequestHandlerWithServices = ({ mailboxRegisterService }) =
 export const confirmDelete: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
-    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(clientToken(req), req.params.id)
+    const mailbox = await mailboxRegisterService.getOffenderManagementUnitMailbox(
+      clientToken(req),
+      routeParam(req, 'id'),
+    )
     res.render('pages/omuMailboxes/delete', { mailbox })
   }
 
 export const deleteMailbox: RequestHandlerWithServices =
   ({ mailboxRegisterService }) =>
   async (req, res) => {
-    const { id } = req.params
+    const id = routeParam(req, 'id')
     await mailboxRegisterService.deleteOffenderManagementUnitMailbox(clientToken(req), id)
     res.redirect('/offender-management-unit-mailboxes')
   }
