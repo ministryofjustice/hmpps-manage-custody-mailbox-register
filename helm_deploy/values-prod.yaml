@@ -13,7 +13,6 @@ generic-service:
     AUDIT_ENABLED: "false"
 
 generic-prometheus-alerts:
-  alertSeverity: mpc-alerts-prod
   elastiCacheAlertsClusterIds:
     cp-16cb6c11c7242538-001: prod cluster node 1
     cp-16cb6c11c7242538-002: prod cluster node 2
